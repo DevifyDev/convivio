@@ -5,78 +5,208 @@ export type MenuItem = {
 }
 
 export type MenuCategory =
-  | 'Lorem'
-  | 'Ipsum'
-  | 'Dolor'
-  | 'Sit'
-  | 'Amet'
-  | 'Consectetur'
-  | 'Elit'
+  | 'Small'
+  | 'Something Heavier'
+  | 'Sides'
+  | 'Kids'
+  | 'Light & Sweet'
+  | 'Red Wine'
+  | 'White Wine'
+  | 'Cocktails'
 
 export const menuCategories: MenuCategory[] = [
-  'Lorem',
-  'Ipsum',
-  'Dolor',
-  'Sit',
-  'Amet',
-  'Consectetur',
-  'Elit'
+  'Small',
+  'Something Heavier',
+  'Sides',
+  'Kids',
+  'Light & Sweet',
+  'Red Wine',
+  'White Wine',
+  'Cocktails'
 ]
 
 export const menuItemsByCategory: Record<MenuCategory, MenuItem[]> = {
-  Lorem: [
+  Small: [
     {
-      name: 'Lorem Ipsum',
-      description: 'Lorem ipsum dolor sit amet',
-      price: '$18.00'
+      name: 'Calamari Fritti',
+      description: 'with whipped lemon ricotta & hot honey (nf)',
+      price: '18'
+    },
+    {
+      name: 'Grilled King Prawns',
+      description: 'with smoky paprika Sauce & grilled lemon (gf, df, nf)',
+      price: '21.5'
+    },
+    {
+      name: 'Grilled Polenta Chips',
+      description: 'with anchovy mayo & grana padano (nf, gf)',
+      price: '16'
+    },
+    {
+      name: 'Baked Camembert',
+      description: 'with roasted grapes & toasted focaccia (nf, v)',
+      price: '19'
+    },
+    {
+      name: 'Homemade Olive Focaccia',
+      description: 'with olive oil & balsamic (df, nf, v)',
+      price: '12.5'
+    },
+    {
+      name: 'Convivio Cured Meat Platter',
+      description: '2 pax / 4 pax (df)',
+      price: '32'
     }
   ],
 
-  Ipsum: [
+  'Something Heavier': [
     {
-      name: 'Ipsum Dolor',
-      description: 'Consectetur adipiscing elit',
-      price: '$22.00'
+      name: 'Pumpkin And Stracchino Ravioli',
+      description: 'with burnt butter & sage. Manjimup truffle add-on + 15 (nf, v)',
+      price: '28'
+    },
+    {
+      name: 'Donnybrook Pink Sirloin 220g',
+      description: 'with salsa verde (gf, nf, df)',
+      price: '30'
+    },
+    {
+      name: 'Cauliflower Three Ways',
+      description: 'with cashew butter and salted seed mix (ve, gf)',
+      price: '24.5'
+    },
+    {
+      name: 'Sous Vide Chicken Breast & Olive Caponata',
+      description: 'with mint (df, nf)',
+      price: '32.5'
+    },
+  ],
+
+  Sides: [
+    {
+      name: 'Radicchio Chicory & Rocket Salad',
+      description: 'with buttermilk & pistachio (v, gf)',
+      price: '11.5'
+    },
+    {
+      name: 'Fennel Salt Fries',
+      description: 'with aioli (v, df, nf)',
+      price: '10.5'
+    },
+  ],
+
+  'Kids': [
+    {
+      name: 'Pasta Bolognese',
+      description: '(nf, df)',
+      price: '8'
+    },
+    {
+      name: 'Chicken Tenders & Chips',
+      description: '(nf, df)',
+      price: '8'
     }
   ],
 
-  Dolor: [
+  'Light & Sweet': [
     {
-      name: 'Amet Elit',
-      description: 'Integer vitae lorem ipsum',
-      price: '$22.00'
+      name: 'Convivio Seasonal Cheese Board',
+      description: '',
+      price: '29.5'
+    },
+    {
+      name: 'Mr Black & Cointreau Dark Chocolate & Orange Tiramisu',
+      description: '(nf)',
+      price: '21'
     },
   ],
 
-  Sit: [
+  'Red Wine': [
     {
-      name: 'Ipsum Amet',
-      description: 'Malesuada lorem tincidunt',
-      price: '$26.00'
+      name: '2004 G. B. Montepulciano D\'abruzzo',
+      description: 'Abruzzo, Italy',
+      price: '14'
+    },
+    {
+      name: '2004 Ministry Of Clouds Tempranillo Grenache',
+      description: 'McLaren Vale, South Australia',
+      price: '15'
+    },
+    {
+      name: '2004 Yangarra Gsm',
+      description: 'McLaren Vale, South Australia',
+      price: '18'
+    },
+    {
+      name: '2024 Barringwood Pinot Noir',
+      description: 'Tasmania, Australia',
+      price: '19'
+    },
+    {
+      name: '2022 San Leonino Chianti Classico',
+      description: 'Tuscany, Italy',
+      price: '20'
+    },
+    {
+      name: '2022 Fraser Gallop Parterre Cabernet Sauvignon',
+      description: 'Margaret River, Western Australia',
+      price: '25'
     },
   ],
 
-  Amet: [
+   'White Wine': [
     {
-      name: 'Dolor Vitae',
-      description: 'Lorem ipsum consectetur',
-      price: '$30.00'
-    }
-  ],
-
-  Consectetur: [
+      name: '2024 Domaine Naturaliste Chardonnay',
+      description: 'Margaret River, Western Australia',
+      price: '82'
+    },
     {
-      name: 'Sapien Elit',
-      description: 'Integer vitae lorem sed',
-      price: '$32.00'
+      name: '2024 Domaine Roux Aligote Albus',
+      description: 'Margaret River, Western Australia',
+      price: '95'
+    },
+    {
+      name: '2024 Cloudy Bay Sauvignon Blanc',
+      description: 'Marlborough, New Zealand',
+      price: '110'
+    },
+    {
+      name: '2025 Singlefile Family Reserve Chardonnay',
+      description: 'Great Southern Region, Denmark',
+      price: '115'
     },
   ],
 
-  Elit: [
+   'Cocktails': [
     {
-      name: 'Praesent Vitae',
-      description: 'Donec vitae lectus sapien',
-      price: '$28.00'
+      name: 'Convivio Martini',
+      description: '',
+      price: '24'
+    },
+    {
+      name: 'Blushing Plum Bellini',
+      description: '',
+      price: '19'
+    },
+    {
+      name: 'Morning Coco',
+      description: '',
+      price: '22'
+    },
+    {
+      name: 'Aperol Twist',
+      description: '',
+      price: '19'
+    },
+    {
+      name: 'Moonlit Mint',
+      description: '',
+      price: '21'
+    },
+    {
+      name: 'Spicy Shadow',
+      description: '',
+      price: '22'
     },
   ]
 }

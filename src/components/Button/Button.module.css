@@ -17,8 +17,8 @@
 
 .primary {
   padding: 0.75rem 1.25rem;
-  border: 1px solid var(--dark-text);
-  color: var(--dark-text);
+  border: 1px solid var(--light-text);
+  color: var(--light-text);
   font-size: 1rem;
   font-weight: 600;
 }
@@ -26,9 +26,9 @@
 .cta {
   padding: 0.9rem 1.5rem;
   border: 1px solid var(--primary-gold);
-  color: var(--primary-black);
+  color: var(--primary-white);
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 200;
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }

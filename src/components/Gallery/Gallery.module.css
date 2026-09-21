@@ -61,11 +61,15 @@
   margin-top: 4rem;
 }
 
-.imagePlaceholder {
+.imageFrame {
+  position: relative;
   width: 100%;
   aspect-ratio: 3 / 4;
-  background: var(--primary-white);
-  border: 0.1px solid var(--primary-black);
+  overflow: hidden;
+}
+
+.galleryImage {
+  object-fit: cover;
 }
 
 .pagination {
@@ -130,10 +134,10 @@
     display: none;
   }
 
-  .imagePlaceholder {
-    flex: 0 0 290px;
-    scroll-snap-align: center;
-  }
+  .imageFrame {
+  flex: 0 0 290px;
+  scroll-snap-align: center;
+}
 
   .pagination {
     display: flex;

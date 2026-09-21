@@ -6,6 +6,18 @@
   background: var(--light-background);
   text-align: center;
   padding-inline: var(--inline-padding);
+  
+  background-image:
+    linear-gradient(
+      rgba(22, 18, 14, 0.42),
+      rgba(22, 18, 14, 0.62)
+    ),
+    url('/images/hero-background.jpg');
+
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
 }
 
 .content {
@@ -15,33 +27,36 @@
 
 .eyebrow {
   margin-bottom: 1.25rem;
-  color: var(--primary-black);
+  color: var(--primary-white);
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 200;
   letter-spacing: 0.3em;
   text-transform: uppercase;
 }
 
 .title {
   margin: 0;
-  color: var(--primary-black);
-  font-size: 4rem;
-  font-weight: 400;
+  color: var(--primary-white);
+  font-size: 2.5rem;
+  font-weight: 200;
   line-height: 1;
+  letter-spacing: -2px;
 }
 
 .subtitle {
   margin: 0.4rem 0 1.5rem 0;
   color: var(--primary-gold);
   font-size: 2rem;
-  font-weight: 400;
+  font-weight: 200;
   line-height: 1.1;
+  letter-spacing: -2px;
 }
 
 .address {
   margin-bottom: 2rem;
-  color: var(--primary-black);
-  font-size: 1rem;
+  color: var(--primary-white);
+  font-size: 0.9rem;
+  font-weight: 200;
 }
 
 @media (max-width: 700px) {

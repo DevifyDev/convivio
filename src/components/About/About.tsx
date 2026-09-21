@@ -1,4 +1,5 @@
 import Button from '@/components/Button/Button'
+import Image from 'next/image'
 import styles from './About.module.css'
 
 export default function About() {
@@ -26,8 +27,25 @@ export default function About() {
         </div>
 
         <div className={styles.images}>
-          <div className={styles.imageOne}></div>
-          <div className={styles.imageTwo}></div>
+          <div className={styles.imageOne}>
+            <Image
+              src='/images/about-1.jpg'
+              alt='Convivio wine selection displayed on timber shelves'
+              fill
+              sizes='(max-width: 800px) 45vw, 18rem'
+              className={styles.image}
+            />
+          </div>
+
+          <div className={styles.imageTwo}>
+            <Image
+              src='/images/about-2.jpg'
+              alt='Outdoor seating area at Convivio Wine Bar'
+              fill
+              sizes='(max-width: 800px) 45vw, 18rem'
+              className={styles.image}
+            />
+          </div>
         </div>
       </div>
     </section>

@@ -1,0 +1,8 @@
+- favicon
+- og image
+- SEO and JSON-ld (business info)
+- Google Maps API Key
+- Google Business
+- Domain
+- Access to Square site (DNS)
+- Sanity Handover

@@ -2,7 +2,7 @@
 
 import { Fragment, useState } from 'react'
 import { menuCategories, menuItemsByCategory, type MenuCategory } from '@/data/menuData'
-import styles from './Pricing.module.css'
+import styles from './Menu.module.css'
 
 type MenuItemsProps = {
   category: MenuCategory
@@ -13,7 +13,7 @@ function MenuItems({ category }: MenuItemsProps) {
     <>
       {menuItemsByCategory[category].map((item, index) => (
         <article className={styles.menuItem} key={`${category}-${index}`}>
-          <div className={styles.itemImage}></div>
+          {/* <div className={styles.itemImage}></div> */}
 
           <div className={styles.itemContent}>
             <div className={styles.itemTop}>
@@ -45,8 +45,8 @@ export default function Pricing() {
     <section className={styles.pricing} id='menu'>
       <div className={styles.container}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Lorem Ipsum Dolor</p>
-          <h2 className={styles.heading}>Lorem Ipsum</h2>
+          <p className={styles.eyebrow}>Food & Wine</p>
+          <h2 className={styles.heading}>Menu Book</h2>
 
           <div className={styles.divider}>
             <span className={styles.line}></span>

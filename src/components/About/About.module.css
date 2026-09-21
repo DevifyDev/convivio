@@ -54,19 +54,21 @@
 
 .imageOne,
 .imageTwo {
+  position: relative;
   width: 100%;
   max-width: 18rem;
   aspect-ratio: 2 / 3;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
 }
 
 .imageOne {
   margin-top: 6rem;
-  background: var(--primary-blue);
 }
 
-.imageTwo {
-  background: var(--secondary-blue);
-}
 
 @media (min-width: 801px) and (max-width: 990px) {
   .about {

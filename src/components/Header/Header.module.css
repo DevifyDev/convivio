@@ -26,7 +26,7 @@
 }
 
 .name {
-  color: var(--dark-text);
+  color: var(--light-text);
 }
 
 .menuContainer {
@@ -42,7 +42,7 @@
 }
 
 .menuItems > a {
-  color: var(--dark-text);
+  color: var(--light-text);
   font-weight: 600;
 }
 

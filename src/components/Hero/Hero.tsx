@@ -6,15 +6,15 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className={styles.content}>
         
-        <p className={styles.eyebrow}>Lorem Ipsum Dolor</p>
+        <p className={styles.eyebrow}>EST. 2026 </p>
         
-        <h1 className={styles.title}>Lorem Ipsum Dolor</h1>
+        <h1 className={styles.title}>Convivio Wine Bar</h1>
         
-        <h2 className={styles.subtitle}>Lorem Ipsum Dolor</h2>
+        <h2 className={styles.subtitle}>Your Neighbourhood Wine Bar</h2>
         
-        <p className={styles.address}>Lorem Ipsum Dolor</p>
+        <p className={styles.address}>16E Calais Road, Scarborough</p>
 
-        <Button label='Lorem Ipsum' href='#menu' variant='cta' />
+        <Button label='Book A Table' href='#menu' variant='cta' />
 
       </div>
     </section>

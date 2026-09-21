@@ -27,8 +27,8 @@ const bodyFont = Hanken_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: 'Hospitality Template',
-  description: 'A premium hospitality website template'
+  title: 'Convivio | Perth',
+  description: 'Convivio wine bar'
 }
 
 export default function Root({ children }: Readonly<{ children: React.ReactNode }>) {
