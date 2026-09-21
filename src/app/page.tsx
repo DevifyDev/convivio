@@ -6,6 +6,8 @@ import Gallery from '@/components/Gallery/Gallery'
 import Location from '@/components/Location/Location'
 import Footer from '@/components/Footer/Footer'
 
+import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
+
 export default function Homepage() {
   return (
     <>
@@ -16,6 +18,7 @@ export default function Homepage() {
       <Gallery />
       <Location />
       <Footer />
+      <ThemeSwitcher />
     </>
   )
 }

@@ -23,6 +23,7 @@ export default function Root({ children }: Readonly<{ children: React.ReactNode 
   return (
     <html
       lang='en'
+      data-theme='premium'
       className={`${headingFont.variable} ${bodyFont.variable}`}
     >
       <body>

@@ -6,9 +6,9 @@ const files = [
   // './tsconfig.json',
   // './next-config.ts',
 
-  // './src/app/globals.css',
-  // './src/app/layout.tsx',
-  // './src/app/page.tsx',
+  './src/app/globals.css',
+  './src/app/layout.tsx',
+  './src/app/page.tsx',
   // './src/app/page.module.css',
 
   // './src/components/About/About.tsx',
@@ -20,8 +20,8 @@ const files = [
   // './src/components/Contact/Contact.tsx',
   // './src/components/Contact/Contact.module.css',
 
-  './src/components/Footer/Footer.tsx',
-  './src/components/Footer/Footer.module.css',
+  // './src/components/Footer/Footer.tsx',
+  // './src/components/Footer/Footer.module.css',
 
   // './src/components/Gallery/Gallery.tsx',
   // './src/components/Gallery/Gallery.module.css',

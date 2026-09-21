@@ -7,6 +7,7 @@
 }
 
 :root {
+  --display-font: var(--heading-font);
   --brand-font: 'Aloja Extended', serif;
 
   --primary-white: #f8f7f4;
@@ -31,6 +32,20 @@
   --inline-padding: 1.5rem;
   --block-padding: 4rem;
 
+}
+
+html[data-theme='convivio'] {
+  --display-font: var(--brand-font);
+
+  --primary-black: #28334c;
+  --premium-black: #28334c;
+
+  --light-background: #f8f7f4;
+  --medium-background: #3a5d71;
+  --dark-background: #28334c;
+
+  --dark-text: #28334c;
+  --shadow-color: #d8dde3;
 }
 
 * {
@@ -58,6 +73,6 @@ a {
 }
 
 h1, h2, h3 {
-  font-family: var(--heading-font), serif;
+  font-family: var(--display-font), serif;
 }
 
