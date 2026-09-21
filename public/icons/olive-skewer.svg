@@ -1,0 +1,35 @@
+<svg
+  xmlns='http://www.w3.org/2000/svg'
+  viewBox='0 0 320 320'
+  fill='none'
+  role='img'
+  aria-labelledby='title'
+>
+  <title id='title'>Convivio olive skewer</title>
+
+  <g
+    stroke='currentColor'
+    stroke-width='4.5'
+    stroke-linecap='round'
+    stroke-linejoin='round'
+  >
+    <path d='m55 214 54-30' />
+    <path d='m238 126 50-36 11 17-61 19Z' />
+
+    <path d='M98 163c8-13 25-17 39-10 15 7 23 23 18 37-5 15-20 23-36 19-17-4-29-17-29-31 0-6 3-11 8-15Z' />
+    <path d='M103 169c5-7 16-8 21-2 5 6 2 14-5 17-7 3-15 0-17-6-2-4 0-7 4-8 4-2 9 0 11 3' />
+    <path d='M132 196c4 2 8 2 12 0' />
+
+    <path d='M142 153c5-17 18-28 34-28 18 0 31 15 32 35 1 21-11 39-29 43-18 4-35-8-42-27-3-9-1-17 5-23Z' />
+    <path d='M164 142c-4 6-6 13-6 20' />
+    <path
+      d='M165 186c3-8 15-12 23-7 7 4 6 10 0 14-8 5-19 2-23-7Z'
+      fill='currentColor'
+      stroke='none'
+    />
+
+    <path d='M181 127c7-16 21-25 37-23 19 2 33 19 35 40 2 23-12 43-32 47-21 4-40-9-47-30-4-13-2-25 7-34Z' />
+    <path d='M205 119c-5 8-7 17-5 25' />
+    <path d='M216 169c5-7 17-8 23-2 5 6 2 12-5 15-8 3-17-1-18-8' />
+  </g>
+</svg>
