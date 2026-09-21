@@ -14,8 +14,8 @@ const files = [
   // './src/components/About/About.tsx',
   // './src/components/About/About.module.css',
 
-  './src/components/Button/Button.tsx',
-  './src/components/Button/Button.module.css',
+  // './src/components/Button/Button.tsx',
+  // './src/components/Button/Button.module.css',
 
   // './src/components/Contact/Contact.tsx',
   // './src/components/Contact/Contact.module.css',
@@ -26,8 +26,8 @@ const files = [
   // './src/components/Gallery/Gallery.tsx',
   // './src/components/Gallery/Gallery.module.css',
 
-  // './src/components/Header/Header.tsx',
-  // './src/components/Header/Header.module.css',
+  './src/components/Header/Header.tsx',
+  './src/components/Header/Header.module.css',
 
   // './src/components/Hero/Hero.tsx',
   // './src/components/Hero/Hero.module.css',

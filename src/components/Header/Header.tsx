@@ -4,36 +4,32 @@ import { useState } from 'react'
 import Button from '@/components/Button/Button'
 import styles from './Header.module.css'
 
-const name = 'Name'
+const name = 'Convivio'
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const menuItems = [
     {
-      href: '#home',
-      label: 'Home'
-    },
-    {
       href: '#about',
-      label: 'About'
+      label: 'ABOUT'
     },
     {
-      href: '#pricing',
-      label: 'Pricing'
+      href: '#menu',
+      label: 'MENU'
     },
     {
       href: '#gallery',
-      label: 'Gallery'
+      label: 'GALLERY'
     },
     {
       href: '#location',
-      label: 'Location'
+      label: 'VISIT'
     },
     {
-      href: '#contact',
-      label: 'Contact'
-    }
+      href: 'https://www.convivioperth.com.au/s/gift-cards',
+      label: 'GIFT CARDS'
+    },
   ]
 
   function closeMenu() {
@@ -66,7 +62,7 @@ export default function Header() {
             ))}
           </div>
 
-          <Button label='CTA Button' href='https://www.example.com' />
+          <Button label='BOOK A TABLE' href='https://bookings.nowbookit.com/?accountid=d2961a38-34a5-4012-8856-aebf1af4bdee&venueid=11218&theme=dark&colors=hex,37474f' />
 
         </div>
 

@@ -43,7 +43,7 @@
 
 .menuItems > a {
   color: var(--light-text);
-  font-weight: 600;
+  font-weight: 200;
 }
 
 .menuButton {
@@ -59,6 +59,11 @@
 }
 
 @media (max-width: 950px) {
+
+.menuItems > a {
+  color: var(--dark-text);
+  font-weight: 600;
+}
 .menuIcon {
   width: 2rem;
   height: 2rem;
@@ -79,6 +84,11 @@
     gap: 1rem;
     padding: 1rem;
     background: var(--light-background);
+  }
+
+  .menuContainer > a {
+    border-color: var(--dark-text);
+    color: var(--dark-text);
   }
 
   .menuContainerOpen {

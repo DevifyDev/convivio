@@ -46,7 +46,7 @@ export default function Pricing() {
       <div className={styles.container}>
         <header className={styles.header}>
           <p className={styles.eyebrow}>Food & Wine</p>
-          <h2 className={styles.heading}>Menu Book</h2>
+          <h2 className={styles.heading}>The Convivio Menu</h2>
 
           <div className={styles.divider}>
             <span className={styles.line}></span>
