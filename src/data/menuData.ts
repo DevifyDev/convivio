@@ -34,7 +34,7 @@ export const menuItemsByCategory: Record<MenuCategory, MenuItem[]> = {
     },
     {
       name: 'Grilled King Prawns',
-      description: 'with smoky paprika Sauce & grilled lemon (gf, df, nf)',
+      description: 'with smoky paprika sauce & grilled lemon (gf, df, nf)',
       price: '21.5'
     },
     {
