@@ -1,0 +1,62 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 0.65;
+}
+
+.button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.primary {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--dark-text);
+  color: var(--dark-text);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.cta {
+  padding: 0.9rem 1.5rem;
+  border: 1px solid var(--primary-gold);
+  color: var(--primary-black);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.ctaLarge {
+  min-width: 14rem;
+  padding: 1rem 2.5rem;
+  border: 1px solid var(--primary-gold);
+  background: transparent;
+  color: var(--primary-black);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.ctaLarge:hover {
+  border-color: var(--primary-black);
+  background: var(--primary-black);
+  color: var(--primary-white);
+  opacity: 1;
+}
+
+.ctaLarge:focus-visible {
+  outline: 2px solid var(--primary-gold);
+  outline-offset: 4px;
+}

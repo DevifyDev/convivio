@@ -1,0 +1,55 @@
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--light-background);
+  text-align: center;
+  padding-inline: var(--inline-padding);
+}
+
+.content {
+  width: 100%;
+  max-width: var(--content-width);
+}
+
+.eyebrow {
+  margin-bottom: 1.25rem;
+  color: var(--primary-black);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: var(--primary-black);
+  font-size: 4rem;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.subtitle {
+  margin: 0.4rem 0 1.5rem 0;
+  color: var(--primary-gold);
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.address {
+  margin-bottom: 2rem;
+  color: var(--primary-black);
+  font-size: 1rem;
+}
+
+@media (max-width: 700px) {
+  .title {
+    font-size: 2.75rem;
+  }
+
+  .subtitle {
+    font-size: 1.75rem;
+  }
+}
