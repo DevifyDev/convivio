@@ -14,8 +14,8 @@ const files = [
   // './src/components/About/About.tsx',
   // './src/components/About/About.module.css',
 
-  // './src/components/Button/Button.tsx',
-  // './src/components/Button/Button.module.css',
+  './src/components/Button/Button.tsx',
+  './src/components/Button/Button.module.css',
 
   // './src/components/Contact/Contact.tsx',
   // './src/components/Contact/Contact.module.css',

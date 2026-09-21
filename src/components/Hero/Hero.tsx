@@ -6,15 +6,15 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className={styles.content}>
         
-        <p className={styles.eyebrow}>EST. 2026 </p>
+        <p className={styles.eyebrow}>EST. 2022 </p>
         
-        <h1 className={styles.title}>Convivio Wine Bar</h1>
+        <h1 className={styles.title}>Convivio</h1>
         
         <h2 className={styles.subtitle}>Your Neighbourhood Wine Bar</h2>
         
         <p className={styles.address}>16E Calais Road, Scarborough</p>
 
-        <Button label='Book A Table' href='#menu' variant='cta' />
+        <Button label='Book A Table' href='https://bookings.nowbookit.com/?accountid=d2961a38-34a5-4012-8856-aebf1af4bdee&venueid=11218&theme=dark&colors=hex,37474f' variant='cta' target='_blank' />
 
       </div>
     </section>

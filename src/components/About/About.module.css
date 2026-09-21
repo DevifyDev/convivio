@@ -31,17 +31,19 @@
   margin-top: 0;
   margin-bottom: 1.5rem;
   color: var(--primary-black);
-  font-size: 3.5rem;
-  font-weight: 400;
+  font-size: 2.25rem;
+  font-weight: 300;
   line-height: 1;
+  letter-spacing: -2px;
 }
 
 .paragraph {
   margin-top: 0;
   margin-bottom: 1.5rem;
   color: var(--secondary-black);
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.7;
+  font-weight: 200;
 }
 
 .images {
@@ -100,7 +102,7 @@
   }
 
   .heading {
-    font-size: 2.75rem;
+    font-size: 2rem;
   }
 
   .images {

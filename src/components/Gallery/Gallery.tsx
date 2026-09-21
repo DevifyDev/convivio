@@ -85,8 +85,8 @@ export default function Gallery() {
     <section className={styles.gallery} id='gallery'>
       <div className={styles.container}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Lorem Ipsum Dolor</p>
-          <h2 className={styles.heading}>Lorem Ipsum</h2>
+          <p className={styles.eyebrow}>Inside Convivio</p>
+          <h2 className={styles.heading}>Food, Wine & Good Company</h2>
 
           <div className={styles.divider}>
             <span className={styles.line}></span>
@@ -128,7 +128,7 @@ export default function Gallery() {
         </div>
 
         <div className={styles.ctaContainer}>
-          <Button label='Lorem Ipsum' href='#' variant='ctaLarge' />
+          <Button label='See More On Instagram' href='https://www.instagram.com/conviviowinebar/?hl=en' variant='ctaLarge' target='_blank' />
         </div>
       </div>
     </section>

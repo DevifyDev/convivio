@@ -5,8 +5,8 @@ export default function Location() {
     <section className={styles.location} id='contact'>
       <div className={styles.container}>
         <header className={styles.header}>
-          <p className={styles.eyebrow}>Lorem Ipsum Dolor</p>
-          <h2 className={styles.heading}>Lorem Ipsum</h2>
+          <p className={styles.eyebrow}>Visit Convivio</p>
+          <h2 className={styles.heading}>Find Us in Scarborough</h2>
 
           <div className={styles.divider}>
             <span className={styles.line}></span>

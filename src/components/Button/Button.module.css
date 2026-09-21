@@ -60,3 +60,13 @@
   outline: 2px solid var(--primary-gold);
   outline-offset: 4px;
 }
+
+.ctaLight {
+  padding: 0.9rem 1.5rem;
+  border: 1px solid var(--primary-gold);
+  color: var(--primary-black);
+  font-size: 0.75rem;
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
