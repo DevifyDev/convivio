@@ -1,3 +1,8 @@
+:global(html[data-theme='convivio']) .itemName {
+  font-family: var(--secondary-brand-font);
+  font-weight: 700;
+}
+
 .pricing {
   min-height: 100vh;
   padding: 6rem;

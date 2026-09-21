@@ -1,3 +1,7 @@
+:global(html[data-theme='convivio']) .heading {
+  color: var(--primary-blue);
+}
+
 .gallery {
   min-height: 100vh;
   padding: 6rem;

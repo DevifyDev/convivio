@@ -6,9 +6,18 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Corporate E';
+  src: url('/fonts/corporate-e-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --display-font: var(--heading-font);
   --brand-font: 'Aloja Extended', serif;
+  --secondary-brand-font: 'Corporate E', serif;
 
   --primary-white: #f8f7f4;
   --primary-blue: #28334c;
@@ -35,7 +44,11 @@
 }
 
 html[data-theme='convivio'] {
+  --body-font: 'Corporate E', serif;
   --display-font: var(--brand-font);
+  
+  --primary-blue: #28334c;
+  --primary-gold: #c98268;
 
   --primary-black: #28334c;
   --premium-black: #28334c;
@@ -72,7 +85,12 @@ a {
   text-decoration: none;
 }
 
-h1, h2, h3 {
+h1,
+h2 {
   font-family: var(--display-font), serif;
+}
+
+h3 {
+  font-family: var(--heading-font), serif;
 }
 
