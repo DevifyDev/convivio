@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useState } from 'react'
 import Button from '@/components/Button/Button'
 import styles from './Header.module.css'
@@ -74,10 +75,12 @@ export default function Header() {
           aria-controls='nav-menu'
           onClick={() => setIsMenuOpen((current) => !current)}
         >
-          <img
+          <Image
             className={styles.menuIcon}
             src={isMenuOpen ? '/icons/close.svg' : '/icons/menu.svg'}
             alt=''
+            width={32}
+            height={32}
             aria-hidden='true'
           />
         </button>

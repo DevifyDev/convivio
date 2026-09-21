@@ -3,14 +3,14 @@ import styles from './Hero.module.css'
 
 export default function Hero() {
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} id='home'>
       <div className={styles.content}>
         
-        <p className={styles.eyebrow}>EST. 2022 </p>
+        <p className={styles.eyebrow}>EST. 2022</p>
         
         <h1 className={styles.title}>Convivio</h1>
         
-        <h2 className={styles.subtitle}>Your Neighbourhood Wine Bar</h2>
+        <p className={styles.subtitle}>Your Neighbourhood Wine Bar</p>
         
         <p className={styles.address}>16E Calais Road, Scarborough</p>
 

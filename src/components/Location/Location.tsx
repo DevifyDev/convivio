@@ -31,14 +31,14 @@ export default function Location() {
             <div className={styles.contactRow}>
               <div className={styles.detail}>
                 <p className={styles.label}>Phone</p>
-                <a className={styles.value} href='tel:+61000000000'>
+                <a className={styles.value} href='tel:+61435485517'>
                   0435 485 517
                 </a>
               </div>
 
               <div className={styles.detail}>
                 <p className={styles.label}>Email</p>
-                <a className={styles.value} href='mailto:lorem@example.com'>
+                <a className={styles.value} href='mailto:info@convivioperth.com.au'>
                   info@convivioperth.com.au
                 </a>
               </div>
@@ -69,11 +69,11 @@ export default function Location() {
               <p className={styles.label}>Social</p>
 
               <div className={styles.socialLinks}>
-                <a className={styles.socialLink} href='https://www.instagram.com/conviviowinebar/?hl=en' aria-label='Instagram' target='_blank'>
+                <a className={styles.socialLink} href='https://www.instagram.com/conviviowinebar/?hl=en' aria-label='Instagram' target='_blank' rel='noopener noreferrer'>
                   <span className={`${styles.socialIcon} ${styles.instagramIcon}`}></span>
                 </a>
 
-                <a className={styles.socialLink} href='https://www.facebook.com/p/Convivio-Wine-Bar-61584740764886/' aria-label='Facebook' target='_blank'>
+                <a className={styles.socialLink} href='https://www.facebook.com/p/Convivio-Wine-Bar-61584740764886/' aria-label='Facebook' target='_blank' rel='noopener noreferrer'>
                   <span className={`${styles.socialIcon} ${styles.facebookIcon}`}></span>
                 </a>
               </div>
