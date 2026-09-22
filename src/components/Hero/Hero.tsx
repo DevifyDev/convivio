@@ -6,7 +6,7 @@ export default function Hero() {
     <section className={styles.hero} id='home'>
       <div className={styles.content}>
         
-        <p className={styles.eyebrow}>EST. 2022</p>
+        <p className={styles.eyebrow}>EST. 2026</p>
         
         <h1 className={styles.title}>Convivio</h1>
         
