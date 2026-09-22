@@ -2,6 +2,11 @@
   color: var(--primary-blue);
 }
 
+:global(html[data-theme='convivio']) .value {
+  font-family: var(--body-copy-font), serif;
+  font-weight: 400;
+}
+
 .location {
   min-height: 100vh;
   padding-block: 6rem;
@@ -59,6 +64,14 @@
   background: var(--primary-gold);
   mask: url('/icons/location-pin.svg') center / contain no-repeat;
   -webkit-mask: url('/icons/location-pin.svg') center / contain no-repeat;
+}
+
+:global(html[data-theme='convivio']) .headingIcon {
+  width: 4rem;
+  height: 2rem;
+  flex-shrink: 0;
+  mask: url('/icons/olive-skewer.svg?v=2') center / contain no-repeat;
+  -webkit-mask: url('/icons/olive-skewer.svg?v=2') center / contain no-repeat;
 }
 
 .content {

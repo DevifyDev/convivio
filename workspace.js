@@ -6,9 +6,9 @@ const files = [
   // './tsconfig.json',
   // './next-config.ts',
 
-  './src/app/globals.css',
-  './src/app/layout.tsx',
-  './src/app/page.tsx',
+  // './src/app/globals.css',
+  // './src/app/layout.tsx',
+  // './src/app/page.tsx',
   // './src/app/page.module.css',
 
   // './src/components/About/About.tsx',
@@ -35,8 +35,8 @@ const files = [
   // './src/components/Location/Location.tsx',
   // './src/components/Location/Location.module.css',
 
-  // './src/components/Pricing.tsx',
-  // './src/components/Pricing.module.css',
+  // './src/components/Menu/Menu.tsx',
+  // './src/components/Menu/Menu.module.css',
 
 ]
 

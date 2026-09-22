@@ -1,5 +1,11 @@
+:global(html[data-theme='convivio']) .categoryButton,
+:global(html[data-theme='convivio']) .price {
+  font-family: var(--body-copy-font), serif;
+  font-weight: 400;
+}
+
 :global(html[data-theme='convivio']) .itemName {
-  font-family: var(--secondary-brand-font);
+  font-family: var(--strong-font), serif;
   font-weight: 700;
 }
 
@@ -60,6 +66,14 @@
   background: var(--primary-gold);
   mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
   -webkit-mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
+}
+
+:global(html[data-theme='convivio']) .icon {
+  width: 4rem;
+  height: 2rem;
+  flex-shrink: 0;
+  mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
 }
 
 .categories {
