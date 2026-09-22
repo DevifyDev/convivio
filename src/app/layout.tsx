@@ -15,8 +15,9 @@ const bodyFont = Hanken_Grotesk({
 })
 
 export const metadata: Metadata = {
-  title: 'Convivio | Perth',
-  description: 'Convivio wine bar'
+  title: 'Convivio Wine Bar | Scarborough, Perth',
+  description:
+    'Convivio is a neighbourhood wine bar in Scarborough, Perth, serving thoughtful wines, generous food and relaxed evenings. View the menu and book a table.'
 }
 
 export default function Root({ children }: Readonly<{ children: React.ReactNode }>) {
