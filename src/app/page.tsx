@@ -4,6 +4,7 @@ import About from '@/components/About/About'
 import Menu from '@/components/Menu/Menu'
 import Events from '@/components/Events/Events'
 import Gallery from '@/components/Gallery/Gallery'
+import Testimonials from '@/components/Testimonials/Testimonials'
 import Location from '@/components/Location/Location'
 import Footer from '@/components/Footer/Footer'
 
@@ -18,6 +19,7 @@ export default function Homepage() {
       <Menu />
       <Gallery />
       <Events />
+      <Testimonials />
       <Location />
       <Footer />
       <ThemeSwitcher />
