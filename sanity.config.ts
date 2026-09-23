@@ -8,7 +8,10 @@ import { apiVersion, dataset, projectId } from './src/sanity/env'
 import { schema } from './src/sanity/schemaTypes'
 import { structure } from './src/sanity/structure'
 
-const singletonTypes = new Set(['menu'])
+const singletonTypes = new Set([
+  'menu',
+  'gallery',
+])
 
 const singletonActions = new Set([
   'publish',

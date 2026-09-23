@@ -12,3 +12,13 @@ export const menuQuery = `
     }
   }
 `
+
+export const galleryQuery = `
+  *[_id == 'gallery'][0] {
+    images[] {
+      _key,
+      alt,
+      'src': image.asset->url
+    }
+  }
+`

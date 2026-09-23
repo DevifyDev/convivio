@@ -5,34 +5,17 @@ import { useRef, useState } from 'react'
 import Button from '../Button/Button'
 import styles from './Gallery.module.css'
 
-const galleryItems = [
-  {
-    src: '/images/gallery-1.jpg',
-    alt: 'Guests dining inside Convivio Wine Bar'
-  },
-  {
-    src: '/images/gallery-2.jpg',
-    alt: 'Fresh pasta served at Convivio'
-  },
-  {
-    src: '/images/gallery-3.jpg',
-    alt: 'Wine and olives outside Convivio'
-  },
-  {
-    src: '/images/gallery-4.jpg',
-    alt: 'Convivio Bianco and Rosso wines'
-  },
-  {
-    src: '/images/gallery-5.jpg',
-    alt: 'Dessert being shared at Convivio'
-  },
-  {
-    src: '/images/gallery-6.jpg',
-    alt: 'Cocktail served in front of the Convivio wine selection'
-  }
-]
+export type GalleryImage = {
+  _key: string
+  src: string
+  alt: string
+}
 
-export default function Gallery() {
+type GalleryProps = {
+  images: GalleryImage[]
+}
+
+export default function Gallery({ images }: GalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null)
   const [activeSlide, setActiveSlide] = useState(0)
 
@@ -81,6 +64,10 @@ export default function Gallery() {
     setActiveSlide(closestIndex)
   }
 
+  if (images.length === 0) {
+    return null
+  }
+
   return (
     <section className={styles.gallery} id='gallery'>
       <div className={styles.container}>
@@ -100,8 +87,8 @@ export default function Gallery() {
           ref={galleryRef}
           onScroll={updateActiveSlide}
         >
-          {galleryItems.map((item) => (
-            <div className={styles.imageFrame} key={item.src}>
+          {images.map((item) => (
+            <div className={styles.imageFrame} key={item._key}>
               <Image
                 src={item.src}
                 alt={item.alt}
@@ -114,7 +101,7 @@ export default function Gallery() {
         </div>
 
         <div className={styles.pagination} aria-label='Gallery navigation'>
-          {galleryItems.map((item, index) => (
+          {images.map((item, index) => (
             <button
               className={`${styles.dot} ${
                 activeSlide === index ? styles.activeDot : ''
@@ -122,13 +109,18 @@ export default function Gallery() {
               type='button'
               aria-label={`View image ${index + 1}`}
               onClick={() => scrollToSlide(index)}
-              key={item.src}
+              key={item._key}
             ></button>
           ))}
         </div>
 
         <div className={styles.ctaContainer}>
-          <Button label='See More On Instagram' href='https://www.instagram.com/conviviowinebar/?hl=en' variant='ctaLarge' target='_blank' />
+          <Button
+            label='See More On Instagram'
+            href='https://www.instagram.com/conviviowinebar/?hl=en'
+            variant='ctaLarge'
+            target='_blank'
+          />
         </div>
       </div>
     </section>
