@@ -8,6 +8,8 @@ import Testimonials from '@/components/Testimonials/Testimonials'
 import Location from '@/components/Location/Location'
 import Footer from '@/components/Footer/Footer'
 
+import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
+
 import { client } from '@/sanity/lib/client'
 import { menuQuery } from '@/sanity/lib/queries'
 
@@ -31,6 +33,7 @@ export default async function Homepage() {
       <Testimonials />
       <Location />
       <Footer />
+      <ThemeSwitcher />
     </>
   )
 }
