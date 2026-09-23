@@ -1,0 +1,384 @@
+.events {
+  padding-block: 6rem;
+  padding-inline: 6rem;
+  background: var(--dark-background);
+  color: var(--light-text);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+/* HEADER */
+
+.header {
+  text-align: center;
+}
+
+.eyebrow {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--primary-gold);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: var(--light-text);
+  font-size: 2.25rem;
+  font-weight: 300;
+  letter-spacing: -2px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.line {
+  width: 5rem;
+  height: 1px;
+  background: var(--primary-gold);
+  opacity: 0.35;
+}
+
+.headingIcon {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  background: var(--primary-gold);
+  mask: url('/icons/sparkle.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/sparkle.svg') center / contain no-repeat;
+}
+
+:global(html[data-theme='convivio']) .headingIcon {
+  width: 4rem;
+  height: 2rem;
+  mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
+}
+
+/* SECTION HEADINGS */
+
+.weeklySection {
+  margin-top: 5rem;
+}
+
+.specialSection {
+  margin-top: 6rem;
+}
+
+.subheadingRow {
+  margin-bottom: 2rem;
+}
+
+.sectionEyebrow {
+  margin: 0 0 0.6rem;
+  color: var(--primary-gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.subheading {
+  margin: 0;
+  color: var(--light-text);
+  font-size: 1.75rem;
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+/* WEEKLY EVENTS */
+
+.weeklyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.weeklyCard {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  border: 1px solid rgba(248, 247, 244, 0.12);
+  background: rgba(248, 247, 244, 0.035);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.weeklyCard:hover {
+  border-color: var(--primary-gold);
+  transform: translateY(-2px);
+}
+
+.dayName {
+  margin: 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--primary-gold);
+  color: var(--primary-gold);
+  font-family: var(--display-font), serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.weeklyContent {
+  min-width: 0;
+}
+
+.weeklyTitle {
+  margin: 0 0 0.4rem;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.weeklyTime {
+  margin: 0 0 0.9rem;
+  color: var(--primary-gold);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.weeklyDescription {
+  margin: 0;
+  color: rgba(242, 242, 242, 0.7);
+  font-size: 0.85rem;
+  font-weight: 200;
+  line-height: 1.6;
+}
+
+/* SPECIAL EVENTS */
+
+.specialEvents {
+  display: grid;
+  gap: 1rem;
+}
+
+.specialEvent {
+  display: grid;
+  grid-template-columns: 5rem 13rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 2rem 1rem 1.5rem;
+  border: 1px solid rgba(248, 247, 244, 0.1);
+  background: rgba(248, 247, 244, 0.035);
+  transition: border-color 180ms ease;
+}
+
+.specialEvent:hover {
+  border-color: var(--primary-gold);
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateDay {
+  color: var(--primary-gold);
+  font-family: var(--display-font), serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.dateMonth {
+  margin-top: 0.4rem;
+  color: rgba(242, 242, 242, 0.65);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.eventImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.eventContent {
+  min-width: 0;
+}
+
+.eventMeta {
+  margin: 0 0 0.5rem;
+  color: var(--primary-gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eventTitle {
+  margin: 0 0 0.6rem;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.eventDescription {
+  max-width: 38rem;
+  margin: 0;
+  color: rgba(242, 242, 242, 0.7);
+  font-size: 0.85rem;
+  font-weight: 200;
+  line-height: 1.6;
+}
+
+.price {
+  margin: 0;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+/* SMALL DESKTOP / TABLET */
+
+@media (max-width: 1350px) {
+  .events {
+    padding-inline: 3rem;
+  }
+
+  .weeklyGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .specialEvent {
+    grid-template-columns: 5rem 11rem minmax(0, 1fr);
+  }
+
+  .price {
+    grid-column: 3;
+  }
+}
+
+/* MOBILE / NARROW TABLET */
+
+@media (max-width: 1000px) {
+  .events {
+    padding-block: 4rem;
+    padding-inline: var(--inline-padding);
+  }
+
+  .heading {
+    font-size: 2rem;
+  }
+
+  .weeklySection {
+    margin-top: 4rem;
+  }
+
+  .specialSection {
+    margin-top: 4rem;
+  }
+
+  .weeklyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .specialEvent {
+    grid-template-columns: 4.5rem 9rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  .eventImage {
+    grid-column: 2;
+  }
+
+  .eventContent {
+    grid-column: 3;
+  }
+
+  .price {
+    grid-column: 3;
+  }
+
+  .date {
+    grid-row: auto;
+    padding-top: 0;
+  }
+
+  .eventTitle {
+    font-size: 1.3rem;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 550px) {
+  .weeklyCard {
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .dayName {
+    font-size: 0.9rem;
+  }
+
+  .specialEvent {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+  }
+
+  .date {
+    grid-row: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .dateDay {
+    font-size: 2rem;
+  }
+
+  .dateMonth {
+    margin-top: 0;
+  }
+
+  .eventImage,
+  .eventContent,
+  .price {
+    grid-column: 1;
+  }
+
+  .eventImage {
+    width: 100%;
+    height: 11rem;
+    aspect-ratio: auto;
+  }
+}
