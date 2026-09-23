@@ -5,6 +5,8 @@ const files = [
   // './package.json',
   // './tsconfig.json',
   // './next-config.ts',
+  './sanity.cli.js',
+  './sanity.config.ts',
 
   // './src/app/globals.css',
   // './src/app/layout.tsx',
@@ -26,11 +28,11 @@ const files = [
   // './src/components/Gallery/Gallery.tsx',
   // './src/components/Gallery/Gallery.module.css',
 
-  './src/components/Header/Header.tsx',
-  './src/components/Header/Header.module.css',
+  // './src/components/Header/Header.tsx',
+  // './src/components/Header/Header.module.css',
 
-  './src/components/Hero/Hero.tsx',
-  './src/components/Hero/Hero.module.css',
+  // './src/components/Hero/Hero.tsx',
+  // './src/components/Hero/Hero.module.css',
 
   // './src/components/Location/Location.tsx',
   // './src/components/Location/Location.module.css',
@@ -38,7 +40,23 @@ const files = [
   // './src/components/Menu/Menu.tsx',
   // './src/components/Menu/Menu.module.css',
 
-]
+   // './src/data/menuData.ts',
+
+     './src/sanity/env.ts',
+     './src/sanity/structure.ts',
+
+     './src/sanity/lib/client.ts',
+     './src/sanity/lib/image.ts',
+     './src/sanity/live.ts',
+
+     './src/sanity/schemaTypes/index.ts',
+
+      './src/sanity/schemaTypes/documents/menuType.ts',
+
+      './src/sanity/schemaTypes/objects/menuCategoryType.ts',
+      './src/sanity/schemaTypes/objects/menuItemType.ts',
+
+    ]
 
 const output = []
 

@@ -1,8 +1,24 @@
 'use client'
 
 import { Fragment, useState } from 'react'
-import { menuCategories, menuItemsByCategory, type MenuCategory } from '@/data/menuData'
 import styles from './Menu.module.css'
+
+export type MenuItem = {
+  _key: string
+  name: string
+  description?: string
+  price: string
+}
+
+export type MenuCategory = {
+  _key: string
+  title: string
+  items?: MenuItem[]
+}
+
+type MenuProps = {
+  categories: MenuCategory[]
+}
 
 type MenuItemsProps = {
   category: MenuCategory
@@ -11,18 +27,20 @@ type MenuItemsProps = {
 function MenuItems({ category }: MenuItemsProps) {
   return (
     <>
-      {menuItemsByCategory[category].map((item, index) => (
-        <article className={styles.menuItem} key={`${category}-${index}`}>
-          {/* <div className={styles.itemImage}></div> */}
-
+      {category.items?.map((item) => (
+        <article className={styles.menuItem} key={item._key}>
           <div className={styles.itemContent}>
             <div className={styles.itemTop}>
               <h3 className={styles.itemName}>{item.name}</h3>
+
               <span className={styles.dots}></span>
+
               <span className={styles.price}>{item.price}</span>
             </div>
 
-            <p className={styles.description}>{item.description}</p>
+            {item.description && (
+              <p className={styles.description}>{item.description}</p>
+            )}
           </div>
         </article>
       ))}
@@ -30,15 +48,22 @@ function MenuItems({ category }: MenuItemsProps) {
   )
 }
 
-export default function Pricing() {
-  const [activeCategory, setActiveCategory] = useState<MenuCategory>(menuCategories[0])
-  const [previousCategory, setPreviousCategory] = useState<MenuCategory | null>(null)
+export default function Menu({ categories }: MenuProps) {
+  const [activeCategory, setActiveCategory] =
+    useState<MenuCategory | null>(categories[0] ?? null)
+
+  const [previousCategory, setPreviousCategory] =
+    useState<MenuCategory | null>(null)
 
   function changeCategory(category: MenuCategory) {
-    if (category === activeCategory) return
+    if (category._key === activeCategory?._key) return
 
     setPreviousCategory(activeCategory)
     setActiveCategory(category)
+  }
+
+  if (!activeCategory || categories.length === 0) {
+    return null
   }
 
   return (
@@ -46,6 +71,7 @@ export default function Pricing() {
       <div className={styles.container}>
         <header className={styles.header}>
           <p className={styles.eyebrow}>Food & Wine</p>
+
           <h2 className={styles.heading}>The Convivio Menu</h2>
 
           <div className={styles.divider}>
@@ -56,18 +82,20 @@ export default function Pricing() {
         </header>
 
         <nav className={styles.categories} aria-label='Menu categories'>
-          {menuCategories.map((category, index) => (
-            <Fragment key={category}>
+          {categories.map((category, index) => (
+            <Fragment key={category._key}>
               <button
-                className={`${styles.categoryButton} ${activeCategory === category ? styles.active : ''}`}
+                className={`${styles.categoryButton} ${
+                  activeCategory._key === category._key ? styles.active : ''
+                }`}
                 type='button'
-                aria-pressed={activeCategory === category}
+                aria-pressed={activeCategory._key === category._key}
                 onClick={() => changeCategory(category)}
               >
-                {category}
+                {category.title}
               </button>
 
-              {index < menuCategories.length - 1 && (
+              {index < categories.length - 1 && (
                 <span className={styles.separator}>|</span>
               )}
             </Fragment>
@@ -88,7 +116,7 @@ export default function Pricing() {
             className={`${styles.menuGrid} ${
               previousCategory ? styles.incomingMenu : ''
             }`}
-            key={activeCategory}
+            key={activeCategory._key}
           >
             <MenuItems category={activeCategory} />
           </div>
