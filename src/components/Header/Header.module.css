@@ -1,27 +1,30 @@
-/* .header {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background: var(--light-background);
-  box-shadow: 0 2px 2px var(--shadow-color);
-} */
-
 .header {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 100;
   width: 100%;
   background: transparent;
+  transition:
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.headerScrolled {
+  position: fixed;
+  background: rgba(248, 247, 244, 0.94);
+  box-shadow: 0 1px 0 rgba(40, 51, 76, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .nav {
   position: relative;
   display: flex;
   width: 100%;
+  min-height: 4rem;
   align-items: center;
   justify-content: space-between;
-  min-height: 4rem;
   padding-inline: var(--inline-padding);
 }
 
@@ -32,7 +35,14 @@
   font-weight: 400;
   line-height: 1;
   letter-spacing: 0.03em;
+  transition: color 220ms ease;
 }
+
+.headerScrolled .name {
+  color: var(--primary-blue);
+}
+
+/* DESKTOP NAVIGATION */
 
 .menuContainer {
   display: flex;
@@ -48,59 +58,138 @@
 
 .menuItems > a {
   color: var(--light-text);
+  font-size: 0.85rem;
   font-weight: 200;
+  letter-spacing: 0.05em;
+  transition:
+    color 180ms ease,
+    opacity 180ms ease;
 }
+
+.menuItems > a:hover {
+  opacity: 0.65;
+}
+
+.headerScrolled .menuItems > a {
+  color: var(--primary-blue);
+}
+
+.headerScrolled .menuContainer > a {
+  border-color: var(--primary-gold);
+  color: var(--primary-blue);
+}
+
+.headerMenuOpen {
+  background: rgba(248, 247, 244, 0.88);
+  box-shadow: 0 1px 0 rgba(40, 51, 76, 0.12);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.headerMenuOpen .name,
+.headerMenuOpen .menuButton {
+  color: var(--primary-blue);
+}
+
+/* MOBILE MENU BUTTON */
 
 .menuButton {
   display: none;
-  align-items: center;
-  justify-content: center;
   width: 3rem;
   height: 3rem;
   padding: 0;
   border: 0;
   background: transparent;
+  color: var(--light-text);
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: color 180ms ease;
 }
+
+.headerScrolled .menuButton {
+  color: var(--primary-blue);
+}
+
+.menuButtonOpen {
+  color: var(--primary-blue);
+}
+
+.menuIcon {
+  display: block;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: currentColor;
+}
+
+.openIcon {
+  mask: url('/icons/menu.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/menu.svg') center / contain no-repeat;
+}
+
+.closeIcon {
+  mask: url('/icons/close.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/close.svg') center / contain no-repeat;
+}
+
+/* BACKDROP */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  padding: 0;
+  border: 0;
+  background: rgba(22, 18, 14, 0.18);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: default;
+}
+
+/* MOBILE */
 
 @media (max-width: 950px) {
-.name {
-  font-size: 1.65rem;
-}
+  .name {
+    font-size: 1.65rem;
+  }
 
-.menuItems > a {
-  color: var(--dark-text);
-  font-weight: 600;
-}
-.menuIcon {
-  width: 2rem;
-  height: 2rem;
-}
+  .menuButton {
+    display: flex;
+  }
 
-.menuButton {
-  display: flex;
-}
-
-.menuContainer {
+  .menuContainer {
     position: absolute;
-    top: 100%;
-    left: 0;
-    display: none;
-    width: 100%;
+    top: calc(100% + 0.75rem);
+    left: 50%;
+    z-index: 110;
+    display: flex;
+    width: calc(100% - 2rem);
+    max-width: 32rem;
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
     padding: 1rem;
-    background: var(--light-background);
-  }
-
-  .menuContainer > a {
-    border-color: var(--dark-text);
-    color: var(--dark-text);
+    border: 1px solid rgba(40, 51, 76, 0.12);
+    border-radius: 0.75rem;
+    background: rgba(248, 247, 244, 0.97);
+    box-shadow:
+      0 1rem 3rem rgba(22, 18, 14, 0.14),
+      0 0.25rem 0.75rem rgba(22, 18, 14, 0.08);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, -0.5rem);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms ease;
   }
 
   .menuContainerOpen {
-    display: flex;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
   }
 
   .menuItems {
@@ -110,6 +199,27 @@
   }
 
   .menuItems > a {
-    padding: 0.75rem;
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(40, 51, 76, 0.08);
+    color: var(--primary-blue);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .menuItems > a:last-child {
+    border-bottom: 0;
+  }
+
+  .menuItems > a:hover {
+    background: rgba(40, 51, 76, 0.04);
+    opacity: 1;
+  }
+
+  .menuContainer > a {
+    width: 100%;
+    min-height: 3rem;
+    border-color: var(--primary-blue);
+    color: var(--primary-blue);
   }
 }
