@@ -104,7 +104,7 @@ export default function Gallery({
           ))}
         </div>
 
-        <div className={styles.pagination} aria-label='Gallery navigation'>
+        <div className={styles.pagination} role='group' aria-label='Gallery navigation'>
           {images.map((item, index) => (
             <button
               className={`${styles.dot} ${

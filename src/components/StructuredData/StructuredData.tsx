@@ -71,14 +71,7 @@ function parseOpeningHours(
       const cleanValue = value.trim().toLowerCase()
 
       if (cleanValue === 'closed') {
-        return [
-          {
-            '@type': 'OpeningHoursSpecification',
-            dayOfWeek: dayNames[day as DayKey],
-            opens: '00:00',
-            closes: '00:00'
-          }
-        ]
+        return []
       }
 
       const parts = value.split(/\s*[–—-]\s*/)

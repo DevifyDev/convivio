@@ -123,6 +123,32 @@ export default function Header({
             {name}
           </a>
 
+          <button
+            type='button'
+            className={`${styles.menuButton} ${
+              isMenuOpen ? styles.menuButtonOpen : ''
+            }`}
+            aria-label={
+              isMenuOpen
+                ? 'Close navigation menu'
+                : 'Open navigation menu'
+            }
+            aria-expanded={isMenuOpen}
+            aria-controls='nav-menu'
+            onClick={() =>
+              setIsMenuOpen((current) => !current)
+            }
+          >
+            <span
+              className={`${styles.menuIcon} ${
+                isMenuOpen
+                  ? styles.closeIcon
+                  : styles.openIcon
+              }`}
+              aria-hidden='true'
+            ></span>
+          </button>
+
           <div
             id='nav-menu'
             className={`${styles.menuContainer} ${
@@ -149,33 +175,8 @@ export default function Header({
               />
             )}
           </div>
-
-          <button
-            type='button'
-            className={`${styles.menuButton} ${
-              isMenuOpen ? styles.menuButtonOpen : ''
-            }`}
-            aria-label={
-              isMenuOpen
-                ? 'Close navigation menu'
-                : 'Open navigation menu'
-            }
-            aria-expanded={isMenuOpen}
-            aria-controls='nav-menu'
-            onClick={() =>
-              setIsMenuOpen((current) => !current)
-            }
-          >
-            <span
-              className={`${styles.menuIcon} ${
-                isMenuOpen
-                  ? styles.closeIcon
-                  : styles.openIcon
-              }`}
-              aria-hidden='true'
-            ></span>
-          </button>
         </nav>
+        
       </header>
 
       {isMenuOpen && (

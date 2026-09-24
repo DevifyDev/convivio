@@ -33,6 +33,12 @@
   padding-inline: var(--inline-padding);
 }
 
+.nav a:focus-visible,
+.menuButton:focus-visible {
+  outline: 2px solid var(--primary-gold);
+  outline-offset: 4px;
+}
+
 .name {
   color: var(--light-text);
   font-family: 'Aloja Extended', serif;

@@ -56,37 +56,30 @@ export default async function Homepage() {
 
   return (
     <>
-      <StructuredData
-        businessDetails={businessDetails}
-      />
+      <StructuredData businessDetails={businessDetails} />
 
       <Header businessDetails={businessDetails} />
 
-      <Hero bookingUrl={businessDetails?.bookingUrl} />
-
-      <About />
-
-      <Menu categories={menu?.categories ?? []} />
-
-      <Gallery
-        images={gallery?.images ?? []}
-        instagramUrl={businessDetails?.instagramUrl}
-      />
-
-      <Events
-        weeklyEvents={events?.weeklyEvents}
-        specialEvents={events?.specialEvents ?? []}
-      />
-
-      <Testimonials
-        testimonials={testimonials?.reviews ?? []}
-      />
-
-      <Location businessDetails={businessDetails} />
+      <main>
+        <Hero bookingUrl={businessDetails?.bookingUrl} />
+        <About />
+        <Menu categories={menu?.categories ?? []} />
+        <Gallery
+          images={gallery?.images ?? []}
+          instagramUrl={businessDetails?.instagramUrl}
+        />
+        <Events
+          weeklyEvents={events?.weeklyEvents}
+          specialEvents={events?.specialEvents ?? []}
+        />
+        <Testimonials
+          testimonials={testimonials?.reviews ?? []}
+        />
+        <Location businessDetails={businessDetails} />
+      </main>
 
       <Footer />
-
       <ThemeSwitcher />
-    </>
+</>
   )
 }
