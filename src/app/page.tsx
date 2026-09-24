@@ -8,6 +8,7 @@ import Testimonials, { type Testimonial } from '@/components/Testimonials/Testim
 import Location from '@/components/Location/Location'
 import Footer from '@/components/Footer/Footer'
 
+import StructuredData from '@/components/StructuredData/StructuredData'
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
 
 import { client } from '@/sanity/lib/client'
@@ -55,6 +56,10 @@ export default async function Homepage() {
 
   return (
     <>
+      <StructuredData
+        businessDetails={businessDetails}
+      />
+
       <Header businessDetails={businessDetails} />
 
       <Hero bookingUrl={businessDetails?.bookingUrl} />
