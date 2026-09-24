@@ -11,7 +11,7 @@ export const galleryType = defineType({
       title: 'Gallery Images',
       type: 'array',
       description:
-        'Add, remove or reorder the photos shown in the website gallery.',
+        'Add, remove or reorder images displayed in the Gallery',
       of: [
         defineArrayMember({
           type: 'galleryImage'

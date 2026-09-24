@@ -17,7 +17,6 @@ export const weeklyEventType = defineType({
       name: 'time',
       title: 'Time',
       type: 'string',
-      description: 'Enter the time in any format using numbers or words',
       validation: (rule) => rule.required()
     }),
 
@@ -27,8 +26,9 @@ export const weeklyEventType = defineType({
       type: 'text',
       rows: 3,
       description:
-        'A short description explaining the event',
-      validation: (rule) => rule.required()
+        'Maximum 180 characters',
+      validation: (rule) =>
+        rule.required().max(180)
     })
   ]
 })

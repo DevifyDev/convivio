@@ -221,6 +221,10 @@
   overflow: hidden;
 }
 
+.eventImage:empty {
+  visibility: hidden;
+}
+
 .image {
   object-fit: cover;
 }
@@ -381,4 +385,8 @@
     height: 11rem;
     aspect-ratio: auto;
   }
+
+  .eventImage:empty {
+    display: none;
+}
 }

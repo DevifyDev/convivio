@@ -24,7 +24,6 @@ export const specialEventType = defineType({
       name: 'time',
       title: 'Time',
       type: 'string',
-      description: 'Enter the time in any format using numbers or words',
     }),
 
     defineField({
@@ -33,33 +32,46 @@ export const specialEventType = defineType({
       type: 'text',
       rows: 3,
       description:
-        'A short description explaining the event',
-      validation: (rule) => rule.required()
-    }),
+        'Maximum 250 characters',
+      validation: (rule) =>
+        rule.required().max(250)
+          }),
 
     defineField({
-      name: 'image',
-      title: 'Event Photo',
-      type: 'image',
-      options: {
-        hotspot: true
-      }
-    }),
+        name: 'image',
+        title: 'Event Photo',
+        type: 'image',
+        options: {
+          hotspot: true
+        }
+      }),
 
-    defineField({
-      name: 'imageAlt',
-      title: 'Image Description',
-      type: 'string',
-      description:
-        'Briefly describe what is shown in the image'
-    }),
+      defineField({
+        name: 'imageAlt',
+        title: 'Image Description',
+        type: 'string',
+        description:
+          'Required when an event photo is added',
+        validation: (rule) =>
+          rule.custom((value, context) => {
+            const parent = context.parent as {
+              image?: unknown
+            }
+
+            if (parent?.image && !value) {
+              return 'Image description is required when an event photo is added.'
+            }
+
+            return true
+          })
+      }),
 
     defineField({
       name: 'price',
       title: 'Price',
       type: 'string',
       description:
-        'Leave blank if there is no advertised price'
+        'Optional'
     })
   ],
 

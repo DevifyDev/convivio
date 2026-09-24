@@ -177,8 +177,8 @@ export default function Events({
                       </span>
                     </time>
 
-                    {event.image && (
-                      <div className={styles.eventImage}>
+                    <div className={styles.eventImage}>
+                      {event.image && (
                         <Image
                           src={event.image}
                           alt={event.imageAlt ?? ''}
@@ -186,8 +186,8 @@ export default function Events({
                           sizes='(max-width: 650px) 100vw, 220px'
                           className={styles.image}
                         />
-                      </div>
-                    )}
+                      )}
+                    </div>
 
                     <div className={styles.eventContent}>
                       <p className={styles.eventMeta}>

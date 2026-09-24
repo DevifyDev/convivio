@@ -11,8 +11,9 @@ export const testimonialType = defineType({
       title: 'Review',
       type: 'text',
       rows: 4,
-      description: 'Enter the customer review',
-      validation: (rule) => rule.required()
+      description: 'Maximum 250 characters',
+      validation: (rule) =>
+        rule.required().max(250)
     }),
 
     defineField({

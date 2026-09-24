@@ -19,8 +19,8 @@ const files = [
   // './src/components/Button/Button.tsx',
   // './src/components/Button/Button.module.css',
 
-  // './src/components/Contact/Contact.tsx',
-  // './src/components/Contact/Contact.module.css',
+  // './src/components/Events/Events.tsx',
+  // './src/components/Events/Events.module.css',
 
   // './src/components/Footer/Footer.tsx',
   // './src/components/Footer/Footer.module.css',
@@ -40,6 +40,12 @@ const files = [
   // './src/components/Menu/Menu.tsx',
   // './src/components/Menu/Menu.module.css',
 
+  // './src/components/Testimonials/Testimonials.tsx',
+  // './src/components/Testimonials/Testimonials.module.css',
+
+  // './src/components/ThemeSwitcher/ThemeSwitcher.tsx',
+  // './src/components/ThemeSwitcher/ThemeSwitcher.module.css',
+
    // './src/data/menuData.ts',
 
     //  './src/sanity/env.ts',
@@ -47,14 +53,26 @@ const files = [
 
     //  './src/sanity/lib/client.ts',
     //  './src/sanity/lib/image.ts',
-    //  './src/sanity/live.ts',
+    //  './src/sanity/lib/live.ts',
+    //  './src/sanity/lib/queries.ts',
 
     //  './src/sanity/schemaTypes/index.ts',
 
+    //   './src/sanity/schemaTypes/documents/businessDetailsType.ts',
+    //   './src/sanity/schemaTypes/documents/eventsType.ts',
+    //   './src/sanity/schemaTypes/documents/galleryType.ts',
     //   './src/sanity/schemaTypes/documents/menuType.ts',
+    //   './src/sanity/schemaTypes/documents/testimonialType.ts',
 
+    //  './src/sanity/schemaTypes/objects/galleryImageType.ts',
     //   './src/sanity/schemaTypes/objects/menuCategoryType.ts',
     //   './src/sanity/schemaTypes/objects/menuItemType.ts',
+    //   './src/sanity/schemaTypes/objects/openingHoursType.ts',
+    //   './src/sanity/schemaTypes/objects/specialEventType.ts',
+     //  './src/sanity/schemaTypes/objects/testimonialType.ts',
+     //  './src/sanity/schemaTypes/objects/weeklyEventType.ts',
+
+    //   './src/types/businessDetail.ts',
 
     ]
 
