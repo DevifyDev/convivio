@@ -31,8 +31,7 @@ export const specialEventType = defineType({
       title: 'Description',
       type: 'text',
       rows: 3,
-      description:
-        'Maximum 250 characters',
+      description: 'Maximum 250 characters',
       validation: (rule) =>
         rule.required().max(250)
           }),
@@ -41,6 +40,7 @@ export const specialEventType = defineType({
         name: 'image',
         title: 'Event Photo',
         type: 'image',
+        description: 'Optional',
         options: {
           hotspot: true
         }
@@ -51,7 +51,8 @@ export const specialEventType = defineType({
         title: 'Image Description',
         type: 'string',
         description:
-          'Required when an event photo is added',
+          'Required when an image is included',
+
         validation: (rule) =>
           rule.custom((value, context) => {
             const parent = context.parent as {
@@ -59,7 +60,7 @@ export const specialEventType = defineType({
             }
 
             if (parent?.image && !value) {
-              return 'Image description is required when an event photo is added.'
+              return 'Image description is required'
             }
 
             return true

@@ -91,7 +91,7 @@ export const eventsType = defineType({
       title: 'Special Events',
       type: 'array',
       description:
-        'Add upcoming one-off events such as dinners, tastings or guest chef nights.',
+        'Add details for special events',
 
       of: [
         defineArrayMember({

@@ -20,7 +20,6 @@ export const testimonialType = defineType({
       name: 'name',
       title: 'Customer Name',
       type: 'string',
-      description: 'Enter the customer name',
       validation: (rule) => rule.required()
     }),
 
@@ -28,7 +27,6 @@ export const testimonialType = defineType({
       name: 'source',
       title: 'Review Source',
       type: 'string',
-      description: 'For example: Google Review or Facebook Review'
     })
   ],
 
