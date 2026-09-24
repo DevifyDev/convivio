@@ -11,6 +11,7 @@ import { structure } from './src/sanity/structure'
 const singletonTypes = new Set([
   'menu',
   'gallery',
+  'events',
 ])
 
 const singletonActions = new Set([

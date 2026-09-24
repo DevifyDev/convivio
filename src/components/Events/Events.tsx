@@ -1,60 +1,93 @@
 import Image from 'next/image'
 import styles from './Events.module.css'
 
-const weeklyEvents = [
-  {
-    day: 'Monday',
-    title: 'Steak Night',
-    time: 'From 5pm',
-    description:
-      'Premium cuts, seasonal sides and wines selected to complement the evening.'
-  },
-  {
-    day: 'Wednesday',
-    title: 'Pasta Night',
-    time: 'From 5pm',
-    description:
-      'Fresh pasta, classic Italian flavours and a rotating selection of wines by the glass.'
-  },
-  {
-    day: 'Thursday',
-    title: 'Wine Night',
-    time: 'From 6pm',
-    description:
-      'Discover featured bottles, new producers and special pours selected by the Convivio team.'
-  }
+export type WeeklyEvent = {
+  title: string
+  time?: string
+  description: string
+}
+
+export type WeeklyEvents = {
+  monday?: WeeklyEvent
+  tuesday?: WeeklyEvent
+  wednesday?: WeeklyEvent
+  thursday?: WeeklyEvent
+  friday?: WeeklyEvent
+  saturday?: WeeklyEvent
+  sunday?: WeeklyEvent
+}
+
+export type SpecialEvent = {
+  _key: string
+  date: string
+  time?: string
+  title: string
+  description: string
+  image?: string
+  imageAlt?: string
+  price?: string
+}
+
+type EventsProps = {
+  weeklyEvents?: WeeklyEvents
+  specialEvents?: SpecialEvent[]
+}
+
+const days: {
+  key: keyof WeeklyEvents
+  label: string
+}[] = [
+  { key: 'monday', label: 'Monday' },
+  { key: 'tuesday', label: 'Tuesday' },
+  { key: 'wednesday', label: 'Wednesday' },
+  { key: 'thursday', label: 'Thursday' },
+  { key: 'friday', label: 'Friday' },
+  { key: 'saturday', label: 'Saturday' },
+  { key: 'sunday', label: 'Sunday' }
 ]
 
-const specialEvents = [
-  {
-    date: '2026-10-25',
-    day: '25',
-    month: 'Oct',
-    weekday: 'Sunday',
-    time: '6:30pm',
-    title: 'Celebrity Chef Cooking Night',
-    description:
-      'A special evening of food, wine and conversation with a guest chef taking over the Convivio kitchen.',
-    image: '/images/gallery-1.jpg',
-    imageAlt: 'Guests dining inside Convivio Wine Bar',
-    price: '$120 pp'
-  },
-  {
-    date: '2026-11-08',
-    day: '08',
-    month: 'Nov',
-    weekday: 'Sunday',
-    time: '6:00pm',
-    title: 'Winemaker Dinner',
-    description:
-      'An intimate evening featuring a curated menu alongside a guided selection of wines from a visiting producer.',
-    image: '/images/gallery-4.jpg',
-    imageAlt: 'Convivio wine selection',
-    price: '$95 pp'
-  }
-]
+function getEventDate(dateString: string) {
+  const date = new Date(`${dateString}T00:00:00Z`)
 
-export default function Events() {
+  return {
+    day: new Intl.DateTimeFormat('en-AU', {
+      day: '2-digit',
+      timeZone: 'UTC'
+    }).format(date),
+
+    month: new Intl.DateTimeFormat('en-AU', {
+      month: 'short',
+      timeZone: 'UTC'
+    }).format(date),
+
+    weekday: new Intl.DateTimeFormat('en-AU', {
+      weekday: 'long',
+      timeZone: 'UTC'
+    }).format(date)
+  }
+}
+
+export default function Events({
+  weeklyEvents,
+  specialEvents = []
+}: EventsProps) {
+  const weeklyEventList = days.flatMap(({ key, label }) => {
+    const event = weeklyEvents?.[key]
+
+    if (!event) return []
+
+    return [
+      {
+        day: label,
+        ...event
+      }
+    ]
+  })
+
+  if (weeklyEventList.length === 0 && specialEvents.length === 0) {
+    return null
+  }
+
   return (
     <section className={styles.events} id='events'>
       <div className={styles.container}>
@@ -65,95 +98,123 @@ export default function Events() {
 
           <div className={styles.divider}>
             <span className={styles.line}></span>
-            <span className={styles.headingIcon} aria-hidden='true'></span>
+            <span
+              className={styles.headingIcon}
+              aria-hidden='true'
+            ></span>
             <span className={styles.line}></span>
           </div>
         </header>
 
-        <div className={styles.weeklySection}>
-          <div className={styles.subheadingRow}>
-            <p className={styles.sectionEyebrow}>Every Week</p>
-            <h3 className={styles.subheading}>Weekly at Convivio</h3>
+        {weeklyEventList.length > 0 && (
+          <div className={styles.weeklySection}>
+            <div className={styles.subheadingRow}>
+              <p className={styles.sectionEyebrow}>Every Week</p>
+              <h3 className={styles.subheading}>
+                Weekly at Convivio
+              </h3>
+            </div>
+
+            <div className={styles.weeklyGrid}>
+              {weeklyEventList.map((event) => (
+                <article
+                  className={styles.weeklyCard}
+                  key={event.day}
+                >
+                  <p className={styles.dayName}>{event.day}</p>
+
+                  <div className={styles.weeklyContent}>
+                    <h4 className={styles.weeklyTitle}>
+                      {event.title}
+                    </h4>
+
+                    {event.time && (
+                      <p className={styles.weeklyTime}>
+                        {event.time}
+                      </p>
+                    )}
+
+                    <p className={styles.weeklyDescription}>
+                      {event.description}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
           </div>
+        )}
 
-          <div className={styles.weeklyGrid}>
-            {weeklyEvents.map((event) => (
-              <article
-                className={styles.weeklyCard}
-                key={`${event.day}-${event.title}`}
-              >
-                <p className={styles.dayName}>{event.day}</p>
+        {specialEvents.length > 0 && (
+          <div className={styles.specialSection}>
+            <div className={styles.subheadingRow}>
+              <p className={styles.sectionEyebrow}>Coming Up</p>
+              <h3 className={styles.subheading}>
+                Special Events
+              </h3>
+            </div>
 
-                <div className={styles.weeklyContent}>
-                  <h4 className={styles.weeklyTitle}>
-                    {event.title}
-                  </h4>
+            <div className={styles.specialEvents}>
+              {specialEvents.map((event) => {
+                const { day, month, weekday } = getEventDate(
+                  event.date
+                )
 
-                  <p className={styles.weeklyTime}>
-                    {event.time}
-                  </p>
+                return (
+                  <article
+                    className={styles.specialEvent}
+                    key={event._key}
+                  >
+                    <time
+                      className={styles.date}
+                      dateTime={event.date}
+                    >
+                      <span className={styles.dateDay}>
+                        {day}
+                      </span>
 
-                  <p className={styles.weeklyDescription}>
-                    {event.description}
-                  </p>
-                </div>
-              </article>
-            ))}
+                      <span className={styles.dateMonth}>
+                        {month}
+                      </span>
+                    </time>
+
+                    {event.image && (
+                      <div className={styles.eventImage}>
+                        <Image
+                          src={event.image}
+                          alt={event.imageAlt ?? ''}
+                          fill
+                          sizes='(max-width: 650px) 100vw, 220px'
+                          className={styles.image}
+                        />
+                      </div>
+                    )}
+
+                    <div className={styles.eventContent}>
+                      <p className={styles.eventMeta}>
+                        {weekday}
+                        {event.time && ` · ${event.time}`}
+                      </p>
+
+                      <h4 className={styles.eventTitle}>
+                        {event.title}
+                      </h4>
+
+                      <p className={styles.eventDescription}>
+                        {event.description}
+                      </p>
+                    </div>
+
+                    {event.price && (
+                      <p className={styles.price}>
+                        {event.price}
+                      </p>
+                    )}
+                  </article>
+                )
+              })}
+            </div>
           </div>
-        </div>
-
-        <div className={styles.specialSection}>
-          <div className={styles.subheadingRow}>
-            <p className={styles.sectionEyebrow}>Coming Up</p>
-            <h3 className={styles.subheading}>Special Events</h3>
-          </div>
-
-          <div className={styles.specialEvents}>
-            {specialEvents.map((event) => (
-              <article className={styles.specialEvent} key={event.date}>
-                <time className={styles.date} dateTime={event.date}>
-                  <span className={styles.dateDay}>
-                    {event.day}
-                  </span>
-
-                  <span className={styles.dateMonth}>
-                    {event.month}
-                  </span>
-                </time>
-
-                <div className={styles.eventImage}>
-                  <Image
-                    src={event.image}
-                    alt={event.imageAlt}
-                    fill
-                    sizes='(max-width: 650px) 100vw, 220px'
-                    className={styles.image}
-                  />
-                </div>
-
-                <div className={styles.eventContent}>
-                  <p className={styles.eventMeta}>
-                    {event.weekday} · {event.time}
-                  </p>
-
-                  <h4 className={styles.eventTitle}>
-                    {event.title}
-                  </h4>
-
-                  <p className={styles.eventDescription}>
-                    {event.description}
-                  </p>
-                </div>
-
-                {event.price && (
-                  <p className={styles.price}>
-                    {event.price}
-                  </p>
-                )}
-              </article>
-            ))}
-          </div>
-        </div>
+        )}
       </div>
     </section>
   )

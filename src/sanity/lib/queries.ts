@@ -22,3 +22,56 @@ export const galleryQuery = `
     }
   }
 `
+
+export const eventsQuery = `
+  *[_id == 'events'][0] {
+    weeklyEvents {
+      monday {
+        title,
+        time,
+        description
+      },
+      tuesday {
+        title,
+        time,
+        description
+      },
+      wednesday {
+        title,
+        time,
+        description
+      },
+      thursday {
+        title,
+        time,
+        description
+      },
+      friday {
+        title,
+        time,
+        description
+      },
+      saturday {
+        title,
+        time,
+        description
+      },
+      sunday {
+        title,
+        time,
+        description
+      }
+    },
+
+    specialEvents[] {
+      _key,
+      date,
+      time,
+      title,
+      description,
+      price,
+      imageAlt,
+      'image': image.asset->url
+    }
+  }
+`

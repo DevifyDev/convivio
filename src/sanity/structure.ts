@@ -3,6 +3,7 @@ import type { StructureResolver } from 'sanity/structure'
 const singletonTypes = new Set([
   'menu',
   'gallery',
+  'events',
 ])
 
 export const structure: StructureResolver = (S) =>
@@ -28,6 +29,17 @@ export const structure: StructureResolver = (S) =>
               .schemaType('gallery')
               .documentId('gallery')
           ),
+
+          S.listItem()
+            .title('Events')
+            .id('events')
+            .schemaType('events')
+            .child(
+              S.editor()
+                .id('events')
+                .schemaType('events')
+                .documentId('events')
+            ),
 
       ...S.documentTypeListItems().filter(
         (item) => !singletonTypes.has(item.getId() ?? '')

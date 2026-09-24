@@ -21,7 +21,7 @@ export const galleryImageType = defineType({
       title: 'Image Description',
       type: 'string',
       description:
-        'Briefly describe what is shown in the image. This helps visitors using screen readers and also helps search engines understand the image.',
+        'Briefly describe what is displayed in the image',
       validation: (rule) => rule.required()
     })
   ],
