@@ -12,6 +12,8 @@ const singletonTypes = new Set([
   'menu',
   'gallery',
   'events',
+  'testimonials',
+  'businessDetails',
 ])
 
 const singletonActions = new Set([

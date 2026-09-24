@@ -1,17 +1,76 @@
+import type {
+  BusinessDetails,
+  DayKey
+} from '@/types/businessDetails'
+
 import styles from './Location.module.css'
 
-export default function Location() {
+type LocationProps = {
+  businessDetails?: BusinessDetails | null
+}
+
+const days: {
+  key: DayKey
+  label: string
+}[] = [
+  {
+    key: 'monday',
+    label: 'Monday'
+  },
+  {
+    key: 'tuesday',
+    label: 'Tuesday'
+  },
+  {
+    key: 'wednesday',
+    label: 'Wednesday'
+  },
+  {
+    key: 'thursday',
+    label: 'Thursday'
+  },
+  {
+    key: 'friday',
+    label: 'Friday'
+  },
+  {
+    key: 'saturday',
+    label: 'Saturday'
+  },
+  {
+    key: 'sunday',
+    label: 'Sunday'
+  }
+]
+
+function getPhoneHref(phone: string) {
+  return `tel:${phone.replace(/[^\d+]/g, '')}`
+}
+
+export default function Location({
+  businessDetails
+}: LocationProps) {
+  const hasOpeningHours = days.some(
+    ({ key }) => businessDetails?.openingHours?.[key]
+  )
+
   return (
     <section className={styles.location} id='location'>
       <div className={styles.container}>
         <header className={styles.header}>
           <p className={styles.eyebrow}>Visit Convivio</p>
-          <h2 className={styles.heading}>Find Us in Scarborough</h2>
+
+          <h2 className={styles.heading}>
+            Find Us in Scarborough
+          </h2>
 
           <div className={styles.divider}>
             <span className={styles.line}></span>
 
-            <span className={styles.headingIcon} aria-hidden='true'></span>
+            <span
+              className={styles.headingIcon}
+              aria-hidden='true'
+            ></span>
 
             <span className={styles.line}></span>
           </div>
@@ -21,64 +80,114 @@ export default function Location() {
           <article className={styles.contactCard}>
             <div className={styles.detail}>
               <p className={styles.label}>Address</p>
+
               <p className={styles.value}>
-                16E Calais Street
+                16E Calais Road
                 <br />
                 Scarborough, 6019
               </p>
             </div>
 
-            <div className={styles.contactRow}>
+            {(businessDetails?.phone ||
+              businessDetails?.email) && (
+              <div className={styles.contactRow}>
+                {businessDetails.phone && (
+                  <div className={styles.detail}>
+                    <p className={styles.label}>Phone</p>
+
+                    <a
+                      className={styles.value}
+                      href={getPhoneHref(
+                        businessDetails.phone
+                      )}
+                    >
+                      {businessDetails.phone}
+                    </a>
+                  </div>
+                )}
+
+                {businessDetails.email && (
+                  <div className={styles.detail}>
+                    <p className={styles.label}>Email</p>
+
+                    <a
+                      className={styles.value}
+                      href={`mailto:${businessDetails.email}`}
+                    >
+                      {businessDetails.email}
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {hasOpeningHours && (
               <div className={styles.detail}>
-                <p className={styles.label}>Phone</p>
-                <a className={styles.value} href='tel:+61435485517'>
-                  0435 485 517
-                </a>
-              </div>
+                <p className={styles.label}>
+                  Opening Hours
+                </p>
 
-              <div className={styles.detail}>
-                <p className={styles.label}>Email</p>
-                <a className={styles.value} href='mailto:info@convivioperth.com.au'>
-                  info@convivioperth.com.au
-                </a>
-              </div>
-            </div>
+                <div className={styles.hours}>
+                  {days.map(({ key, label }) => {
+                    const hours =
+                      businessDetails?.openingHours?.[key]
 
-            <div className={styles.detail}>
-              <p className={styles.label}>Opening Hours</p>
+                    if (!hours) return null
 
-              <div className={styles.hours}>
-                <div className={styles.hourRow}>
-                  <span>Tuesday – Thursday</span>
-                  <span>3-10pm</span>
-                </div>
-
-                <div className={styles.hourRow}>
-                  <span>Friday & Saturday</span>
-                  <span>12–10pm</span>
-                </div>
-
-                <div className={styles.hourRow}>
-                  <span>Sunday & Monday</span>
-                  <span>Closed</span>
+                    return (
+                      <div
+                        className={styles.hourRow}
+                        key={key}
+                      >
+                        <span>{label}</span>
+                        <span>{hours}</span>
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
-            </div>
+            )}
 
-            <div className={styles.socials}>
-              <p className={styles.label}>Social</p>
+            {(businessDetails?.instagramUrl ||
+              businessDetails?.facebookUrl) && (
+              <div className={styles.socials}>
+                <p className={styles.label}>Social</p>
 
-              <div className={styles.socialLinks}>
-                <a className={styles.socialLink} href='https://www.instagram.com/conviviowinebar/?hl=en' aria-label='Instagram' target='_blank' rel='noopener noreferrer'>
-                  <span className={`${styles.socialIcon} ${styles.instagramIcon}`}></span>
-                </a>
+                <div className={styles.socialLinks}>
+                  {businessDetails.instagramUrl && (
+                    <a
+                      className={styles.socialLink}
+                      href={
+                        businessDetails.instagramUrl
+                      }
+                      aria-label='Instagram'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      <span
+                        className={`${styles.socialIcon} ${styles.instagramIcon}`}
+                      ></span>
+                    </a>
+                  )}
 
-                <a className={styles.socialLink} href='https://www.facebook.com/p/Convivio-Wine-Bar-61584740764886/' aria-label='Facebook' target='_blank' rel='noopener noreferrer'>
-                  <span className={`${styles.socialIcon} ${styles.facebookIcon}`}></span>
-                </a>
+                  {businessDetails.facebookUrl && (
+                    <a
+                      className={styles.socialLink}
+                      href={
+                        businessDetails.facebookUrl
+                      }
+                      aria-label='Facebook'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      <span
+                        className={`${styles.socialIcon} ${styles.facebookIcon}`}
+                      ></span>
+                    </a>
+                  )}
+                </div>
               </div>
-            </div>
-            
+            )}
           </article>
 
           <div className={styles.map}>

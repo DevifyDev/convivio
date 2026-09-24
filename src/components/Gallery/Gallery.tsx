@@ -13,9 +13,13 @@ export type GalleryImage = {
 
 type GalleryProps = {
   images: GalleryImage[]
+  instagramUrl?: string
 }
 
-export default function Gallery({ images }: GalleryProps) {
+export default function Gallery({
+  images,
+  instagramUrl
+}: GalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null)
   const [activeSlide, setActiveSlide] = useState(0)
 
@@ -114,14 +118,16 @@ export default function Gallery({ images }: GalleryProps) {
           ))}
         </div>
 
-        <div className={styles.ctaContainer}>
-          <Button
-            label='See More On Instagram'
-            href='https://www.instagram.com/conviviowinebar/?hl=en'
-            variant='ctaLarge'
-            target='_blank'
-          />
-        </div>
+        {instagramUrl && (
+          <div className={styles.ctaContainer}>
+            <Button
+              label='See More On Instagram'
+              href={instagramUrl}
+              variant='ctaLarge'
+              target='_blank'
+            />
+          </div>
+        )}
       </div>
     </section>
   )

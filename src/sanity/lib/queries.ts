@@ -85,3 +85,23 @@ export const testimonialsQuery = `
     }
   }
 `
+
+export const businessDetailsQuery = `
+  *[_id == 'businessDetails'][0] {
+    phone,
+    email,
+    openingHours {
+      monday,
+      tuesday,
+      wednesday,
+      thursday,
+      friday,
+      saturday,
+      sunday
+    },
+    bookingUrl,
+    giftCardUrl,
+    instagramUrl,
+    facebookUrl
+  }
+`

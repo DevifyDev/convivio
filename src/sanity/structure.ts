@@ -5,6 +5,13 @@ const singletonTypes = new Set([
   'gallery',
   'events',
   'testimonials',
+  'businessDetails',
+])
+
+const singletonActions = new Set([
+  'publish',
+  'discardChanges',
+  'restore'
 ])
 
 export const structure: StructureResolver = (S) =>
@@ -52,6 +59,17 @@ export const structure: StructureResolver = (S) =>
                   .schemaType('testimonials')
                   .documentId('testimonials')
               ),
+
+              S.listItem()
+                .title('Business Details')
+                .id('businessDetails')
+                .schemaType('businessDetails')
+                .child(
+                  S.editor()
+                    .id('businessDetails')
+                    .schemaType('businessDetails')
+                    .documentId('businessDetails')
+                ),
 
       ...S.documentTypeListItems().filter(
         (item) => !singletonTypes.has(item.getId() ?? '')

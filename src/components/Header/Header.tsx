@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import Button from '@/components/Button/Button'
+import type { BusinessDetails } from '@/types/businessDetails'
 import styles from './Header.module.css'
 
 const name = 'Convivio'
 
-const menuItems = [
+const baseMenuItems = [
   {
     href: '#about',
     label: 'ABOUT'
@@ -26,19 +27,30 @@ const menuItems = [
   {
     href: '#location',
     label: 'VISIT'
-  },
-  {
-    href: 'https://www.convivioperth.com.au/s/gift-cards',
-    label: 'GIFT CARDS'
   }
 ]
 
-const bookingUrl =
-  'https://bookings.nowbookit.com/?accountid=d2961a38-34a5-4012-8856-aebf1af4bdee&venueid=11218&theme=dark&colors=hex,37474f'
+type HeaderProps = {
+  businessDetails?: BusinessDetails | null
+}
 
-export default function Header() {
+export default function Header({
+  businessDetails
+}: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+
+  const menuItems = [
+    ...baseMenuItems,
+    ...(businessDetails?.giftCardUrl
+      ? [
+          {
+            href: businessDetails.giftCardUrl,
+            label: 'GIFT CARDS'
+          }
+        ]
+      : [])
+  ]
 
   function closeMenu() {
     setIsMenuOpen(false)
@@ -84,7 +96,10 @@ export default function Header() {
   }, [isMenuOpen])
 
   useEffect(() => {
-    document.body.classList.toggle('mobile-menu-open', isMenuOpen)
+    document.body.classList.toggle(
+      'mobile-menu-open',
+      isMenuOpen
+    )
 
     return () => {
       document.body.classList.remove('mobile-menu-open')
@@ -126,11 +141,13 @@ export default function Header() {
               ))}
             </div>
 
-            <Button
-              label='BOOK A TABLE'
-              href={bookingUrl}
-              target='_blank'
-            />
+            {businessDetails?.bookingUrl && (
+              <Button
+                label='BOOK A TABLE'
+                href={businessDetails.bookingUrl}
+                target='_blank'
+              />
+            )}
           </div>
 
           <button
@@ -145,11 +162,15 @@ export default function Header() {
             }
             aria-expanded={isMenuOpen}
             aria-controls='nav-menu'
-            onClick={() => setIsMenuOpen((current) => !current)}
+            onClick={() =>
+              setIsMenuOpen((current) => !current)
+            }
           >
             <span
               className={`${styles.menuIcon} ${
-                isMenuOpen ? styles.closeIcon : styles.openIcon
+                isMenuOpen
+                  ? styles.closeIcon
+                  : styles.openIcon
               }`}
               aria-hidden='true'
             ></span>
