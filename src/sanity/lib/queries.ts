@@ -75,3 +75,13 @@ export const eventsQuery = `
     }
   }
 `
+export const testimonialsQuery = `
+  *[_id == 'testimonials'][0] {
+    reviews[] {
+      _key,
+      quote,
+      name,
+      source
+    }
+  }
+`
