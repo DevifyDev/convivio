@@ -1,5 +1,6 @@
 :global(html[data-theme='convivio']) .subtitle {
   font-family: var(--brand-font);
+  letter-spacing: -2px;
 }
 .hero {
   display: flex;
