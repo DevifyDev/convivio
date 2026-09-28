@@ -1,6 +1,7 @@
 'use client'
 
 import { Fragment, useState } from 'react'
+import SectionHeading from '../SectionHeading/SectionHeading'
 import styles from './Menu.module.css'
 
 export type MenuItem = {
@@ -17,6 +18,7 @@ export type MenuCategory = {
 }
 
 type MenuProps = {
+  description?: string
   categories: MenuCategory[]
 }
 
@@ -48,7 +50,7 @@ function MenuItems({ category }: MenuItemsProps) {
   )
 }
 
-export default function Menu({ categories }: MenuProps) {
+export default function Menu({ categories, description }: MenuProps) {
   const [activeCategory, setActiveCategory] =
     useState<MenuCategory | null>(categories[0] ?? null)
 
@@ -69,17 +71,13 @@ export default function Menu({ categories }: MenuProps) {
   return (
     <section className={styles.pricing} id='menu'>
       <div className={styles.container}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>Food & Wine</p>
-
-          <h2 className={styles.heading}>The Convivio Menu</h2>
-
-          <div className={styles.divider}>
-            <span className={styles.line}></span>
-            <span className={styles.icon} aria-hidden='true'></span>
-            <span className={styles.line}></span>
-          </div>
-        </header>
+        <SectionHeading
+          eyebrow='Food & Wine'
+          heading='The Convivio Menu'
+          description={description}
+          variant='dark'
+          icon='wine'
+        />
 
         <nav className={styles.categories} aria-label='Menu categories'>
           {categories.map((category, index) => (

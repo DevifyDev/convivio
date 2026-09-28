@@ -1,0 +1,96 @@
+.header {
+  text-align: center;
+}
+
+.light {
+  color: var(--primary-black);
+}
+
+.dark {
+  color: var(--light-text);
+}
+
+:global(html[data-theme='convivio']) .light {
+  color: var(--primary-blue);
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: var(--primary-gold);
+  font-family: var(--body-copy-font), serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0 0 1.5rem;
+  color: inherit;
+  font-family: var(--display-font, var(--heading-font, serif));
+  font-size: 2.25rem;
+  font-weight: 300;
+  letter-spacing: -2px;
+}
+
+.description {
+  max-width: 38rem;
+  margin: 0 auto 1.5rem;
+  color: inherit;
+  font-family: var(--body-copy-font), serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.line {
+  width: 5rem;
+  height: 1px;
+  background: var(--primary-gold);
+  opacity: 0.35;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  background: var(--primary-gold);
+}
+
+.sparkle {
+  mask: url('/icons/sparkle.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/sparkle.svg') center / contain no-repeat;
+}
+
+.wine {
+  mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
+}
+
+.location {
+  mask: url('/icons/location-pin.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/location-pin.svg') center / contain no-repeat;
+}
+
+:global(html[data-theme='convivio']) .icon {
+  width: 4rem;
+  mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
+}
+
+@media (max-width: 800px) {
+  .heading {
+    font-size: 2rem;
+  }
+
+  .description {
+    font-size: 1rem;
+  }
+}

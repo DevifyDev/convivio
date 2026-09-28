@@ -3,9 +3,11 @@ import type {
   DayKey
 } from '@/types/businessDetails'
 
+import SectionHeading from '../SectionHeading/SectionHeading'
 import styles from './Location.module.css'
 
 type LocationProps = {
+  description?: string
   businessDetails?: BusinessDetails | null
 }
 
@@ -48,6 +50,7 @@ function getPhoneHref(phone: string) {
 }
 
 export default function Location({
+  description,
   businessDetails
 }: LocationProps) {
   const hasOpeningHours = days.some(
@@ -57,24 +60,13 @@ export default function Location({
   return (
     <section className={styles.location} id='location'>
       <div className={styles.container}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>Visit Convivio</p>
-
-          <h2 className={styles.heading}>
-            Find Us in Scarborough
-          </h2>
-
-          <div className={styles.divider}>
-            <span className={styles.line}></span>
-
-            <span
-              className={styles.headingIcon}
-              aria-hidden='true'
-            ></span>
-
-            <span className={styles.line}></span>
-          </div>
-        </header>
+        <SectionHeading
+          eyebrow='Your Next Stop'
+          heading='How To Find Us'
+          description='Join us for a warm welcome, great food and a glass with your name on it'
+          variant='light'
+          icon='location'
+        />
 
         <div className={styles.content}>
           <article className={styles.contactCard}>
@@ -97,9 +89,7 @@ export default function Location({
 
                     <a
                       className={styles.value}
-                      href={getPhoneHref(
-                        businessDetails.phone
-                      )}
+                      href={getPhoneHref(businessDetails.phone)}
                     >
                       {businessDetails.phone}
                     </a>
@@ -123,9 +113,7 @@ export default function Location({
 
             {hasOpeningHours && (
               <div className={styles.detail}>
-                <p className={styles.label}>
-                  Opening Hours
-                </p>
+                <p className={styles.label}>Opening Hours</p>
 
                 <div className={styles.hours}>
                   {days.map(({ key, label }) => {
@@ -157,9 +145,7 @@ export default function Location({
                   {businessDetails.instagramUrl && (
                     <a
                       className={styles.socialLink}
-                      href={
-                        businessDetails.instagramUrl
-                      }
+                      href={businessDetails.instagramUrl}
                       aria-label='Instagram'
                       target='_blank'
                       rel='noopener noreferrer'
@@ -173,9 +159,7 @@ export default function Location({
                   {businessDetails.facebookUrl && (
                     <a
                       className={styles.socialLink}
-                      href={
-                        businessDetails.facebookUrl
-                      }
+                      href={businessDetails.facebookUrl}
                       aria-label='Facebook'
                       target='_blank'
                       rel='noopener noreferrer'

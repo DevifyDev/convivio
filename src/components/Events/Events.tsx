@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import SectionHeading from '../SectionHeading/SectionHeading'
 import styles from './Events.module.css'
 
 export type WeeklyEvent = {
@@ -29,6 +30,7 @@ export type SpecialEvent = {
 }
 
 type EventsProps = {
+  description?: string
   weeklyEvents?: WeeklyEvents
   specialEvents?: SpecialEvent[]
 }
@@ -68,6 +70,7 @@ function getEventDate(dateString: string) {
 }
 
 export default function Events({
+  description,
   weeklyEvents,
   specialEvents = []
 }: EventsProps) {
@@ -91,25 +94,19 @@ export default function Events({
   return (
     <section className={styles.events} id='events'>
       <div className={styles.container}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>What&apos;s On</p>
-
-          <h2 className={styles.heading}>Upcoming Events</h2>
-
-          <div className={styles.divider}>
-            <span className={styles.line}></span>
-            <span
-              className={styles.headingIcon}
-              aria-hidden='true'
-            ></span>
-            <span className={styles.line}></span>
-          </div>
-        </header>
+        <SectionHeading
+          eyebrow={'What\'s On'}
+          heading='Upcoming Events'
+          description='Make room for your weekly favourites and a few special nights worth getting together for'
+          variant='dark'
+          icon='sparkle'
+        />
 
         {weeklyEventList.length > 0 && (
           <div className={styles.weeklySection}>
             <div className={styles.subheadingRow}>
               <p className={styles.sectionEyebrow}>Every Week</p>
+
               <h3 className={styles.subheading}>
                 Weekly at Convivio
               </h3>
@@ -148,6 +145,7 @@ export default function Events({
           <div className={styles.specialSection}>
             <div className={styles.subheadingRow}>
               <p className={styles.sectionEyebrow}>Coming Up</p>
+
               <h3 className={styles.subheading}>
                 Special Events
               </h3>

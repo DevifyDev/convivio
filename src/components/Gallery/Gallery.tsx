@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useRef, useState } from 'react'
 import Button from '../Button/Button'
+import SectionHeading from '../SectionHeading/SectionHeading'
 import styles from './Gallery.module.css'
 
 export type GalleryImage = {
@@ -12,11 +13,13 @@ export type GalleryImage = {
 }
 
 type GalleryProps = {
+  description?: string
   images: GalleryImage[]
   instagramUrl?: string
 }
 
 export default function Gallery({
+  description,
   images,
   instagramUrl
 }: GalleryProps) {
@@ -75,16 +78,14 @@ export default function Gallery({
   return (
     <section className={styles.gallery} id='gallery'>
       <div className={styles.container}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>Inside Convivio</p>
-          <h2 className={styles.heading}>Food, Wine & Good Company</h2>
-
-          <div className={styles.divider}>
-            <span className={styles.line}></span>
-            <span className={styles.icon} aria-hidden='true'></span>
-            <span className={styles.line}></span>
-          </div>
-        </header>
+        <SectionHeading
+          eyebrow='A closer look'
+          heading='Food, Wine & Good Company'
+          description='A look inside Convivio, where good food, thoughtful wine and familiar faces come together'
+          variant='light'
+          icon='sparkle'
+          className={styles.sectionHeading}
+        />
 
         <div
           className={styles.galleryGrid}
@@ -104,7 +105,11 @@ export default function Gallery({
           ))}
         </div>
 
-        <div className={styles.pagination} role='group' aria-label='Gallery navigation'>
+        <div
+          className={styles.pagination}
+          role='group'
+          aria-label='Gallery navigation'
+        >
           {images.map((item, index) => (
             <button
               className={`${styles.dot} ${

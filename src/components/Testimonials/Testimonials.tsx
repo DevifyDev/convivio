@@ -1,3 +1,4 @@
+import SectionHeading from '../SectionHeading/SectionHeading'
 import styles from './Testimonials.module.css'
 
 export type Testimonial = {
@@ -8,10 +9,12 @@ export type Testimonial = {
 }
 
 type TestimonialsProps = {
+  description?: string
   testimonials: Testimonial[]
 }
 
 export default function Testimonials({
+  description,
   testimonials
 }: TestimonialsProps) {
   if (testimonials.length === 0) {
@@ -21,20 +24,13 @@ export default function Testimonials({
   return (
     <section className={styles.testimonials} id='testimonials'>
       <div className={styles.container}>
-        <header className={styles.header}>
-          <p className={styles.eyebrow}>Kind Words</p>
-
-          <h2 className={styles.heading}>What Our Guests Say</h2>
-
-          <div className={styles.divider}>
-            <span className={styles.line}></span>
-            <span
-              className={styles.headingIcon}
-              aria-hidden='true'
-            ></span>
-            <span className={styles.line}></span>
-          </div>
-        </header>
+        <SectionHeading
+          eyebrow='From Our Tables'
+          heading='The Guestbook'
+          description='We could tell you what an evening here is like, but our guests say it better'
+          variant='light'
+          icon='sparkle'
+        />
 
         <div className={styles.reviews}>
           {testimonials.map((testimonial) => (

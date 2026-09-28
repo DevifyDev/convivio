@@ -11,61 +11,6 @@
   margin-inline: auto;
 }
 
-/* HEADER */
-
-.header {
-  text-align: center;
-}
-
-.eyebrow {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  color: var(--primary-gold);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-}
-
-.heading {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  color: var(--light-text);
-  font-size: 2.25rem;
-  font-weight: 300;
-  letter-spacing: -2px;
-}
-
-.divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.line {
-  width: 5rem;
-  height: 1px;
-  background: var(--primary-gold);
-  opacity: 0.35;
-}
-
-.headingIcon {
-  width: 2rem;
-  height: 2rem;
-  flex-shrink: 0;
-  background: var(--primary-gold);
-  mask: url('/icons/sparkle.svg') center / contain no-repeat;
-  -webkit-mask: url('/icons/sparkle.svg') center / contain no-repeat;
-}
-
-:global(html[data-theme='convivio']) .headingIcon {
-  width: 4rem;
-  height: 2rem;
-  mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
-  -webkit-mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
-}
-
 /* SECTION HEADINGS */
 
 .weeklySection {
@@ -296,10 +241,6 @@
     padding-inline: var(--inline-padding);
   }
 
-  .heading {
-    font-size: 2rem;
-  }
-
   .weeklySection {
     margin-top: 4rem;
   }
@@ -388,5 +329,5 @@
 
   .eventImage:empty {
     display: none;
-}
+  }
 }

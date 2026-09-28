@@ -9,6 +9,11 @@
   font-weight: 700;
 }
 
+:global(html[data-theme='convivio']) .itemName {
+  font-family: var(--strong-font), serif;
+  font-weight: 700;
+}
+
 .pricing {
   min-height: 100vh;
   padding: 6rem;
@@ -21,59 +26,6 @@
   width: 100%;
   max-width: var(--page-width);
   margin-inline: auto;
-}
-
-.header {
-  text-align: center;
-}
-
-.eyebrow {
-  margin-top: 0;
-  margin-bottom: 1rem;
-  color: var(--primary-gold);
-  font-size: 0.8rem;
-  font-weight: 400;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-}
-
-.heading {
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  color: var(--light-text);
-  font-size: 2.5rem;
-  font-weight: 200;
-  letter-spacing: -2px;
-}
-
-.divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.line {
-  width: 5rem;
-  height: 1px;
-  background: var(--primary-gold);
-  opacity: 0.35;
-}
-
-.icon {
-  width: 2rem;
-  height: 2rem;
-  background: var(--primary-gold);
-  mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
-  -webkit-mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
-}
-
-:global(html[data-theme='convivio']) .icon {
-  width: 4rem;
-  height: 2rem;
-  flex-shrink: 0;
-  mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
-  -webkit-mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
 }
 
 .categories {
@@ -221,10 +173,6 @@
     padding-inline: var(--inline-padding);
   }
 
-  .heading {
-    font-size: 2.25rem;
-  }
-
   .categories {
     gap: 0.75rem;
     margin-block: 3rem;
@@ -245,7 +193,6 @@
   } */
 
   .itemImage {
-
     width: 3.5rem;
     height: 3.5rem;
   }
