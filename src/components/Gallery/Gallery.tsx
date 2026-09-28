@@ -97,7 +97,7 @@ export default function Gallery({
                 src={item.src}
                 alt={item.alt}
                 fill
-                sizes='(max-width: 499px) 290px, (max-width: 699px) 50vw, (max-width: 1099px) 33vw, 25vw'
+                sizes='(max-width: 499px) 290px, (max-width: 699px) 50vw, 33vw'
                 className={styles.galleryImage}
               />
             </div>
