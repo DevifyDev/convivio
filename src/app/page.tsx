@@ -10,6 +10,7 @@ import Footer from '@/components/Footer/Footer'
 
 import StructuredData from '@/components/StructuredData/StructuredData'
 import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
+import SvgFilter from '@/components/SvgFilter'
 
 import { client } from '@/sanity/lib/client'
 import {
@@ -57,6 +58,8 @@ export default async function Homepage() {
   return (
     <>
       <StructuredData businessDetails={businessDetails} />
+
+      <SvgFilter />
 
       <Header businessDetails={businessDetails} />
 

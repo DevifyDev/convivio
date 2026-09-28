@@ -15,11 +15,32 @@
 }
 
 .pricing {
+  position: relative;
+  z-index: 1;
   min-height: 100vh;
   padding: 6rem;
-  overflow: hidden;
   background: var(--primary-black);
   color: var(--light-text);
+}
+
+.pricing::before,
+.pricing::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background: var(--primary-black);
+  filter: url('#roughen');
+  pointer-events: none;
+}
+
+.pricing::before {
+  top: -12px;
+}
+
+.pricing::after {
+  bottom: -12px;
 }
 
 .container {

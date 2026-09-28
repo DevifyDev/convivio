@@ -1,8 +1,30 @@
 .events {
+  position: relative;
+  z-index: 1;
   padding-block: 6rem;
   padding-inline: 6rem;
   background: var(--dark-background);
   color: var(--light-text);
+}
+
+.events::before,
+.events::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background: var(--dark-background);
+  filter: url('#roughen');
+  pointer-events: none;
+}
+
+.events::before {
+  top: -12px;
+}
+
+.events::after {
+  bottom: -12px;
 }
 
 .container {
