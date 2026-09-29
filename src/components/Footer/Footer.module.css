@@ -1,18 +1,22 @@
 .footer {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem var(--inline-padding);
+  padding: 1.5rem var(--inline-padding, 1.5rem) 2.75rem;
   background: var(--primary-black);
-  color: var(--primary-white);
-}
-
-.copyright {
-  margin: 0;
   color: var(--primary-white);
   font-size: 0.75rem;
   font-weight: 400;
   letter-spacing: 0.04em;
+}
+
+.copyright {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
   text-align: center;
   opacity: 0.65;
 }
@@ -22,7 +26,8 @@
   opacity: 0.5;
 }
 
-.credit a {
+.credit a,
+.studioLink {
   color: inherit;
   text-decoration: none;
   transition: opacity 180ms ease;
@@ -32,17 +37,39 @@
   opacity: 0.65;
 }
 
-.credit a:focus-visible {
+.studioLink {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 0.75rem;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: 1.4;
+  opacity: 0.65;
+}
+
+.studioLink:hover {
+  opacity: 1;
+}
+
+.credit a:focus-visible,
+.studioLink:focus-visible {
   outline: 1px solid var(--primary-gold);
   outline-offset: 3px;
 }
 
 @media (max-width: 500px) {
-  .copyright {
+  .footer {
     font-size: 0.7rem;
   }
 
   .separator {
     margin-inline: 0.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .credit a,
+  .studioLink {
+    transition: none;
   }
 }

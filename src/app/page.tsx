@@ -130,7 +130,7 @@ export default async function Homepage() {
 
       <Footer />
 
-      <ThemeSwitcher />
+      {/* <ThemeSwitcher /> */}
     </>
   )
 }

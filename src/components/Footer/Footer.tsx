@@ -19,6 +19,10 @@ export default function Footer() {
           </a>
         </span>
       </p>
+
+      <a className={styles.studioLink} href='/studio'>
+        Studio
+      </a>
     </footer>
   )
 }
