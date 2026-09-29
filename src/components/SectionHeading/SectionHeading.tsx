@@ -17,21 +17,17 @@ export default function SectionHeading({
   icon = 'sparkle',
   className
 }: SectionHeadingProps) {
-  const descriptionText = description?.trim()
-
   return (
     <header
       className={[styles.header, styles[variant], className]
         .filter(Boolean)
         .join(' ')}
     >
-      <p className={styles.eyebrow}>{eyebrow}</p>
+      <p className={styles.eyebrow}>{eyebrow ?? ''}</p>
 
       <h2 className={styles.heading}>{heading}</h2>
 
-      {descriptionText && (
-        <p className={styles.description}>{descriptionText}</p>
-      )}
+      <p className={styles.description}>{description ?? ''}</p>
 
       <div className={styles.divider} aria-hidden='true'>
         <span className={styles.line}></span>

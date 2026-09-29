@@ -21,16 +21,16 @@ export default function About({ images }: { images?: AboutImages | null }) {
           </h2>
 
           <p className={styles.paragraph}>
-            Convivio is a neighbourhood wine bar built around good wine,
-            generous food and easy company. Warm, relaxed and welcoming,
-            it’s a place to drop in for a quick glass, share a few plates
-            and let the evening unfold.
+            Convivio is a neighbourhood wine bar made for afternoons that turn
+            into evenings. Drop in for a glass from our carefully chosen selection
+            of European and international wines, or settle in with one of our
+            signature dry or dirty Martinis.
           </p>
 
           <p className={styles.paragraph}>
-            Come with friends, discover something new, or settle in with
-            a bottle you already love. There’s no need to rush—the best
-            visits often begin with “just one” and end with “just one more.”
+            Pair your drink with a few small plates, stay for a seasonal dish and
+            enjoy the easy company. With a warm welcome and new specials from the
+            kitchen, there’s always a reason to come back.
           </p>
 
           <Button label='Explore the Menu' href='#menu' variant='ctaLight' />

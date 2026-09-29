@@ -73,10 +73,7 @@ export default function Menu({ categories, description }: MenuProps) {
     <section className={styles.pricing} id='menu'>
       <div className={styles.container}>
         
-        <SectionHeading
-          {...sectionHeadingData.menu}
-          description={description}
-        />
+        <SectionHeading {...sectionHeadingData.menu} />
 
         <nav className={styles.categories} aria-label='Menu categories'>
           {categories.map((category, index) => (

@@ -105,6 +105,27 @@
   white-space: nowrap;
 }
 
+:global(html[data-theme='convivio']) .dayName {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  justify-self: center;
+  padding-bottom: 0.85rem;
+  border-bottom: 0;
+}
+
+:global(html[data-theme='convivio']) .dayName::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  background: var(--primary-gold);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+}
+
 .weeklyContent {
   min-width: 0;
 }
