@@ -1,6 +1,6 @@
 import Header from '@/components/Header/Header'
 import Hero from '@/components/Hero/Hero'
-import About from '@/components/About/About'
+import About, { type AboutImages } from '@/components/About/About'
 import Staff, { type StaffMember } from '@/components/Staff/Staff'
 import Menu, { type MenuCategory } from '@/components/Menu/Menu'
 import Gallery, { type GalleryImage } from '@/components/Gallery/Gallery'
@@ -21,6 +21,7 @@ import SvgFilter from '@/components/SvgFilter'
 
 import { client } from '@/sanity/lib/client'
 import {
+  aboutQuery,
   menuQuery,
   galleryQuery,
   eventsQuery,
@@ -65,31 +66,23 @@ export default async function Homepage() {
     testimonials,
     businessDetails,
     staff,
-    faq
+    faq,
+    about
   ] = await Promise.all([
     client.fetch<MenuData | null>(menuQuery),
     client.fetch<GalleryData | null>(galleryQuery),
     client.fetch<EventsData | null>(eventsQuery),
     client.fetch<TestimonialsData | null>(testimonialsQuery),
     client.fetch<BusinessDetails | null>(businessDetailsQuery),
-
-    client.fetch<StaffData | null>(
-      staffQuery,
-      {},
-      {
-        perspective: 'published',
-        cache: 'no-store'
-      }
-    ),
-
-    client.fetch<FaqData | null>(
-      faqQuery,
-      {},
-      {
-        perspective: 'published',
-        cache: 'no-store'
-      }
-    )
+    client.fetch<StaffData | null>(staffQuery, {}, {
+      perspective: 'published',
+      cache: 'no-store'
+    }),
+    client.fetch<FaqData | null>(faqQuery, {}, {
+      perspective: 'published',
+      cache: 'no-store'
+    }),
+    client.fetch<AboutImages | null>(aboutQuery)
   ])
 
   return (
@@ -103,7 +96,7 @@ export default async function Homepage() {
       <main>
         <Hero bookingUrl={businessDetails?.bookingUrl} />
 
-        <About />
+        <About images={about} />
 
         <Staff staff={staff?.members ?? []} />
 
@@ -130,7 +123,7 @@ export default async function Homepage() {
 
       <Footer />
 
-      {/* <ThemeSwitcher /> */}
+      <ThemeSwitcher />
     </>
   )
 }

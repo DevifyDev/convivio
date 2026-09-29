@@ -5,6 +5,7 @@ import { testimonialsType } from './documents/testimonialsType'
 import { businessDetailsType } from './documents/businessDetailsType'
 import { staffType } from './documents/staffType'
 import { faqType } from './documents/faqType'
+import { aboutType } from './documents/aboutType'
 
 import { menuCategoryType } from './objects/menuCategoryType'
 import { menuItemType } from './objects/menuItemType'
@@ -25,6 +26,7 @@ export const schema = {
     businessDetailsType,
     staffType,
     faqType,
+    aboutType,
 
     menuCategoryType,
     menuItemType,

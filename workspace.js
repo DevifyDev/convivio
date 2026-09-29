@@ -25,8 +25,8 @@ const files = [
   // './src/components/Faq/Faq.tsx',
   // './src/components/Faq/Faq.module.css',
 
-  './src/components/Footer/Footer.tsx',
-  './src/components/Footer/Footer.module.css',
+  // './src/components/Footer/Footer.tsx',
+  // './src/components/Footer/Footer.module.css',
 
   // './src/components/Gallery/Gallery.tsx',
   // './src/components/Gallery/Gallery.module.css',

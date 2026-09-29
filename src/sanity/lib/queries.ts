@@ -128,3 +128,12 @@ export const faqQuery = `
     }, [])
   }
 `
+
+export const aboutQuery = `
+  *[_id == 'about'][0] {
+    'imageOne': imageOne.asset->url,
+    imageOneAlt,
+    'imageTwo': imageTwo.asset->url,
+    imageTwoAlt
+  }
+`

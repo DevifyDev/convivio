@@ -5,7 +5,8 @@ export const singletonDocuments = [
   { type: 'testimonials', title: 'Testimonials' },
   { type: 'staff', title: 'Staff' },
   { type: 'faq', title: 'FAQ' },
-  { type: 'businessDetails', title: 'Business Details' }
+  { type: 'businessDetails', title: 'Business Details' },
+  { type: 'about', title: 'About' },
 ]
 
 export const singletonTypes = new Set(

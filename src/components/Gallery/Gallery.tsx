@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useRef, useState } from 'react'
+import { useRef, useState, type CSSProperties } from 'react'
 import Button from '../Button/Button'
 import SectionHeading from '../SectionHeading/SectionHeading'
 import styles from './Gallery.module.css'
@@ -19,27 +19,53 @@ type GalleryProps = {
 }
 
 export default function Gallery({
-  description,
+  description = 'A look inside Convivio, where good food, thoughtful wine and familiar faces come together',
   images,
   instagramUrl
 }: GalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null)
   const [activeSlide, setActiveSlide] = useState(0)
 
+  const visibleImages = images.slice(0, 12)
+  const columnCount = Math.min(
+    3,
+    Math.ceil(visibleImages.length / 2)
+  )
+
+  const columns = Array.from(
+    { length: columnCount },
+    (_, columnIndex) =>
+      visibleImages
+        .map((item, index) => ({ ...item, index }))
+        .filter(
+          ({ index }) =>
+            Math.floor(index / 2) % columnCount === columnIndex
+        )
+  )
+
   function scrollToSlide(index: number) {
     const gallery = galleryRef.current
 
     if (!gallery) return
 
-    const items = Array.from(gallery.children) as HTMLElement[]
-    const firstItem = items[0]
-    const selectedItem = items[index]
+    const selected = gallery.querySelector<HTMLElement>(
+      `[data-gallery-index='${index}']`
+    )
 
-    if (!firstItem || !selectedItem) return
+    if (!selected) return
+
+    const left =
+      selected.getBoundingClientRect().left -
+      gallery.getBoundingClientRect().left +
+      gallery.scrollLeft
 
     gallery.scrollTo({
-      left: selectedItem.offsetLeft - firstItem.offsetLeft,
-      behavior: 'smooth'
+      left,
+      behavior: window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches
+        ? 'instant'
+        : 'smooth'
     })
 
     setActiveSlide(index)
@@ -48,32 +74,31 @@ export default function Gallery({
   function updateActiveSlide() {
     const gallery = galleryRef.current
 
-    if (!gallery) return
-
-    const items = Array.from(gallery.children) as HTMLElement[]
-    const firstItem = items[0]
-
-    if (!firstItem) return
+    if (!gallery || gallery.scrollWidth <= gallery.clientWidth) {
+      return
+    }
 
     let closestIndex = 0
     let closestDistance = Infinity
+    const left = gallery.getBoundingClientRect().left
 
-    items.forEach((item, index) => {
-      const itemPosition = item.offsetLeft - firstItem.offsetLeft
-      const distance = Math.abs(gallery.scrollLeft - itemPosition)
+    gallery
+      .querySelectorAll<HTMLElement>('[data-gallery-index]')
+      .forEach((item) => {
+        const distance = Math.abs(
+          item.getBoundingClientRect().left - left
+        )
 
-      if (distance < closestDistance) {
-        closestIndex = index
-        closestDistance = distance
-      }
-    })
+        if (distance < closestDistance) {
+          closestDistance = distance
+          closestIndex = Number(item.dataset.galleryIndex)
+        }
+      })
 
     setActiveSlide(closestIndex)
   }
 
-  if (images.length === 0) {
-    return null
-  }
+  if (visibleImages.length === 0) return null
 
   return (
     <section className={styles.gallery} id='gallery'>
@@ -81,7 +106,7 @@ export default function Gallery({
         <SectionHeading
           eyebrow='A closer look'
           heading='Food, Wine & Good Company'
-          description='A look inside Convivio, where good food, thoughtful wine and familiar faces come together'
+          description={description}
           variant='light'
           icon='sparkle'
           className={styles.sectionHeading}
@@ -89,18 +114,44 @@ export default function Gallery({
 
         <div
           className={styles.galleryGrid}
+          style={
+            { '--gallery-columns': columnCount } as CSSProperties
+          }
           ref={galleryRef}
           onScroll={updateActiveSlide}
         >
-          {images.map((item) => (
-            <div className={styles.imageFrame} key={item._key}>
-              <Image
-                src={item.src}
-                alt={item.alt}
-                fill
-                sizes='(max-width: 499px) 290px, (max-width: 699px) 50vw, 33vw'
-                className={styles.galleryImage}
-              />
+          {columns.map((column, columnIndex) => (
+            <div
+              className={styles.galleryColumn}
+              key={columnIndex}
+            >
+              {column.map((item, rowIndex) => {
+                const isTall =
+                  (columnIndex + rowIndex) % 2 === 1
+
+                return (
+                  <div
+                    className={`${styles.imageFrame} ${
+                      isTall ? styles.tall : styles.short
+                    }`}
+                    style={{ order: item.index }}
+                    data-gallery-index={item.index}
+                    key={item._key}
+                  >
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      fill
+                      sizes={
+                        columnCount === 3
+                          ? '(max-width: 499px) 290px, (max-width: 800px) 33vw, 352px'
+                          : '(max-width: 499px) 290px, (max-width: 800px) 50vw, 352px'
+                      }
+                      className={styles.galleryImage}
+                    />
+                  </div>
+                )
+              })}
             </div>
           ))}
         </div>
@@ -110,13 +161,18 @@ export default function Gallery({
           role='group'
           aria-label='Gallery navigation'
         >
-          {images.map((item, index) => (
+          {visibleImages.map((item, index) => (
             <button
               className={`${styles.dot} ${
-                activeSlide === index ? styles.activeDot : ''
+                Math.min(activeSlide, visibleImages.length - 1) === index
+                  ? styles.activeDot
+                  : ''
               }`}
               type='button'
               aria-label={`View image ${index + 1}`}
+              aria-pressed={
+                Math.min(activeSlide, visibleImages.length - 1) === index
+              }
               onClick={() => scrollToSlide(index)}
               key={item._key}
             ></button>
