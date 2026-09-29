@@ -13,22 +13,22 @@ const files = [
   // './src/app/page.tsx',
   // './src/app/page.module.css',
 
-  // './src/components/About/About.tsx',
+  './src/components/About/About.tsx',
   // './src/components/About/About.module.css',
 
   // './src/components/Button/Button.tsx',
   // './src/components/Button/Button.module.css',
 
-  // './src/components/Events/Events.tsx',
+  './src/components/Events/Events.tsx',
   // './src/components/Events/Events.module.css',
 
-  // './src/components/Faq/Faq.tsx',
+  './src/components/Faq/Faq.tsx',
   // './src/components/Faq/Faq.module.css',
 
   // './src/components/Footer/Footer.tsx',
   // './src/components/Footer/Footer.module.css',
 
-  // './src/components/Gallery/Gallery.tsx',
+  './src/components/Gallery/Gallery.tsx',
   // './src/components/Gallery/Gallery.module.css',
 
   // './src/components/Header/Header.tsx',
@@ -37,16 +37,16 @@ const files = [
   // './src/components/Hero/Hero.tsx',
   // './src/components/Hero/Hero.module.css',
 
-  // './src/components/Location/Location.tsx',
+  './src/components/Location/Location.tsx',
   // './src/components/Location/Location.module.css',
 
-  // './src/components/Menu/Menu.tsx',
+  './src/components/Menu/Menu.tsx',
   // './src/components/Menu/Menu.module.css',
 
-  // './src/components/SectionHeading/SectionHeading.tsx',
+  './src/components/SectionHeading/SectionHeading.tsx',
   // './src/components/SectionHeading/SectionHeading.module.css',
 
-  // './src/components/Staff/Staff.tsx',
+  './src/components/Staff/Staff.tsx',
   // './src/components/Staff/Staff.module.css',
 
   // './src/components/StructuredData/StructuredData.tsx',
@@ -54,7 +54,7 @@ const files = [
 
  // './src/components/SvgFilter.tsx',
 
-  // './src/components/Testimonials/Testimonials.tsx',
+  './src/components/Testimonials/Testimonials.tsx',
   // './src/components/Testimonials/Testimonials.module.css',
 
   // './src/components/ThemeSwitcher/ThemeSwitcher.tsx',

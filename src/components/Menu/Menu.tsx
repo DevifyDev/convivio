@@ -2,6 +2,7 @@
 
 import { Fragment, useState } from 'react'
 import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
 import styles from './Menu.module.css'
 
 export type MenuItem = {
@@ -71,12 +72,10 @@ export default function Menu({ categories, description }: MenuProps) {
   return (
     <section className={styles.pricing} id='menu'>
       <div className={styles.container}>
+        
         <SectionHeading
-          eyebrow='Food & Wine'
-          heading='The Convivio Menu'
+          {...sectionHeadingData.menu}
           description={description}
-          variant='dark'
-          icon='wine'
         />
 
         <nav className={styles.categories} aria-label='Menu categories'>

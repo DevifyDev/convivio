@@ -1,4 +1,5 @@
 import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
 import styles from './Testimonials.module.css'
 
 export type Testimonial = {
@@ -24,13 +25,8 @@ export default function Testimonials({
   return (
     <section className={styles.testimonials} id='testimonials'>
       <div className={styles.container}>
-        <SectionHeading
-          eyebrow='From Our Tables'
-          heading='The Guestbook'
-          description='We could tell you what an evening here is like, but our guests say it better'
-          variant='light'
-          icon='sparkle'
-        />
+        
+        <SectionHeading {...sectionHeadingData.testimonials} />
 
         <div className={styles.reviews}>
           {testimonials.map((testimonial) => (

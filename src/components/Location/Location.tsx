@@ -4,6 +4,7 @@ import type {
 } from '@/types/businessDetails'
 
 import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
 import styles from './Location.module.css'
 
 type LocationProps = {
@@ -60,13 +61,8 @@ export default function Location({
   return (
     <section className={styles.location} id='location'>
       <div className={styles.container}>
-        <SectionHeading
-          eyebrow='Your Next Stop'
-          heading='How To Find Us'
-          description='Join us for a warm welcome, great food and a glass with your name on it'
-          variant='light'
-          icon='location'
-        />
+        
+        <SectionHeading {...sectionHeadingData.location} />
 
         <div className={styles.content}>
           <article className={styles.contactCard}>

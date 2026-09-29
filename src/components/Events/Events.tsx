@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
 import styles from './Events.module.css'
 
 export type WeeklyEvent = {
@@ -94,13 +95,8 @@ export default function Events({
   return (
     <section className={styles.events} id='events'>
       <div className={styles.container}>
-        <SectionHeading
-          eyebrow={'What\'s On'}
-          heading='Upcoming Events'
-          description='Make room for your weekly favourites and a few special nights worth getting together for'
-          variant='dark'
-          icon='sparkle'
-        />
+        
+        <SectionHeading {...sectionHeadingData.events} />
 
         {weeklyEventList.length > 0 && (
           <div className={styles.weeklySection}>

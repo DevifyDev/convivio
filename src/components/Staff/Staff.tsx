@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
 import styles from './Staff.module.css'
 
 export type StaffMember = {
@@ -69,13 +70,8 @@ export default function Staff({ staff }: StaffProps) {
   return (
     <section className={styles.staff} id='staff'>
       <div className={styles.container}>
-        <SectionHeading
-          eyebrow='Meet The Staff'
-          heading='The People Behind Convivio'
-          description='A little about the people who make every visit feel special.'
-          variant='light'
-          icon='sparkle'
-        />
+        
+        <SectionHeading {...sectionHeadingData.staff} />
 
         <div className={styles.staffList} ref={staffRef}>
           {members.map((member) => (

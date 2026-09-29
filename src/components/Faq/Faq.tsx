@@ -1,4 +1,5 @@
 import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
 import styles from './Faq.module.css'
 
 export type FaqItem = {
@@ -17,13 +18,8 @@ export default function Faq({ items = [] }: FaqProps) {
   return (
     <section className={styles.faq} id='faq'>
       <div className={styles.container}>
-        <SectionHeading
-          eyebrow='Before You Visit'
-          heading='Good To Know'
-          description='A few answers to help you plan your time with us.'
-          variant='dark'
-          icon='sparkle'
-        />
+        
+        <SectionHeading {...sectionHeadingData.faq} />
 
         <div className={styles.questions}>
           {items.map((item) => (

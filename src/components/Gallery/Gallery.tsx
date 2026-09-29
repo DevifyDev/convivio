@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRef, useState, type CSSProperties } from 'react'
 import Button from '../Button/Button'
 import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '../../data/sectionHeadingData'
 import styles from './Gallery.module.css'
 
 export type GalleryImage = {
@@ -103,12 +104,10 @@ export default function Gallery({
   return (
     <section className={styles.gallery} id='gallery'>
       <div className={styles.container}>
+        
         <SectionHeading
-          eyebrow='A closer look'
-          heading='Food, Wine & Good Company'
-          description={description}
-          variant='light'
-          icon='sparkle'
+          {...sectionHeadingData.gallery}
+          description={description ?? sectionHeadingData.gallery.description}
           className={styles.sectionHeading}
         />
 
