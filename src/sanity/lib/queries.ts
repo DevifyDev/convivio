@@ -75,6 +75,7 @@ export const eventsQuery = `
     }
   }
 `
+
 export const testimonialsQuery = `
   *[_id == 'testimonials'][0] {
     reviews[] {
@@ -103,5 +104,27 @@ export const businessDetailsQuery = `
     giftCardUrl,
     instagramUrl,
     facebookUrl
+  }
+`
+
+export const staffQuery = `
+  *[_type == 'staff' && _id == 'staff'][0] {
+    'members': coalesce(members[] {
+      _key,
+      name,
+      'role': coalesce(role, ''),
+      description,
+      'image': coalesce(image.asset->url, '')
+    }, [])
+  }
+`
+
+export const faqQuery = `
+  *[_type == 'faq' && _id == 'faq'][0] {
+    'items': coalesce(items[] {
+      _key,
+      question,
+      answer
+    }, [])
   }
 `

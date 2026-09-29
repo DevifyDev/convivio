@@ -1,16 +1,20 @@
-import { eventsType } from './documents/eventsType'
-import { galleryType } from './documents/galleryType'
 import { menuType } from './documents/menuType'
+import { galleryType } from './documents/galleryType'
+import { eventsType } from './documents/eventsType'
 import { testimonialsType } from './documents/testimonialsType'
 import { businessDetailsType } from './documents/businessDetailsType'
+import { staffType } from './documents/staffType'
+import { faqType } from './documents/faqType'
 
-import { galleryImageType } from './objects/galleryImageType'
 import { menuCategoryType } from './objects/menuCategoryType'
 import { menuItemType } from './objects/menuItemType'
-import { specialEventType } from './objects/specialEventType'
+import { galleryImageType } from './objects/galleryImageType'
 import { weeklyEventType } from './objects/weeklyEventType'
+import { specialEventType } from './objects/specialEventType'
 import { testimonialType } from './objects/testimonialType'
 import { openingHoursType } from './objects/openingHoursType'
+import { staffMemberType } from './objects/staffMemberType'
+import { faqItemType } from './objects/faqItemType'
 
 export const schema = {
   types: [
@@ -19,6 +23,8 @@ export const schema = {
     eventsType,
     testimonialsType,
     businessDetailsType,
+    staffType,
+    faqType,
 
     menuCategoryType,
     menuItemType,
@@ -26,6 +32,8 @@ export const schema = {
     weeklyEventType,
     specialEventType,
     testimonialType,
-    openingHoursType
+    openingHoursType,
+    staffMemberType,
+    faqItemType
   ]
 }

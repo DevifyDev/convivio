@@ -7,26 +7,24 @@ import { structureTool } from 'sanity/structure'
 import { apiVersion, dataset, projectId } from './src/sanity/env'
 import { schema } from './src/sanity/schemaTypes'
 import { structure } from './src/sanity/structure'
-
-const singletonTypes = new Set([
-  'menu',
-  'gallery',
-  'events',
-  'testimonials',
-  'businessDetails',
-])
-
-const singletonActions = new Set([
-  'publish',
-  'discardChanges',
-  'restore'
-])
+import {
+  singletonActions,
+  singletonTypes
+} from './src/sanity/singletons'
 
 export default defineConfig({
   basePath: '/studio',
   projectId,
   dataset,
-  schema,
+
+  schema: {
+    ...schema,
+
+    templates: (templates) =>
+      templates.filter(
+        ({ schemaType }) => !singletonTypes.has(schemaType)
+      )
+  },
 
   document: {
     newDocumentOptions: (prev) =>
@@ -37,8 +35,7 @@ export default defineConfig({
     actions: (prev, context) =>
       singletonTypes.has(context.schemaType)
         ? prev.filter(
-            ({ action }) =>
-              action && singletonActions.has(action)
+            ({ action }) => action && singletonActions.has(action)
           )
         : prev
   },
