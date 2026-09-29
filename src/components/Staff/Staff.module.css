@@ -1,0 +1,214 @@
+.staff {
+  padding: 6rem;
+  background: var(--light-background);
+  color: var(--dark-text);
+}
+
+.staff,
+.staff * {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+.staffList {
+  display: grid;
+  gap: 6rem;
+  width: 100%;
+  max-width: 60rem;
+  margin: 4rem auto 0;
+}
+
+.staffMember {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.portraitSlot {
+  width: 100%;
+  max-width: 20rem;
+  aspect-ratio: 4 / 5;
+  justify-self: start;
+}
+
+.staffMember:nth-child(even) .portraitSlot {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.staffMember:nth-child(even) .biography {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.portrait {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-blue, #28334c);
+  overflow: hidden;
+}
+
+.portraitInner {
+  position: absolute;
+  inset: 1rem;
+  background: #fff;
+  overflow: hidden;
+}
+
+.portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.45);
+  pointer-events: none;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.biography {
+  min-width: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.identity {
+  margin-bottom: 1.5rem;
+}
+
+.name {
+  margin: 0;
+  color: var(--primary-blue, #28334c);
+  font-family: var(--display-font, var(--heading-font, serif));
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.role {
+  margin: 0.9rem 0 0;
+  color: var(--primary-gold);
+  font-family: var(--body-copy-font, serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.rule {
+  display: block;
+  width: 4rem;
+  height: 1px;
+  background: var(--primary-gold);
+}
+
+:global(html[data-theme='convivio']) .rule {
+  width: 6rem;
+  height: 8px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+}
+
+.description {
+  margin: 1.5rem 0 0;
+  color: var(--dark-text, #28334c);
+  font-family: var(--body-copy-font, serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.8;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .staffMember.animate .portrait {
+    opacity: 0;
+    transform: translateX(-2rem) rotate(-360deg) scale(0.9);
+    transition:
+      transform 2860ms cubic-bezier(0.2, 0.65, 0.25, 1),
+      opacity 600ms ease;
+  }
+
+  .staffMember:nth-child(even).animate .portrait {
+    transform: translateX(2rem) rotate(360deg) scale(0.9);
+  }
+
+  .staffMember.animate .biography {
+    opacity: 0;
+    transform: translateX(-2rem);
+    transition:
+      transform 1300ms ease 200ms,
+      opacity 900ms ease 200ms;
+  }
+
+  .staffMember:nth-child(even).animate .biography {
+    transform: translateX(2rem);
+  }
+
+  .staffMember.animate.visible .portrait,
+  .staffMember.animate.visible .biography {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .staff {
+    padding: 4rem var(--inline-padding, 1.5rem);
+  }
+
+  .staffList {
+    gap: 4rem;
+    margin-top: 3rem;
+  }
+
+  .staffMember {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 2rem;
+  }
+
+  .portraitSlot,
+  .staffMember:nth-child(even) .portraitSlot {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    width: min(100%, clamp(15rem, 40vw, 17.5rem));
+  }
+
+  .biography,
+  .staffMember:nth-child(even) .biography {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .identity {
+    max-width: 20rem;
+    margin-inline: auto;
+  }
+
+  .rule {
+    margin-inline: auto;
+  }
+
+  .description {
+    width: 50vw;
+    max-width: 100%;
+    margin-inline: auto;
+    font-size: 1rem;
+  }
+}

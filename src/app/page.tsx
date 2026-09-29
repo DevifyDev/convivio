@@ -1,10 +1,14 @@
 import Header from '@/components/Header/Header'
 import Hero from '@/components/Hero/Hero'
 import About from '@/components/About/About'
+import Staff, { type StaffMember } from '@/components/Staff/Staff'
+import { staffMembers } from '@/data/staffData'
 import Menu, { type MenuCategory } from '@/components/Menu/Menu'
 import Gallery, { type GalleryImage } from '@/components/Gallery/Gallery'
 import Events, { type WeeklyEvents, type SpecialEvent } from '@/components/Events/Events'
 import Testimonials, { type Testimonial } from '@/components/Testimonials/Testimonials'
+import Faq from '@/components/Faq/Faq'
+import { faqItems } from '@/data/faqData'
 import Location from '@/components/Location/Location'
 import Footer from '@/components/Footer/Footer'
 
@@ -66,6 +70,7 @@ export default async function Homepage() {
       <main>
         <Hero bookingUrl={businessDetails?.bookingUrl} />
         <About />
+        <Staff staff={staffMembers} />
         <Menu categories={menu?.categories ?? []} />
         <Gallery
           images={gallery?.images ?? []}
@@ -78,6 +83,7 @@ export default async function Homepage() {
         <Testimonials
           testimonials={testimonials?.reviews ?? []}
         />
+        <Faq items={faqItems} />
         <Location businessDetails={businessDetails} />
       </main>
 
