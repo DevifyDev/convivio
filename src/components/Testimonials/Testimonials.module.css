@@ -116,7 +116,7 @@
   z-index: 0;
   inset: 0;
   background: rgba(40, 51, 76, 0.18);
-  filter: url('#roughen');
+  filter: url('#roughen-reviews');
   pointer-events: none;
 }
 

@@ -82,6 +82,7 @@ export const testimonialsQuery = `
       _key,
       quote,
       name,
+      rating,
       source
     }
   }

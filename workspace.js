@@ -19,8 +19,8 @@ const files = [
   // './src/components/Button/Button.tsx',
   // './src/components/Button/Button.module.css',
 
-  './src/components/Events/Events.tsx',
-  './src/components/Events/Events.module.css',
+  // './src/components/Events/Events.tsx',
+  // './src/components/Events/Events.module.css',
 
   // './src/components/Faq/Faq.tsx',
   // './src/components/Faq/Faq.module.css',
@@ -40,8 +40,8 @@ const files = [
   // './src/components/Location/Location.tsx',
   // './src/components/Location/Location.module.css',
 
-  './src/components/Menu/Menu.tsx',
-  './src/components/Menu/Menu.module.css',
+  // './src/components/Menu/Menu.tsx',
+  // './src/components/Menu/Menu.module.css',
 
   // './src/components/SectionHeading/SectionHeading.tsx',
   // './src/components/SectionHeading/SectionHeading.module.css',
