@@ -22,10 +22,8 @@ export const sectionHeadingData = {
     icon: 'sparkle'
   },
   testimonials: {
-    eyebrow: 'From Our Tables',
+    eyebrow: '',
     heading: 'The Guestbook',
-    description:
-      'We could tell you what an evening here is like, but our guests say it better',
     variant: 'light',
     icon: 'sparkle'
   },
@@ -37,14 +35,14 @@ export const sectionHeadingData = {
     icon: 'sparkle'
   },
   faq: {
-    eyebrow: 'Before You Visit',
-    heading: 'Good To Know',
+    eyebrow: '',
+    heading: 'Before You Visit',
     description: 'A few answers to help you plan your time with us',
     variant: 'dark',
     icon: 'sparkle'
   },
   location: {
-    eyebrow: 'Your Next Stop',
+    eyebrow: '',
     heading: 'How To Find Us',
     description:
       'Join us for a warm welcome, great food and a glass with your name on it',
