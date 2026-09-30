@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import Button from '../Button/Button'
 import SectionHeading from '../SectionHeading/SectionHeading'
 import { sectionHeadingData } from '../../data/sectionHeadingData'
@@ -26,22 +26,37 @@ export default function Gallery({
 }: GalleryProps) {
   const galleryRef = useRef<HTMLDivElement>(null)
   const [activeSlide, setActiveSlide] = useState(0)
+  const [isCompact, setIsCompact] = useState(false)
 
   const visibleImages = images.slice(0, 12)
   const columnCount = Math.min(
-    3,
-    Math.ceil(visibleImages.length / 2)
+    isCompact ? 2 : 4,
+    visibleImages.length
   )
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 1000px)')
+    const updateLayout = () => setIsCompact(mediaQuery.matches)
+
+    updateLayout()
+    mediaQuery.addEventListener('change', updateLayout)
+
+    return () => {
+      mediaQuery.removeEventListener('change', updateLayout)
+    }
+  }, [])
+
+  const indexedImages = visibleImages.map((item, index) => ({
+    ...item,
+    index
+  }))
 
   const columns = Array.from(
     { length: columnCount },
     (_, columnIndex) =>
-      visibleImages
-        .map((item, index) => ({ ...item, index }))
-        .filter(
-          ({ index }) =>
-            Math.floor(index / 2) % columnCount === columnIndex
-        )
+      indexedImages.filter(
+        ({ index }) => index % columnCount === columnIndex
+      )
   )
 
   function scrollToSlide(index: number) {
@@ -104,7 +119,6 @@ export default function Gallery({
   return (
     <section className={styles.gallery} id='gallery'>
       <div className={styles.container}>
-        
         <SectionHeading
           {...sectionHeadingData.gallery}
           description={description ?? sectionHeadingData.gallery.description}
@@ -141,11 +155,7 @@ export default function Gallery({
                       src={item.src}
                       alt={item.alt}
                       fill
-                      sizes={
-                        columnCount === 3
-                          ? '(max-width: 499px) 290px, (max-width: 800px) 33vw, 352px'
-                          : '(max-width: 499px) 290px, (max-width: 800px) 50vw, 352px'
-                      }
+                      sizes='(max-width: 499px) 270px, (max-width: 1000px) 320px, (max-width: 1200px) 22vw, 17rem'
                       className={styles.galleryImage}
                     />
                   </div>

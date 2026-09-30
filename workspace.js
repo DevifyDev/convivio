@@ -22,14 +22,14 @@ const files = [
   // './src/components/Events/Events.tsx',
   // './src/components/Events/Events.module.css',
 
-  './src/components/Faq/Faq.tsx',
-  './src/components/Faq/Faq.module.css',
+  // './src/components/Faq/Faq.tsx',
+  // './src/components/Faq/Faq.module.css',
 
   // './src/components/Footer/Footer.tsx',
   // './src/components/Footer/Footer.module.css',
 
-  // './src/components/Gallery/Gallery.tsx',
-  // './src/components/Gallery/Gallery.module.css',
+  './src/components/Gallery/Gallery.tsx',
+  './src/components/Gallery/Gallery.module.css',
 
   // './src/components/Header/Header.tsx',
   // './src/components/Header/Header.module.css',

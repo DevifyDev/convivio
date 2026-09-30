@@ -82,7 +82,7 @@
 }
 
 .categoryButton:focus-visible {
-  outline: 2px solid var(--primary-gold);
+  outline: 2px solid var(--accent-on-dark);
   outline-offset: 4px;
 }
 
@@ -173,7 +173,7 @@
 }
 
 .price {
-  color: var(--primary-gold);
+  color: var(--accent-on-dark);
   font-family: var(--heading-font), serif;
   font-size: 1.15rem;
 }

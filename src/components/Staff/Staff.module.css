@@ -89,7 +89,7 @@
   margin: 0;
   color: var(--primary-blue, #28334c);
   font-family: var(--display-font, var(--heading-font, serif));
-  font-size: clamp(2rem, 3.2vw, 3rem);
+   font-size: clamp(1.6rem, 2.7vw, 2.2rem);
   font-weight: 400;
   line-height: 1.2;
   overflow-wrap: anywhere;
@@ -204,6 +204,10 @@
     text-align: center;
   }
 
+  .name {
+    font-size: clamp(1.5rem, 4vw, 1.7rem);
+  }
+
   .identity {
     max-width: 20rem;
     margin-inline: auto;
@@ -214,7 +218,7 @@
   }
 
   .description {
-    width: 50vw;
+    width: 70vw;
     max-width: 100%;
     margin-inline: auto;
     font-size: 1rem;

@@ -19,7 +19,7 @@
   gap: 1rem;
   width: 100%;
   max-width: calc(
-    var(--gallery-columns) * 22rem +
+    var(--gallery-columns) * 17rem +
     (var(--gallery-columns) - 1) * 1rem
   );
   margin: 4rem auto 0;
@@ -62,6 +62,16 @@
   margin-top: 4rem;
 }
 
+@media (max-width: 1000px) {
+  .gallery {
+    padding-inline: clamp(2rem, 6vw, 4rem);
+  }
+
+  .galleryGrid {
+    max-width: 41rem;
+  }
+}
+
 @media (max-width: 800px) {
   .gallery {
     padding: 4rem var(--inline-padding, 1.5rem);
@@ -69,6 +79,12 @@
 
   .galleryGrid {
     margin-top: 3rem;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 1000px) {
+  .galleryGrid {
+    max-width: 34rem;
   }
 }
 
@@ -83,7 +99,7 @@
 
   .galleryGrid {
     display: flex;
-    width: min(290px, calc(100% - 2rem));
+    width: min(270px, calc(100% - 2rem));
     max-width: none;
     gap: 0;
     overflow-x: auto;
@@ -116,11 +132,6 @@
     margin-top: 2rem;
   }
 
-  .ctaContainer {
-    margin-top: 2.5rem;
-    padding-inline: 1rem;
-  }
-
   .dot {
     width: 0.75rem;
     height: 0.75rem;
@@ -138,6 +149,25 @@
   .dot:focus-visible {
     outline: 2px solid var(--primary-gold);
     outline-offset: 3px;
+  }
+
+  :global(html[data-theme='convivio']) .dot {
+    border-color: var(--accent-on-light-primary);
+    opacity: 0.55;
+  }
+
+  :global(html[data-theme='convivio']) .activeDot {
+    background: var(--accent-on-light-primary);
+    opacity: 1;
+  }
+
+  :global(html[data-theme='convivio']) .dot:focus-visible {
+    outline-color: var(--accent-on-light-primary);
+  }
+
+  .ctaContainer {
+    margin-top: 2.5rem;
+    padding-inline: 1rem;
   }
 }
 
