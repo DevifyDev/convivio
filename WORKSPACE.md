@@ -1,3 +1,56 @@
+# Workspace Export
+Generated: 2026-09-30T01:10:27.357Z
+
+## ./src/components/Faq/Faq.tsx
+```tsx
+import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
+import styles from './Faq.module.css'
+
+export type FaqItem = {
+  _key: string
+  question: string
+  answer: string
+}
+
+type FaqProps = {
+  items?: FaqItem[]
+}
+
+export default function Faq({ items = [] }: FaqProps) {
+  if (items.length === 0) return null
+
+  return (
+    <section className={styles.faq} id='faq'>
+      <div className={styles.container}>
+        
+        <SectionHeading {...sectionHeadingData.faq} />
+
+        <div className={styles.questions}>
+          {items.map((item) => (
+            <details className={styles.item} key={item._key}>
+              <summary className={styles.question}>
+                <span className={styles.questionText}>
+                  {item.question}
+                </span>
+                <span
+                  className={styles.toggle}
+                  aria-hidden='true'
+                ></span>
+              </summary>
+
+              <p className={styles.answer}>{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+```
+
+## ./src/components/Faq/Faq.module.css
+```css
 .faq {
   position: relative;
   z-index: 1;
@@ -27,17 +80,21 @@
 .question {
   position: relative;
   display: grid;
-  width: 100%;
   grid-template-columns: minmax(0, 1fr) 1.5rem;
   align-items: center;
   gap: 1.25rem;
   padding-block: 1.75rem;
-  border: 0;
-  background: transparent;
   color: var(--light-text);
-  font: inherit;
-  text-align: left;
   cursor: pointer;
+  list-style: none;
+}
+
+.question::-webkit-details-marker {
+  display: none;
+}
+
+.question::marker {
+  content: '';
 }
 
 .questionText {
@@ -72,33 +129,13 @@
   transition: transform 180ms ease;
 }
 
-.item[data-open='true'] .toggle::after {
+.item[open] .toggle::after {
   transform: translate(-50%, -50%) rotate(0);
 }
 
 .question:focus-visible {
   outline: 2px solid var(--primary-gold);
   outline-offset: 4px;
-}
-
-.answerPanel {
-  display: grid;
-  grid-template-rows: 0fr;
-  overflow: hidden;
-  opacity: 0;
-  transition:
-    grid-template-rows 480ms ease,
-    opacity 360ms ease;
-}
-
-.item[data-open='true'] .answerPanel {
-  grid-template-rows: 1fr;
-  opacity: 1;
-}
-
-.answerInner {
-  min-height: 0;
-  overflow: hidden;
 }
 
 .answer {
@@ -197,8 +234,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .toggle::after,
-  .answerPanel {
+  .toggle::after {
     transition: none;
   }
 }
+```
