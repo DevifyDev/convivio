@@ -95,7 +95,6 @@ export default function Events({
   return (
     <section className={styles.events} id='events'>
       <div className={styles.container}>
-        
         <SectionHeading {...sectionHeadingData.events} />
 
         {weeklyEventList.length > 0 && (
@@ -149,9 +148,7 @@ export default function Events({
 
             <div className={styles.specialEvents}>
               {specialEvents.map((event) => {
-                const { day, month, weekday } = getEventDate(
-                  event.date
-                )
+                const { day, month } = getEventDate(event.date)
 
                 return (
                   <article
@@ -184,14 +181,15 @@ export default function Events({
                     </div>
 
                     <div className={styles.eventContent}>
-                      <p className={styles.eventMeta}>
-                        {weekday}
-                        {event.time && ` · ${event.time}`}
-                      </p>
-
                       <h4 className={styles.eventTitle}>
                         {event.title}
                       </h4>
+
+                      {event.time && (
+                        <p className={styles.weeklyTime}>
+                          {event.time}
+                        </p>
+                      )}
 
                       <p className={styles.eventDescription}>
                         {event.description}
