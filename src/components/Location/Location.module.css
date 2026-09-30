@@ -1,8 +1,3 @@
-:global(html[data-theme='convivio']) .value {
-  font-family: var(--body-copy-font), serif;
-  font-weight: 400;
-}
-
 .location {
   min-height: 100vh;
   padding-block: 6rem;
@@ -24,7 +19,6 @@
 }
 
 .contactCard {
-  /* min-height: 34rem; */
   min-width: 0;
   padding: 3rem;
   border: 1px solid var(--primary-gold);
@@ -41,25 +35,31 @@
 .detail {
   margin-bottom: 2rem;
   padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(22, 18, 14, 0.15);
+  border-bottom: 1px solid rgb(22 18 14 / 0.15);
 }
 
 .label {
   margin-top: 0;
   margin-bottom: 0.75rem;
   color: var(--primary-gold);
+  font-family: var(--body-copy-font), sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
 }
 
+.value,
+.hourRow {
+  color: inherit;
+  font-family: var(--body-copy-font), sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
 .value {
   margin: 0;
-  color: inherit;
-  font-family: var(--heading-font), serif;
-  font-size: 1.25rem;
-  line-height: 1.6;
 }
 
 a.value:hover {
@@ -75,8 +75,6 @@ a.value:hover {
   display: flex;
   justify-content: space-between;
   gap: 2rem;
-  color: inherit;
-  line-height: 1.5;
 }
 
 .socials {
@@ -93,7 +91,7 @@ a.value:hover {
   width: 2.75rem;
   height: 2.75rem;
   place-items: center;
-  border: 1px solid var( --accent-on-light-secondary);
+  border: 1px solid var(--accent-on-light-secondary);
   color: var(--primary-gold);
   transition:
     background 180ms ease,
@@ -104,7 +102,7 @@ a.value:hover {
   display: block;
   width: 1.2rem;
   height: 1.2rem;
-  background: var( --accent-on-light-secondary);
+  background: var(--accent-on-light-secondary);
 }
 
 .instagramIcon {
@@ -133,18 +131,22 @@ a.value:hover {
 
 .map {
   display: grid;
+  min-width: 0;
   min-height: 34rem;
   place-items: center;
   border: 1px solid var(--primary-gold);
   background: var(--primary-white);
   text-align: center;
-  min-width: 0;
 }
 
 .mapFrame {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+:global(html[data-theme='convivio']) .contactCard {
+  color: var(--primary-blue);
 }
 
 :global(html[data-theme='convivio']) .contactCard,
@@ -156,6 +158,14 @@ a.value:hover {
   color: var(--accent-on-light);
 }
 
+:global(html[data-theme='convivio']) a.value:hover {
+  color: var(--accent-on-light);
+}
+
+:global(html[data-theme='convivio']) .socialLink {
+  border-color: var(--accent-on-light-secondary);
+}
+
 @media (max-width: 1200px) {
   .contactCard {
     padding: 2rem;
@@ -165,14 +175,18 @@ a.value:hover {
     gap: 1rem;
   }
 
-  .detail {
-    margin-bottom: 1.5rem;
-    padding-bottom: 1.5rem;
+  .value,
+  .hourRow {
+    font-size: 1.1rem;
   }
 
   .contactRow .value {
-    font-size: 1.1rem;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
+  }
+
+  .detail {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 }
 
@@ -198,7 +212,7 @@ a.value:hover {
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
   .contactRow {
     grid-template-columns: 1fr;
     gap: 0;
@@ -208,13 +222,13 @@ a.value:hover {
     padding: 1.5rem;
   }
 
+  .value,
   .hourRow {
-    gap: 1rem;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
   }
 
-  .value {
-    font-size: 1.1rem;
+  .hourRow {
+    gap: 1rem;
   }
 }
 

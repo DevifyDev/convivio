@@ -173,7 +173,7 @@
 }
 
 .price {
-  color: var(--accent-on-dark);
+  color: var(--primary-gold);
   font-family: var(--heading-font), serif;
   font-size: 1.15rem;
 }

@@ -85,21 +85,23 @@
   color: var(--primary-blue);
 }
 
-.headerScrolled .menuContainer > a {
-  border-color: var(--accent-on-light-secondary);
-  color: var(--primary-blue);
-}
-
 .headerScrolled .menuContainer > a,
 .headerMenuOpen .menuContainer > a {
   border-width: 1px;
   border-color: var(--accent-on-light-secondary);
-  background: var(--light-background);
   color: var(--accent-on-light-secondary);
   transition:
     background 180ms ease,
     border-color 180ms ease,
     color 180ms ease;
+}
+
+.headerScrolled .menuContainer > a {
+  background: transparent;
+}
+
+.headerMenuOpen .menuContainer > a {
+  background: var(--light-background);
 }
 
 .headerScrolled .menuContainer > a:hover,

@@ -31,8 +31,8 @@ const files = [
   // './src/components/Gallery/Gallery.tsx',
   // './src/components/Gallery/Gallery.module.css',
 
-  // './src/components/Header/Header.tsx',
-  // './src/components/Header/Header.module.css',
+  './src/components/Header/Header.tsx',
+  './src/components/Header/Header.module.css',
 
   // './src/components/Hero/Hero.tsx',
   // './src/components/Hero/Hero.module.css',
