@@ -1,0 +1,130 @@
+# Workspace Export
+Generated: 2026-09-30T03:22:58.587Z
+
+## ./src/components/Hero/Hero.tsx
+```tsx
+import Button from '@/components/Button/Button'
+import styles from './Hero.module.css'
+
+type HeroProps = {
+  bookingUrl?: string
+}
+
+export default function Hero({
+  bookingUrl
+}: HeroProps) {
+  return (
+    <section className={styles.hero} id='home'>
+      <div className={styles.content}>
+        <p className={styles.eyebrow}>EST. 2026</p>
+
+        <h1 className={styles.title}>Convivio</h1>
+
+        <p className={styles.subtitle}>Your Neighbourhood Wine Bar</p>
+
+        <p className={styles.address}>16E Calais Road, Scarborough</p>
+
+        {bookingUrl && (
+          <Button
+            label='Book A Table'
+            href={bookingUrl}
+            variant='cta'
+            target='_blank'
+          />
+        )}
+      </div>
+    </section>
+  )
+}
+```
+
+## ./src/components/Hero/Hero.module.css
+```css
+:global(html[data-theme='convivio']) .subtitle {
+  margin: 1rem 0 1.5rem;
+  color: var(--secondary-gold);
+  font-family: var(--display-font);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+
+@media (max-width: 700px) {
+  :global(html[data-theme='convivio']) .subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--light-background);
+  text-align: center;
+  padding-inline: var(--inline-padding);
+  
+  background-image:
+    linear-gradient(
+      rgba(22, 18, 14, 0.42),
+      rgba(22, 18, 14, 0.62)
+    ),
+    url('/images/hero-background.jpg');
+
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+}
+
+.content {
+  width: 100%;
+  max-width: var(--content-width);
+}
+
+.eyebrow {
+  margin-bottom: 1.25rem;
+  color: var(--primary-white);
+  font-size: 0.8rem;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: var(--primary-white);
+  font-size: 3rem;
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.subtitle {
+  margin: 0.4rem 0 1.5rem 0;
+  color: var(--primary-gold);
+  font-size: 2rem;
+  font-family: var(--heading-font);
+  font-weight: 200;
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+.address {
+  margin-bottom: 2rem;
+  color: var(--primary-white);
+  font-size: 0.9rem;
+  font-weight: 200;
+}
+
+@media (max-width: 700px) {
+  .title {
+    font-size: 2.75rem;
+  }
+
+  .subtitle {
+    font-size: 1.75rem;
+  }
+}
+```

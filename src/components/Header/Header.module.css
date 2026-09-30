@@ -90,16 +90,24 @@
   color: var(--primary-blue);
 }
 
-.headerMenuOpen {
-  background: rgba(248, 247, 244, 0.82);
-  box-shadow: 0 1px 0 rgba(40, 51, 76, 0.12);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+.headerScrolled .menuContainer > a,
+.headerMenuOpen .menuContainer > a {
+  border-width: 1px;
+  border-color: var(--accent-on-light-secondary);
+  background: var(--light-background);
+  color: var(--accent-on-light-secondary);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
 }
 
-.headerMenuOpen .name,
-.headerMenuOpen .menuButton {
-  color: var(--primary-blue);
+.headerScrolled .menuContainer > a:hover,
+.headerMenuOpen .menuContainer > a:hover {
+  border-color: var(--primary-blue);
+  background: var(--primary-blue);
+  color: var(--light-text);
+  opacity: 1;
 }
 
 /* MOBILE MENU BUTTON */

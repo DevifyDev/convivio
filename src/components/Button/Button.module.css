@@ -73,20 +73,27 @@
 
 :global(html[data-theme='convivio']) .ctaLight,
 :global(html[data-theme='convivio']) .ctaLarge {
-  border-color: var(--accent-on-light-primary);
+  border-color: var(--accent-on-light-secondary);
+  background: var(--light-background);
   color: var(--accent-on-light-secondary);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
 }
 
+:global(html[data-theme='convivio']) .ctaLight:hover,
 :global(html[data-theme='convivio']) .ctaLarge:hover {
-  border-color: var(--accent-on-light-primary);
-  background: var(--accent-on-light-primary);
-  color: var(--light-background);
+  border-color: var(--primary-blue);
+  background: var(--primary-blue);
+  color: var(--light-text);
+  opacity: 1;
 }
 
 :global(html[data-theme='convivio']) .ctaLarge:focus-visible {
-  outline-color: var(--accent-on-light-primary);
+  outline-color: var(--accent-on-light-secondary);
 }
 
 :global(html[data-theme='convivio']) .cta {
-  border-color: var(--primary-white);
+  border-color: var(--light-text);
 }

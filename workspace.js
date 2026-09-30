@@ -28,14 +28,14 @@ const files = [
   // './src/components/Footer/Footer.tsx',
   // './src/components/Footer/Footer.module.css',
 
-  './src/components/Gallery/Gallery.tsx',
-  './src/components/Gallery/Gallery.module.css',
+  // './src/components/Gallery/Gallery.tsx',
+  // './src/components/Gallery/Gallery.module.css',
 
   // './src/components/Header/Header.tsx',
   // './src/components/Header/Header.module.css',
 
-  // './src/components/Hero/Hero.tsx',
-  // './src/components/Hero/Hero.module.css',
+  './src/components/Hero/Hero.tsx',
+  './src/components/Hero/Hero.module.css',
 
   // './src/components/Location/Location.tsx',
   // './src/components/Location/Location.module.css',
