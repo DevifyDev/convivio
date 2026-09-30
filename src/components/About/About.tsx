@@ -21,9 +21,8 @@ export default function About({ images }: { images?: AboutImages | null }) {
           </h2>
 
           <p className={styles.paragraph}>
-            Convivio is a relaxed, welcoming neighbourhood wine bar in Scarborough. 
-            Drop in during the afternoon for a drink and a few nibbles, or join us for an 
-            evening out.
+            Convivio is a relaxed, welcoming neighbourhood wine bar built around good company and relaxed vibes. 
+            Drop in during the afternoon or evening to enjoy the cozy ambience and great food.
           </p>
 
           <p className={styles.paragraph}>
@@ -36,7 +35,7 @@ export default function About({ images }: { images?: AboutImages | null }) {
           <p className={styles.paragraph}>
             A favourite with locals and a welcoming stop for visitors, Convivio is a place to 
             catch up, try something new and enjoy good company. With weekly specials, menu 
-            updates and events, there’s always a reason to come back.
+            updates and events, there’s always something new to discover.
           </p>
 
           <Button label='Explore the Menu' href='#menu' variant='ctaLight' />

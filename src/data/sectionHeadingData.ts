@@ -9,7 +9,7 @@ export const sectionHeadingData = {
     eyebrow: '',
     heading: 'Food, Wine & Good Company',
     description:
-      'A few glimpses of the space, the plates and the atmosphere',
+      'Pour a glass, share a plate, stay awhile',
     variant: 'light',
     icon: 'sparkle'
   },
