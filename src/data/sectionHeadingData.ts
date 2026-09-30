@@ -1,15 +1,15 @@
 export const sectionHeadingData = {
   menu: {
-    eyebrow: 'Food & Wine',
+    eyebrow: '',
     heading: 'The Convivio Menu',
     variant: 'dark',
     icon: 'wine'
   },
   gallery: {
-    eyebrow: 'A closer look',
+    eyebrow: '',
     heading: 'Food, Wine & Good Company',
     description:
-      'A look inside Convivio, where good food, thoughtful wine and familiar faces come together',
+      'A few glimpses of the space, the plates and the atmosphere',
     variant: 'light',
     icon: 'sparkle'
   },
@@ -30,7 +30,7 @@ export const sectionHeadingData = {
     icon: 'sparkle'
   },
   staff: {
-    eyebrow: 'Meet The Staff',
+    eyebrow: 'Meet The Team',
     heading: 'The People Behind Convivio',
     description: 'A little about the people who make every visit feel special',
     variant: 'light',

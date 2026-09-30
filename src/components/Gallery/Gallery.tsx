@@ -20,7 +20,7 @@ type GalleryProps = {
 }
 
 export default function Gallery({
-  description = 'A look inside Convivio, where good food, thoughtful wine and familiar faces come together',
+  description,
   images,
   instagramUrl
 }: GalleryProps) {
