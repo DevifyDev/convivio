@@ -32,14 +32,14 @@ export const sectionHeadingData = {
   staff: {
     eyebrow: 'Meet The Staff',
     heading: 'The People Behind Convivio',
-    description: 'A little about the people who make every visit feel special.',
+    description: 'A little about the people who make every visit feel special',
     variant: 'light',
     icon: 'sparkle'
   },
   faq: {
     eyebrow: 'Before You Visit',
     heading: 'Good To Know',
-    description: 'A few answers to help you plan your time with us.',
+    description: 'A few answers to help you plan your time with us',
     variant: 'dark',
     icon: 'sparkle'
   },

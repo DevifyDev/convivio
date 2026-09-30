@@ -10,13 +10,9 @@
   color: var(--light-text);
 }
 
-:global(html[data-theme='convivio']) .light {
-  color: var(--primary-blue);
-}
-
 .eyebrow {
   margin: 0 0 1rem;
-  color: var(--primary-gold);
+  color: var(--section-accent, var(--primary-gold));
   font-family: var(--body-copy-font), serif;
   font-size: 0.8rem;
   font-weight: 600;
@@ -53,21 +49,15 @@
 .line {
   width: 5rem;
   height: 1px;
-  background: var(--primary-gold);
+  background: var(--section-accent, var(--primary-gold));
   opacity: 0.35;
-}
-
-:global(html[data-theme='convivio']) .line {
-  height: 8px;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 8'%3E%3Cpath d='M0 4 Q5 0 10 4 T20 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 20px 8px repeat-x;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 8'%3E%3Cpath d='M0 4 Q5 0 10 4 T20 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 20px 8px repeat-x;
 }
 
 .icon {
   width: 2rem;
   height: 2rem;
   flex-shrink: 0;
-  background: var(--primary-gold);
+  background: var(--section-accent, var(--primary-gold));
 }
 
 .sparkle {
@@ -85,10 +75,36 @@
   -webkit-mask: url('/icons/location-pin.svg') center / contain no-repeat;
 }
 
-:global(html[data-theme='convivio']) .icon {
-  width: 4rem;
-  mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
-  -webkit-mask: url('/icons/olive-skewer.svg') center / contain no-repeat;
+/* Convivio theme */
+
+:global(html[data-theme='convivio']) .light {
+  --section-accent: var(--accent-on-light);
+  color: var(--primary-blue);
+}
+
+:global(html[data-theme='convivio']) .dark {
+  --section-accent: var(--accent-on-dark);
+}
+
+:global(html[data-theme='convivio']) .icon,
+:global(html[data-theme='convivio']) .line:last-child {
+  display: none;
+}
+
+:global(html[data-theme='convivio']) .divider {
+  gap: 0;
+}
+
+:global(html[data-theme='convivio']) .line {
+  width: min(8rem, 760px);
+  height: 8px;
+  opacity: 1;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='2.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+}
+
+:global(html[data-theme='convivio']) .light .line {
+  background: var(--accent-line-on-light);
 }
 
 @media (max-width: 800px) {

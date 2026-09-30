@@ -1,0 +1,982 @@
+# Workspace Export
+Generated: 2026-09-30T00:36:44.647Z
+
+## ./src/components/Events/Events.tsx
+```tsx
+import Image from 'next/image'
+import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
+import styles from './Events.module.css'
+
+export type WeeklyEvent = {
+  title: string
+  time?: string
+  description: string
+}
+
+export type WeeklyEvents = {
+  monday?: WeeklyEvent
+  tuesday?: WeeklyEvent
+  wednesday?: WeeklyEvent
+  thursday?: WeeklyEvent
+  friday?: WeeklyEvent
+  saturday?: WeeklyEvent
+  sunday?: WeeklyEvent
+}
+
+export type SpecialEvent = {
+  _key: string
+  date: string
+  time?: string
+  title: string
+  description: string
+  image?: string
+  imageAlt?: string
+  price?: string
+}
+
+type EventsProps = {
+  description?: string
+  weeklyEvents?: WeeklyEvents
+  specialEvents?: SpecialEvent[]
+}
+
+const days: {
+  key: keyof WeeklyEvents
+  label: string
+}[] = [
+  { key: 'monday', label: 'Monday' },
+  { key: 'tuesday', label: 'Tuesday' },
+  { key: 'wednesday', label: 'Wednesday' },
+  { key: 'thursday', label: 'Thursday' },
+  { key: 'friday', label: 'Friday' },
+  { key: 'saturday', label: 'Saturday' },
+  { key: 'sunday', label: 'Sunday' }
+]
+
+function getEventDate(dateString: string) {
+  const date = new Date(`${dateString}T00:00:00Z`)
+
+  return {
+    day: new Intl.DateTimeFormat('en-AU', {
+      day: '2-digit',
+      timeZone: 'UTC'
+    }).format(date),
+
+    month: new Intl.DateTimeFormat('en-AU', {
+      month: 'short',
+      timeZone: 'UTC'
+    }).format(date),
+
+    weekday: new Intl.DateTimeFormat('en-AU', {
+      weekday: 'long',
+      timeZone: 'UTC'
+    }).format(date)
+  }
+}
+
+export default function Events({
+  description,
+  weeklyEvents,
+  specialEvents = []
+}: EventsProps) {
+  const weeklyEventList = days.flatMap(({ key, label }) => {
+    const event = weeklyEvents?.[key]
+
+    if (!event) return []
+
+    return [
+      {
+        day: label,
+        ...event
+      }
+    ]
+  })
+
+  if (weeklyEventList.length === 0 && specialEvents.length === 0) {
+    return null
+  }
+
+  return (
+    <section className={styles.events} id='events'>
+      <div className={styles.container}>
+        
+        <SectionHeading {...sectionHeadingData.events} />
+
+        {weeklyEventList.length > 0 && (
+          <div className={styles.weeklySection}>
+            <div className={styles.subheadingRow}>
+              <p className={styles.sectionEyebrow}>Every Week</p>
+
+              <h3 className={styles.subheading}>
+                Weekly at Convivio
+              </h3>
+            </div>
+
+            <div className={styles.weeklyGrid}>
+              {weeklyEventList.map((event) => (
+                <article
+                  className={styles.weeklyCard}
+                  key={event.day}
+                >
+                  <p className={styles.dayName}>{event.day}</p>
+
+                  <div className={styles.weeklyContent}>
+                    <h4 className={styles.weeklyTitle}>
+                      {event.title}
+                    </h4>
+
+                    {event.time && (
+                      <p className={styles.weeklyTime}>
+                        {event.time}
+                      </p>
+                    )}
+
+                    <p className={styles.weeklyDescription}>
+                      {event.description}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {specialEvents.length > 0 && (
+          <div className={styles.specialSection}>
+            <div className={styles.subheadingRow}>
+              <p className={styles.sectionEyebrow}>Coming Up</p>
+
+              <h3 className={styles.subheading}>
+                Special Events
+              </h3>
+            </div>
+
+            <div className={styles.specialEvents}>
+              {specialEvents.map((event) => {
+                const { day, month, weekday } = getEventDate(
+                  event.date
+                )
+
+                return (
+                  <article
+                    className={styles.specialEvent}
+                    key={event._key}
+                  >
+                    <time
+                      className={styles.date}
+                      dateTime={event.date}
+                    >
+                      <span className={styles.dateDay}>
+                        {day}
+                      </span>
+
+                      <span className={styles.dateMonth}>
+                        {month}
+                      </span>
+                    </time>
+
+                    <div className={styles.eventImage}>
+                      {event.image && (
+                        <Image
+                          src={event.image}
+                          alt={event.imageAlt ?? ''}
+                          fill
+                          sizes='(max-width: 650px) 100vw, 220px'
+                          className={styles.image}
+                        />
+                      )}
+                    </div>
+
+                    <div className={styles.eventContent}>
+                      <p className={styles.eventMeta}>
+                        {weekday}
+                        {event.time && ` · ${event.time}`}
+                      </p>
+
+                      <h4 className={styles.eventTitle}>
+                        {event.title}
+                      </h4>
+
+                      <p className={styles.eventDescription}>
+                        {event.description}
+                      </p>
+                    </div>
+
+                    {event.price && (
+                      <p className={styles.price}>
+                        {event.price}
+                      </p>
+                    )}
+                  </article>
+                )
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+```
+
+## ./src/components/Events/Events.module.css
+```css
+.events {
+  position: relative;
+  z-index: 1;
+  padding-block: 6rem;
+  padding-inline: 6rem;
+  background: var(--dark-background);
+  color: var(--light-text);
+}
+
+.events::before,
+.events::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background: var(--dark-background);
+  filter: url('#roughen');
+  pointer-events: none;
+}
+
+.events::before {
+  top: -12px;
+}
+
+.events::after {
+  bottom: -12px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+/* SECTION HEADINGS */
+
+.weeklySection {
+  margin-top: 5rem;
+}
+
+.specialSection {
+  margin-top: 6rem;
+}
+
+.subheadingRow {
+  margin-bottom: 2rem;
+}
+
+.sectionEyebrow {
+  margin: 0 0 0.6rem;
+  color: var(--primary-gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.subheading {
+  margin: 0;
+  color: var(--light-text);
+  font-size: 1.75rem;
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+/* WEEKLY EVENTS */
+
+.weeklyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.25rem;
+}
+
+.weeklyCard {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  border: 1px solid rgba(248, 247, 244, 0.12);
+  background: rgba(248, 247, 244, 0.035);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.weeklyCard:hover {
+  border-color: var(--primary-gold);
+  transform: translateY(-2px);
+}
+
+.dayName {
+  margin: 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--primary-gold);
+  color: var(--primary-gold);
+  font-family: var(--display-font), serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+:global(html[data-theme='convivio']) .dayName {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  justify-self: center;
+  padding-bottom: 0.85rem;
+  border-bottom: 0;
+}
+
+:global(html[data-theme='convivio']) .dayName::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  background: var(--primary-gold);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+}
+
+.weeklyContent {
+  min-width: 0;
+}
+
+.weeklyTitle {
+  margin: 0 0 0.4rem;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.weeklyTime {
+  margin: 0 0 0.9rem;
+  color: var(--primary-gold);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.weeklyDescription {
+  margin: 0;
+  color: rgba(242, 242, 242, 0.7);
+  font-size: 0.85rem;
+  font-weight: 200;
+  line-height: 1.6;
+}
+
+/* SPECIAL EVENTS */
+
+.specialEvents {
+  display: grid;
+  gap: 1rem;
+}
+
+.specialEvent {
+  display: grid;
+  grid-template-columns: 5rem 13rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 2rem 1rem 1.5rem;
+  border: 1px solid rgba(248, 247, 244, 0.1);
+  background: rgba(248, 247, 244, 0.035);
+  transition: border-color 180ms ease;
+}
+
+.specialEvent:hover {
+  border-color: var(--primary-gold);
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateDay {
+  color: var(--primary-gold);
+  font-family: var(--display-font), serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.dateMonth {
+  margin-top: 0.4rem;
+  color: rgba(242, 242, 242, 0.65);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.eventImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.eventImage:empty {
+  visibility: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.eventContent {
+  min-width: 0;
+}
+
+.eventMeta {
+  margin: 0 0 0.5rem;
+  color: var(--primary-gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eventTitle {
+  margin: 0 0 0.6rem;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.eventDescription {
+  max-width: 38rem;
+  margin: 0;
+  color: rgba(242, 242, 242, 0.7);
+  font-size: 0.85rem;
+  font-weight: 200;
+  line-height: 1.6;
+}
+
+.price {
+  margin: 0;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+:global(html[data-theme='convivio']) .sectionEyebrow,
+:global(html[data-theme='convivio']) .dayName,
+:global(html[data-theme='convivio']) .weeklyTime,
+:global(html[data-theme='convivio']) .dateDay,
+:global(html[data-theme='convivio']) .dateMonth,
+:global(html[data-theme='convivio']) .eventMeta {
+  color: var(--accent-on-dark);
+}
+
+:global(html[data-theme='convivio']) .dayName::after {
+  background: var(--accent-on-dark);
+}
+
+/* SMALL DESKTOP / TABLET */
+
+@media (max-width: 1350px) {
+  .events {
+    padding-inline: 3rem;
+  }
+
+  .weeklyGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .specialEvent {
+    grid-template-columns: 5rem 11rem minmax(0, 1fr);
+  }
+
+  .price {
+    grid-column: 3;
+  }
+}
+
+/* MOBILE / NARROW TABLET */
+
+@media (max-width: 1000px) {
+  .events {
+    padding-block: 4rem;
+    padding-inline: var(--inline-padding);
+  }
+
+  .weeklySection {
+    margin-top: 4rem;
+  }
+
+  .specialSection {
+    margin-top: 4rem;
+  }
+
+  .weeklyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .specialEvent {
+    grid-template-columns: 4.5rem 9rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  .eventImage {
+    grid-column: 2;
+  }
+
+  .eventContent {
+    grid-column: 3;
+  }
+
+  .price {
+    grid-column: 3;
+  }
+
+  .date {
+    grid-row: auto;
+    padding-top: 0;
+  }
+
+  .eventTitle {
+    font-size: 1.3rem;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 550px) {
+  .weeklyCard {
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .dayName {
+    font-size: 0.9rem;
+  }
+
+  .specialEvent {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+  }
+
+  .date {
+    grid-row: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .dateDay {
+    font-size: 2rem;
+  }
+
+  .dateMonth {
+    margin-top: 0;
+  }
+
+  .eventImage,
+  .eventContent,
+  .price {
+    grid-column: 1;
+  }
+
+  .eventImage {
+    width: 100%;
+    height: 11rem;
+    aspect-ratio: auto;
+  }
+
+  .eventImage:empty {
+    display: none;
+  }
+}
+```
+
+## ./src/components/Menu/Menu.tsx
+```tsx
+'use client'
+
+import { Fragment, useState } from 'react'
+import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
+import styles from './Menu.module.css'
+
+export type MenuItem = {
+  _key: string
+  name: string
+  description?: string
+  price: string
+}
+
+export type MenuCategory = {
+  _key: string
+  title: string
+  items?: MenuItem[]
+}
+
+type MenuProps = {
+  description?: string
+  categories: MenuCategory[]
+}
+
+type MenuItemsProps = {
+  category: MenuCategory
+}
+
+function MenuItems({ category }: MenuItemsProps) {
+  return (
+    <>
+      {category.items?.map((item) => (
+        <article className={styles.menuItem} key={item._key}>
+          <div className={styles.itemContent}>
+            <div className={styles.itemTop}>
+              <h3 className={styles.itemName}>{item.name}</h3>
+
+              <span className={styles.dots}></span>
+
+              <span className={styles.price}>{item.price}</span>
+            </div>
+
+            {item.description && (
+              <p className={styles.description}>{item.description}</p>
+            )}
+          </div>
+        </article>
+      ))}
+    </>
+  )
+}
+
+export default function Menu({ categories, description }: MenuProps) {
+  const [activeCategory, setActiveCategory] =
+    useState<MenuCategory | null>(categories[0] ?? null)
+
+  const [previousCategory, setPreviousCategory] =
+    useState<MenuCategory | null>(null)
+
+  function changeCategory(category: MenuCategory) {
+    if (category._key === activeCategory?._key) return
+
+    setPreviousCategory(activeCategory)
+    setActiveCategory(category)
+  }
+
+  if (!activeCategory || categories.length === 0) {
+    return null
+  }
+
+  return (
+    <section className={styles.pricing} id='menu'>
+      <div className={styles.container}>
+        
+        <SectionHeading {...sectionHeadingData.menu} />
+
+        <nav className={styles.categories} aria-label='Menu categories'>
+          {categories.map((category, index) => (
+            <Fragment key={category._key}>
+              <button
+                className={`${styles.categoryButton} ${
+                  activeCategory._key === category._key ? styles.active : ''
+                }`}
+                type='button'
+                aria-pressed={activeCategory._key === category._key}
+                onClick={() => changeCategory(category)}
+              >
+                {category.title}
+              </button>
+
+              {index < categories.length - 1 && (
+                <span className={styles.separator}>|</span>
+              )}
+            </Fragment>
+          ))}
+        </nav>
+
+        <div className={styles.menuWindow}>
+          {previousCategory && (
+            <div
+              className={`${styles.menuGrid} ${styles.previousMenu}`}
+              aria-hidden='true'
+            >
+              <MenuItems category={previousCategory} />
+            </div>
+          )}
+
+          <div
+            className={`${styles.menuGrid} ${
+              previousCategory ? styles.incomingMenu : ''
+            }`}
+            key={activeCategory._key}
+          >
+            <MenuItems category={activeCategory} />
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+```
+
+## ./src/components/Menu/Menu.module.css
+```css
+:global(html[data-theme='convivio']) .categoryButton,
+:global(html[data-theme='convivio']) .price {
+  font-family: var(--body-copy-font), serif;
+  font-weight: 400;
+}
+
+:global(html[data-theme='convivio']) .itemName {
+  font-family: var(--strong-font), serif;
+  font-weight: 700;
+}
+
+:global(html[data-theme='convivio']) .itemName {
+  font-family: var(--strong-font), serif;
+  font-weight: 700;
+}
+
+.pricing {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  padding: 6rem;
+  background: var(--primary-black);
+  color: var(--light-text);
+}
+
+.pricing::before,
+.pricing::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background: var(--primary-black);
+  filter: url('#roughen');
+  pointer-events: none;
+}
+
+.pricing::before {
+  top: -12px;
+}
+
+.pricing::after {
+  bottom: -12px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+.categories {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-block: 4rem;
+}
+
+.categoryButton {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--light-text);
+  font-family: var(--heading-font), serif;
+  font-weight: 200;
+  font-size: 1.35rem;
+  cursor: pointer;
+}
+
+.categoryButton:hover {
+  opacity: 0.65;
+}
+
+.active {
+  color: var(--primary-gold);
+}
+
+.active:hover {
+  opacity: 1;
+}
+
+.categoryButton:focus-visible {
+  outline: 2px solid var(--primary-gold);
+  outline-offset: 4px;
+}
+
+.separator {
+  color: var(--light-text);
+  opacity: 0.2;
+}
+
+.menuGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem 4rem;
+}
+
+.menuWindow {
+  position: relative;
+  overflow: hidden;
+}
+
+.previousMenu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.incomingMenu {
+  position: relative;
+  z-index: 1;
+  background: var(--primary-black);
+  box-shadow: 0 -1rem 2rem rgba(0, 0, 0, 0.2);
+  animation: turnPage 0.6s ease;
+}
+
+@keyframes turnPage {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.menuItem {
+  display: grid;
+  /* grid-template-columns: 4rem minmax(0, 1fr); */
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  /* gap: 1rem; */
+}
+
+.itemImage {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background: #2d2a26;
+}
+
+.itemContent {
+  min-width: 0;
+}
+
+.itemTop {
+  display: flex;
+  align-items: center;
+}
+
+.itemName {
+  margin: 0;
+  color: var(--light-text);
+  font-size: 1.15rem;
+  font-weight: 300;
+}
+
+.dots {
+  flex: 1;
+  height: 1px;
+  margin-inline: 0.75rem;
+  transform: translateY(0.4rem);
+  background: repeating-linear-gradient(
+    to right,
+    rgba(242, 242, 242, 0.25) 0,
+    rgba(242, 242, 242, 0.25) 1px,
+    transparent 1px,
+    transparent 5px
+  );
+}
+
+.price {
+  color: var(--primary-gold);
+  font-family: var(--heading-font), serif;
+  font-size: 1.15rem;
+}
+
+.description {
+  margin-top: 0.35rem;
+  font-weight: 300;
+  margin-bottom: 0;
+  color: var(--light-text);
+  font-size: 0.95rem;
+  opacity: 0.5;
+}
+
+@media (max-width: 1200px) {
+  .pricing {
+    /* min-height: auto; */
+    padding-block: 4rem;
+    padding-inline: var(--inline-padding);
+  }
+
+  .categories {
+    gap: 0.75rem;
+    margin-block: 3rem;
+  }
+
+  .categoryButton {
+    font-size: 1.1rem;
+  }
+
+  .menuGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* .menuItem {
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 0.75rem;
+  } */
+
+  .itemImage {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+
+  .itemName,
+  .price {
+    font-size: 1rem;
+  }
+
+  .dots {
+    margin-inline: 0.5rem;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .incomingMenu {
+    animation: none;
+  }
+}
+```

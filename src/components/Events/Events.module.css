@@ -256,6 +256,19 @@
   white-space: nowrap;
 }
 
+:global(html[data-theme='convivio']) .sectionEyebrow,
+:global(html[data-theme='convivio']) .dayName,
+:global(html[data-theme='convivio']) .weeklyTime,
+:global(html[data-theme='convivio']) .dateDay,
+:global(html[data-theme='convivio']) .dateMonth,
+:global(html[data-theme='convivio']) .eventMeta {
+  color: var(--accent-on-dark);
+}
+
+:global(html[data-theme='convivio']) .dayName::after {
+  background: var(--accent-on-dark);
+}
+
 /* SMALL DESKTOP / TABLET */
 
 @media (max-width: 1350px) {

@@ -58,6 +58,15 @@ html[data-theme='convivio'] {
   
   --primary-blue: #28334c;
 
+  --accent-on-light: #395c70;
+   --accent-on-light-primary: #395c70;
+
+   --accent-on-light-secondary: #4e4866;
+ 
+  --accent-on-dark: #D8B7A7;
+ 
+
+   --accent-line-on-light: #395c70;
 
   --primary-gold: #c8b995;
   --secondary-gold: #c98268;
@@ -66,6 +75,7 @@ html[data-theme='convivio'] {
   --premium-black: #28334c;
 
   --light-background: #f8f7f4;
+   /* --light-background: #f0f7f4; */
   --medium-background: #3a5d71;
   --dark-background: #28334c;
 

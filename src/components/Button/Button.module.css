@@ -70,3 +70,23 @@
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
+
+:global(html[data-theme='convivio']) .ctaLight,
+:global(html[data-theme='convivio']) .ctaLarge {
+  border-color: var(--accent-on-light-primary);
+  color: var(--accent-on-light-secondary);
+}
+
+:global(html[data-theme='convivio']) .ctaLarge:hover {
+  border-color: var(--accent-on-light-primary);
+  background: var(--accent-on-light-primary);
+  color: var(--light-background);
+}
+
+:global(html[data-theme='convivio']) .ctaLarge:focus-visible {
+  outline-color: var(--accent-on-light-primary);
+}
+
+:global(html[data-theme='convivio']) .cta {
+  border-color: var(--primary-white);
+}

@@ -11,15 +11,13 @@
   margin-inline: auto;
 }
 
-/* REVIEWS */
+/* Reviews */
 
 .reviews {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: 4rem;
-  /* border-top: 1px solid var(--shadow-color);
-  border-bottom: 1px solid var(--shadow-color); */
-  border: 1px solid rgba(40, 51, 76, 0.12);
+  border: 0.5px solid rgba(40, 51, 76, 0.12);
   background: rgba(40, 51, 76, 0.045);
 }
 
@@ -33,10 +31,15 @@
   border-right: 0;
 }
 
+.quoteBlock {
+  display: flex;
+  flex-direction: column;
+}
+
 .quoteMark {
   display: block;
   height: 3rem;
-  color: var(--primary-gold);
+  color: var(--accent-on-light-primary);
   font-family: var(--display-font), serif;
   font-size: 5rem;
   font-weight: 300;
@@ -52,6 +55,10 @@
   line-height: 1.5;
 }
 
+.closingQuote {
+  display: none;
+}
+
 .reviewer {
   margin-top: 2rem;
 }
@@ -65,16 +72,125 @@
   text-transform: uppercase;
 }
 
+.rating {
+  display: none;
+}
+
+.star,
+.starMuted {
+  display: inline-block;
+}
+
 .source {
   margin: 0;
-  color: var(--primary-gold);
+  color: var(--accent-on-light-primary);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
-/* TABLET */
+/* Convivio theme */
+
+:global(html[data-theme='convivio']) .testimonials {
+  --review-accent: var(--accent-on-light-secondary);
+}
+
+:global(html[data-theme='convivio']) .reviews {
+  gap: 1rem;
+  border: 0;
+  background: transparent;
+}
+
+:global(html[data-theme='convivio']) .review,
+:global(html[data-theme='convivio']) .review:last-child {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  background: transparent;
+}
+
+:global(html[data-theme='convivio']) .review::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: rgba(40, 51, 76, 0.18);
+  filter: url('#roughen');
+  pointer-events: none;
+}
+
+:global(html[data-theme='convivio']) .review::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 1px;
+  background: color-mix(
+    in srgb,
+    #28334c 4.5%,
+    var(--light-background)
+  );
+  pointer-events: none;
+}
+
+:global(html[data-theme='convivio']) .review > * {
+  position: relative;
+  z-index: 2;
+}
+
+:global(html[data-theme='convivio']) .quoteBlock {
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+:global(html[data-theme='convivio']) .quoteMark,
+:global(html[data-theme='convivio']) .source {
+  color: var(--review-accent);
+}
+
+:global(html[data-theme='convivio']) .closingQuote {
+  display: block;
+  position: absolute;
+  visibility: hidden;
+  color: var(--review-accent);
+  font-family: var(--display-font), serif;
+  font-size: 5rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+:global(html[data-theme='convivio']) .reviewer {
+  margin-top: 1.25rem;
+}
+
+:global(html[data-theme='convivio']) .rating {
+  display: flex;
+  gap: 0.05rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+:global(html[data-theme='convivio']) .star {
+  color: #fbbc04;
+}
+
+:global(html[data-theme='convivio']) .starMuted {
+  color: rgb(251 188 4 / 0.3);
+}
+
+:global(html[data-theme='convivio']) .source {
+  margin-top: 0.5rem;
+}
+
+@media (min-width: 501px) and (max-width: 1000px) {
+  :global(html[data-theme='convivio']) .reviews {
+    width: min(72vw, 48rem);
+    margin-inline: auto;
+  }
+}
+
+/* Tablet */
 
 @media (max-width: 1000px) {
   .testimonials {
@@ -95,7 +211,7 @@
   }
 }
 
-/* MOBILE */
+/* Mobile */
 
 @media (max-width: 800px) {
   .testimonials {

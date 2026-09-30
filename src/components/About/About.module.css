@@ -75,6 +75,9 @@
   margin-top: 6rem;
 }
 
+:global(html[data-theme='convivio']) .eyebrow {
+  color: var(--accent-on-light-primary);
+}
 
 @media (min-width: 801px) and (max-width: 990px) {
   .about {

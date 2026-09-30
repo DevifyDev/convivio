@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Fraunces, Hanken_Grotesk } from 'next/font/google'
 import './globals.css'
 
+
 const headingFont = Fraunces({
   subsets: ['latin'],
   variable: '--heading-font',

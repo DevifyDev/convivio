@@ -86,7 +86,7 @@
 }
 
 .headerScrolled .menuContainer > a {
-  border-color: var(--primary-gold);
+  border-color: var(--accent-on-light-secondary);
   color: var(--primary-blue);
 }
 
