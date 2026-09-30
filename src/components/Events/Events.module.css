@@ -269,7 +269,7 @@
 :global(html[data-theme='convivio']) .dateMonth {
   color: var(--accent-on-dark);
   font-family: var(--display-font);
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 :global(html[data-theme='convivio']) .dayName::after {

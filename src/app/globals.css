@@ -128,10 +128,6 @@ body {
   font-family: var(--body-copy-font), sans-serif;
 }
 
-section {
-  border-bottom: 1px solid #000;
-}
-
 a {
   text-decoration: none;
 }
