@@ -17,7 +17,7 @@ export const sectionHeadingData = {
     eyebrow: "What's On",
     heading: 'Upcoming Events',
     description:
-      'Make room for your weekly favourites and a few special nights worth getting together for',
+      'See what’s on each week, from regular events to the latest menu specials',
     variant: 'dark',
     icon: 'sparkle'
   },
