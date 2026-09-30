@@ -155,7 +155,7 @@
   width: 100%;
   height: 8px;
   background: var(--accent-on-dark);
-  opacity: 0.45;
+  opacity: 0.3;
   mask: var(--faq-wave) left center / 32px 8px repeat-x;
   -webkit-mask: var(--faq-wave) left center / 32px 8px repeat-x;
   pointer-events: none;
@@ -167,7 +167,15 @@
   left: 0;
 }
 
+:global(html[data-theme='convivio']) .faq :global(header p) {
+  color: var(--accent-on-dark);
+}
+
 :global(html[data-theme='convivio']) .faq :global(header > div[aria-hidden='true']) {
+  color: var(--light-text);
+}
+
+:global(html[data-theme='convivio']) .questions .item:first-child .question::before {
   display: none;
 }
 

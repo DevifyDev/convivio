@@ -177,6 +177,7 @@
 
 :global(html[data-theme='convivio']) .reviewer {
   margin-top: 1.25rem;
+  margin-left: 2.5rem;
 }
 
 :global(html[data-theme='convivio']) .rating {
@@ -208,11 +209,7 @@
 
 /* Tablet */
 
-@media (max-width: 1000px) {
-  .testimonials {
-    padding-inline: 3rem;
-  }
-
+@media (max-width: 1300px) {
   .reviews {
     grid-template-columns: 1fr;
   }
