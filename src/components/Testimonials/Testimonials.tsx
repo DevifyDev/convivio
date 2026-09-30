@@ -36,15 +36,17 @@ function ReviewQuote({ quote }: { quote: string }) {
 
       const lines = range.getClientRects()
       const lastLine = lines[lines.length - 1]
-      const openingQuote = block.querySelector(`.${styles.quoteMark}`)
 
-      if (!lastLine || !openingQuote) return
+      if (!lastLine) return
 
       const blockBounds = block.getBoundingClientRect()
-      const quoteGap = openingQuote.getBoundingClientRect().height
+      const quoteBounds = quoteBody.getBoundingClientRect()
+      const columnGap = parseFloat(getComputedStyle(block).columnGap) || 0
 
-      closingQuote.style.left = `${lastLine.right - blockBounds.left}px`
-      closingQuote.style.top = `${lastLine.bottom - blockBounds.top + quoteGap}px`
+      closingQuote.style.left =
+        `${quoteBounds.right - blockBounds.left + columnGap}px`
+      closingQuote.style.top =
+        `${lastLine.top - blockBounds.top}px`
       closingQuote.style.visibility = 'visible'
     }
 

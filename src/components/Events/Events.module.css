@@ -87,7 +87,7 @@
 }
 
 .weeklyCard:hover {
-  border-color: var(--primary-gold);
+  border-color: var(--accent-on-dark);
   transform: translateY(-2px);
 }
 
@@ -175,7 +175,7 @@
 }
 
 .specialEvent:hover {
-  border-color: var(--primary-gold);
+   border-color: var(--accent-on-dark);
 }
 
 .date {

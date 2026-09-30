@@ -140,12 +140,23 @@
 
 :global(html[data-theme='convivio']) .quoteBlock {
   position: relative;
-  padding-bottom: 3rem;
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) 2rem;
+  column-gap: 0.5rem;
+  padding-bottom: 1.25rem;
 }
 
-:global(html[data-theme='convivio']) .quoteMark,
-:global(html[data-theme='convivio']) .source {
-  color: var(--review-accent);
+:global(html[data-theme='convivio']) .quoteMark {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: start;
+  height: auto;
+  font-size: 3.75rem;
+}
+
+:global(html[data-theme='convivio']) .quote {
+  grid-column: 2;
+  grid-row: 1;
 }
 
 :global(html[data-theme='convivio']) .closingQuote {
@@ -154,9 +165,14 @@
   visibility: hidden;
   color: var(--review-accent);
   font-family: var(--display-font), serif;
-  font-size: 5rem;
+  font-size: 3.75rem;
   font-weight: 300;
   line-height: 1;
+}
+
+
+:global(html[data-theme='convivio']) .source {
+  color: var(--review-accent);
 }
 
 :global(html[data-theme='convivio']) .reviewer {
