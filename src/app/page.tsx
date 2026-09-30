@@ -16,7 +16,7 @@ import Location from '@/components/Location/Location'
 import Footer from '@/components/Footer/Footer'
 
 import StructuredData from '@/components/StructuredData/StructuredData'
-import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
+// import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
 import SvgFilter from '@/components/SvgFilter'
 
 import { client } from '@/sanity/lib/client'
@@ -123,7 +123,7 @@ export default async function Homepage() {
 
       <Footer />
 
-      <ThemeSwitcher />
+      {/* <ThemeSwitcher /> */}
     </>
   )
 }

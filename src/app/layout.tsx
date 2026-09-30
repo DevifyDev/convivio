@@ -44,7 +44,7 @@ export default function Root({ children }: Readonly<{ children: React.ReactNode 
   return (
     <html
       lang='en'
-      data-theme='premium'
+      data-theme='convivio'
       className={`${headingFont.variable} ${bodyFont.variable}`}
     >
       <body>
