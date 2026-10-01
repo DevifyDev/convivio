@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import styles from './SectionHeading.module.css'
 
 type SectionHeadingProps = {
@@ -7,6 +8,7 @@ type SectionHeadingProps = {
   variant?: 'light' | 'dark'
   icon?: 'sparkle' | 'wine' | 'location'
   className?: string
+  children?: ReactNode
 }
 
 export default function SectionHeading({
@@ -14,7 +16,8 @@ export default function SectionHeading({
   heading,
   description,
   variant = 'light',
-  className
+  className,
+  children
 }: SectionHeadingProps) {
   return (
     <header
@@ -31,6 +34,8 @@ export default function SectionHeading({
       {description && (
         <p className={styles.description}>{description}</p>
       )}
+
+      {children}
 
       <div className={styles.divider} aria-hidden='true'>
         <span className={styles.line}></span>

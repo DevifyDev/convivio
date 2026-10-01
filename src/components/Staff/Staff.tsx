@@ -9,18 +9,22 @@ import styles from './Staff.module.css'
 export type StaffMember = {
   _key: string
   name: string
-  role?: string
   description: string
-  image?: string
 }
 
 type StaffProps = {
   staff?: StaffMember[] | null
+  groupImage?: string | null
+  groupImageAlt?: string | null
 }
 
 const emptyStaff: StaffMember[] = []
 
-export default function Staff({ staff }: StaffProps) {
+export default function Staff({
+  staff,
+  groupImage,
+  groupImageAlt
+}: StaffProps) {
   const members = staff ?? emptyStaff
   const staffRef = useRef<HTMLDivElement>(null)
 
@@ -48,7 +52,7 @@ export default function Staff({ staff }: StaffProps) {
       },
       {
         threshold: 0,
-        rootMargin: '0px'
+        rootMargin: '0px 0px 160px 0px'
       }
     )
 
@@ -66,12 +70,27 @@ export default function Staff({ staff }: StaffProps) {
     }
   }, [members])
 
-  if (members.length === 0) return null
+  if (members.length === 0 && !groupImage) return null
 
   return (
     <section className={styles.staff} id='staff'>
       <div className={styles.container}>
-        <SectionHeading {...sectionHeadingData.staff} />
+        
+        <SectionHeading {...sectionHeadingData.staff}>
+          {groupImage && (
+            <div className={styles.groupPhoto}>
+              <div className={styles.groupPhotoInner}>
+                <Image
+                  src={groupImage}
+                  alt={groupImageAlt || 'The Convivio team'}
+                  fill
+                  sizes='(max-width: 800px) 100vw, 480px'
+                  className={styles.image}
+                />
+              </div>
+            </div>
+          )}
+        </SectionHeading>
 
         <div className={styles.staffList} ref={staffRef}>
           {members.map((member) => (
@@ -81,39 +100,13 @@ export default function Staff({ staff }: StaffProps) {
               data-staff-slot
             >
               <article className={styles.staffMember}>
-                <div className={styles.portraitSlot}>
-                  <div className={styles.portrait}>
-                    <div className={styles.portraitInner}>
-                      {member.image && (
-                        <Image
-                          src={member.image}
-                          alt={member.name}
-                          fill
-                          sizes='(max-width: 600px) 240px, (max-width: 800px) 280px, 320px'
-                          className={styles.image}
-                        />
-                      )}
-                    </div>
-                  </div>
-                </div>
+                <h3 className={styles.name}>
+                  {member.name}
+                </h3>
 
-                <div className={styles.biography}>
-                  <div className={styles.identity}>
-                    <h3 className={styles.name}>
-                      {member.name}
-                    </h3>
-
-                    {member.role && (
-                      <p className={styles.role}>
-                        {member.role}
-                      </p>
-                    )}
-                  </div>
-
-                  <p className={styles.description}>
-                    {member.description}
-                  </p>
-                </div>
+                <p className={styles.description}>
+                  {member.description}
+                </p>
               </article>
             </div>
           ))}

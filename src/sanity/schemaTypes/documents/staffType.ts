@@ -7,11 +7,47 @@ export const staffType = defineType({
 
   fields: [
     defineField({
+      name: 'groupImage',
+      title: 'Staff Photo',
+      type: 'image',
+      description:
+        'Optional',
+      options: {
+        hotspot: true
+      }
+    }),
+
+    defineField({
+      name: 'groupImageAlt',
+      title: 'Image Description',
+      type: 'string',
+      description:
+        'Briefly describe what is displayed in the image',
+      validation: (rule) =>
+        rule.custom((value, context) => {
+          const document = context.document as {
+            groupImage?: {
+              asset?: {
+                _ref?: string
+              }
+            }
+          } | undefined
+
+          if (
+            document?.groupImage?.asset?._ref &&
+            !value?.trim()
+          ) {
+            return 'Add a description for the photo'
+          }
+
+          return true
+        })
+    }),
+
+    defineField({
       name: 'members',
       title: 'Staff Members',
       type: 'array',
-      description:
-        'Add, remove or drag entries to change their order on the website.',
       of: [
         defineArrayMember({
           type: 'staffMember'
@@ -22,9 +58,14 @@ export const staffType = defineType({
   ],
 
   preview: {
-    prepare() {
+    select: {
+      media: 'groupImage'
+    },
+
+    prepare({ media }) {
       return {
-        title: 'Staff'
+        title: 'Staff',
+        media
       }
     }
   }

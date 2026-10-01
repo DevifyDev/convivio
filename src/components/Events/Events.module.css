@@ -69,7 +69,7 @@
 .weeklyGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: start;
+  align-items: stretch;
   gap: 1.25rem;
 }
 
@@ -392,5 +392,50 @@
 
   .eventImage:empty {
     display: none;
+  }
+}
+
+/* Weekly Events Override **/
+
+.weeklyGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.weeklyCard {
+  grid-template-columns: 8rem minmax(0, 1fr);
+}
+
+.dayName {
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.weeklyPrice {
+  margin: 0 0 0.9rem;
+  color: var(--accent-on-dark, var(--primary-gold));
+  font-family: var(--body-copy-font), serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.weeklyDescription {
+  white-space: pre-line;
+}
+
+@media (max-width: 1000px) {
+  .weeklyGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  .weeklyCard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .weeklyCard .dayName {
+    justify-self: start;
+    text-align: left;
   }
 }

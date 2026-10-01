@@ -1,175 +1,251 @@
 # Workspace Export
-Generated: 2026-10-01T05:50:50.038Z
+Generated: 2026-10-01T08:10:01.009Z
 
-## ./src/components/Staff/Staff.tsx
+## ./src/components/Events/Events.tsx
 ```tsx
-'use client'
-
 import Image from 'next/image'
-import { useEffect, useRef } from 'react'
 import SectionHeading from '../SectionHeading/SectionHeading'
 import { sectionHeadingData } from '@/data/sectionHeadingData'
-import styles from './Staff.module.css'
+import styles from './Events.module.css'
 
-export type StaffMember = {
+export type WeeklyEvent = {
+  title: string
+  time?: string
+  description: string
+}
+
+export type WeeklyEvents = {
+  monday?: WeeklyEvent
+  tuesday?: WeeklyEvent
+  wednesday?: WeeklyEvent
+  thursday?: WeeklyEvent
+  friday?: WeeklyEvent
+  saturday?: WeeklyEvent
+  sunday?: WeeklyEvent
+}
+
+export type SpecialEvent = {
   _key: string
-  name: string
-  role?: string
+  date: string
+  time?: string
+  title: string
   description: string
   image?: string
+  imageAlt?: string
+  price?: string
 }
 
-type StaffProps = {
-  staff?: StaffMember[] | null
+type EventsProps = {
+  description?: string
+  weeklyEvents?: WeeklyEvents
+  specialEvents?: SpecialEvent[]
 }
 
-const emptyStaff: StaffMember[] = []
+const days: {
+  key: keyof WeeklyEvents
+  label: string
+}[] = [
+  { key: 'monday', label: 'Monday' },
+  { key: 'tuesday', label: 'Tuesday' },
+  { key: 'wednesday', label: 'Wednesday' },
+  { key: 'thursday', label: 'Thursday' },
+  { key: 'friday', label: 'Friday' },
+  { key: 'saturday', label: 'Saturday' },
+  { key: 'sunday', label: 'Sunday' }
+]
 
-export default function Staff({ staff }: StaffProps) {
-  const members = staff ?? emptyStaff
-  const staffRef = useRef<HTMLDivElement>(null)
+function getEventDate(dateString: string) {
+  const date = new Date(`${dateString}T00:00:00Z`)
 
-  useEffect(() => {
-    const list = staffRef.current
+  return {
+    day: new Intl.DateTimeFormat('en-AU', {
+      day: '2-digit',
+      timeZone: 'UTC'
+    }).format(date),
 
-    if (
-      !list ||
-      !('IntersectionObserver' in window) ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) return
+    month: new Intl.DateTimeFormat('en-AU', {
+      month: 'short',
+      timeZone: 'UTC'
+    }).format(date),
 
-    const rows = list.querySelectorAll<HTMLElement>('[data-staff-member]')
+    weekday: new Intl.DateTimeFormat('en-AU', {
+      weekday: 'long',
+      timeZone: 'UTC'
+    }).format(date)
+  }
+}
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
+export default function Events({
+  description,
+  weeklyEvents,
+  specialEvents = []
+}: EventsProps) {
+  const weeklyEventList = days.flatMap(({ key, label }) => {
+    const event = weeklyEvents?.[key]
 
-          entry.target
-            .closest('[data-staff-member]')
-            ?.classList.add(styles.visible)
+    if (!event) return []
 
-          observer.unobserve(entry.target)
-        })
-      },
-      { threshold: 0.15, rootMargin: '0px 0px -5% 0px' }
-    )
+    return [
+      {
+        day: label,
+        ...event
+      }
+    ]
+  })
 
-    rows.forEach((row) => {
-      const target = row.querySelector<HTMLElement>('[data-staff-portrait]')
-
-      if (!target) return
-
-      row.classList.add(styles.animate)
-      observer.observe(target)
-    })
-
-    return () => {
-      observer.disconnect()
-      rows.forEach((row) => row.classList.remove(styles.animate))
-    }
-  }, [members])
-
-  if (members.length === 0) return null
+  if (weeklyEventList.length === 0 && specialEvents.length === 0) {
+    return null
+  }
 
   return (
-    <section className={styles.staff} id='staff'>
+    <section className={styles.events} id='events'>
       <div className={styles.container}>
-        
-        <SectionHeading {...sectionHeadingData.staff} />
+        <SectionHeading {...sectionHeadingData.events} />
 
-        <div className={styles.staffList} ref={staffRef}>
-          {members.map((member) => (
-            <article
-              className={styles.staffMember}
-              key={member._key}
-              data-staff-member
-            >
-              <div
-                className={styles.portraitSlot}
-                data-staff-portrait
-              >
-                <div className={styles.portrait}>
-                  <div className={styles.portraitInner}>
-                    {member.image && (
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        fill
-                        sizes='(max-width: 600px) 240px, (max-width: 800px) 280px, 320px'
-                        className={styles.image}
-                        unoptimized
-                      />
+        {weeklyEventList.length > 0 && (
+          <div className={styles.weeklySection}>
+            <div className={styles.subheadingRow}>
+              <p className={styles.sectionEyebrow}>What's On</p>
+              <h3 className={styles.subheading}>
+                Weekly at Convivio
+              </h3>
+            </div>
+
+            <div className={styles.weeklyGrid}>
+              {weeklyEventList.map((event) => (
+                <article
+                  className={styles.weeklyCard}
+                  key={event.day}
+                >
+                  <p className={styles.dayName}>{event.day}</p>
+
+                  <div className={styles.weeklyContent}>
+                    <h4 className={styles.weeklyTitle}>
+                      {event.title}
+                    </h4>
+
+                    {event.time && (
+                      <p className={styles.weeklyTime}>
+                        {event.time}
+                      </p>
                     )}
+
+                    <p className={styles.weeklyDescription}>
+                      {event.description}
+                    </p>
                   </div>
-                </div>
-              </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
 
-              <div className={styles.biography}>
-                <div className={styles.identity}>
-                  <h3 className={styles.name}>{member.name}</h3>
+        {specialEvents.length > 0 && (
+          <div className={styles.specialSection}>
+            <div className={styles.subheadingRow}>
+              <p className={styles.sectionEyebrow}>Coming Up</p>
 
-                  {member.role && (
-                    <p className={styles.role}>{member.role}</p>
-                  )}
-                </div>
+              <h3 className={styles.subheading}>
+                Special Events
+              </h3>
+            </div>
 
-                <p className={styles.description}>
-                  {member.description}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
+            <div className={styles.specialEvents}>
+              {specialEvents.map((event) => {
+                const { day, month } = getEventDate(event.date)
+
+                return (
+                  <article
+                    className={styles.specialEvent}
+                    key={event._key}
+                  >
+                    <time
+                      className={styles.date}
+                      dateTime={event.date}
+                    >
+                      <span className={styles.dateDay}>
+                        {day}
+                      </span>
+
+                      <span className={styles.dateMonth}>
+                        {month}
+                      </span>
+                    </time>
+
+                    <div className={styles.eventImage}>
+                      {event.image && (
+                        <Image
+                          src={event.image}
+                          alt={event.imageAlt ?? ''}
+                          fill
+                          sizes='(max-width: 650px) 100vw, 220px'
+                          className={styles.image}
+                        />
+                      )}
+                    </div>
+
+                    <div className={styles.eventContent}>
+                      <h4 className={styles.eventTitle}>
+                        {event.title}
+                      </h4>
+
+                      {event.time && (
+                        <p className={styles.weeklyTime}>
+                          {event.time}
+                        </p>
+                      )}
+
+                      <p className={styles.eventDescription}>
+                        {event.description}
+                      </p>
+                    </div>
+
+                    {event.price && (
+                      <p className={styles.price}>
+                        {event.price}
+                      </p>
+                    )}
+                  </article>
+                )
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </section>
   )
 }
 ```
 
-## ./src/components/Staff/Staff.module.css
+## ./src/components/Events/Events.module.css
 ```css
-.staff {
+.events {
   position: relative;
-  padding: 6rem;
-  background: var(--light-background);
-  color: var(--dark-text);
+  z-index: 1;
+  padding-block: 6rem;
+  padding-inline: 6rem;
+  background: var(--dark-background);
+  color: var(--light-text);
 }
 
-.staff::before {
+.events::before,
+.events::after {
   content: '';
   position: absolute;
-  top: 0;
   left: 0;
   width: 100%;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    color-mix(in srgb, var(--accent-on-light-primary) 20%, transparent) 8%,
-    color-mix(in srgb, var(--accent-on-light-primary) 20%, transparent) 92%,
-    transparent 100%
-  );
-  mask: repeating-linear-gradient(
-    90deg,
-    #000 0 17px,
-    transparent 17px 18px,
-    #000 18px 39px,
-    transparent 39px 40px
-  );
-  -webkit-mask: repeating-linear-gradient(
-    90deg,
-    #000 0 17px,
-    transparent 17px 18px,
-    #000 18px 39px,
-    transparent 39px 40px
-  );
+  height: 24px;
+  background: var(--dark-background);
+  filter: url('#roughen');
   pointer-events: none;
 }
 
-.staff,
-.staff * {
-  box-sizing: border-box;
+.events::before {
+  top: -12px;
+}
+
+.events::after {
+  bottom: -12px;
 }
 
 .container {
@@ -178,191 +254,616 @@ export default function Staff({ staff }: StaffProps) {
   margin-inline: auto;
 }
 
-.staffList {
+/* SECTION HEADINGS */
+
+.weeklySection {
+  margin-top: 5rem;
+}
+
+.specialSection {
+  margin-top: 6rem;
+}
+
+.subheadingRow {
+  margin-bottom: 2rem;
+}
+
+.sectionEyebrow {
+  margin: 0 0 0.6rem;
+  color: var(--primary-gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.subheading {
+  margin: 0;
+  color: var(--light-text);
+  font-size: 1.75rem;
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+/* WEEKLY EVENTS */
+
+.weeklyGrid {
   display: grid;
-  gap: 6rem;
-  width: 100%;
-  max-width: 60rem;
-  margin: 4rem auto 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 1.25rem;
 }
 
-.staffMember {
+.weeklyCard {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  gap: clamp(2rem, 5vw, 4rem);
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  border: 1px solid rgba(248, 247, 244, 0.12);
+  background: rgba(248, 247, 244, 0.035);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
-.portraitSlot {
-  width: 100%;
-  max-width: 20rem;
-  aspect-ratio: 4 / 5;
-  justify-self: start;
+.weeklyCard:hover {
+  border-color: var(--accent-on-dark);
+  transform: translateY(-2px);
 }
 
-.staffMember:nth-child(even) .portraitSlot {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: end;
+.dayName {
+  margin: 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--primary-gold);
+  color: var(--primary-gold);
+  font-family: var(--display-font), serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
 }
 
-.staffMember:nth-child(even) .biography {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.portrait {
+:global(html[data-theme='convivio']) .dayName {
   position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: var(--primary-blue, #28334c);
+  width: max-content;
+  max-width: 100%;
+  justify-self: center;
+  padding-bottom: 0.85rem;
+  border-bottom: 0;
 }
 
-.portraitInner {
-  position: absolute;
-  inset: 1rem;
-  overflow: hidden;
-  background: #fff;
-}
-
-.portrait::after {
+:global(html[data-theme='convivio']) .dayName::after {
   content: '';
   position: absolute;
-  inset: 0.5rem;
-  border: 1px solid rgb(255 255 255 / 0.45);
-  pointer-events: none;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  background: var(--primary-gold);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='0.75'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+}
+
+.weeklyContent {
+  min-width: 0;
+}
+
+.weeklyTitle {
+  margin: 0 0 0.4rem;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.weeklyTime {
+  margin: 0 0 0.9rem;
+  color: var(--primary-gold);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.weeklyDescription {
+  margin: 0;
+  color: var(--light-text);
+  opacity: 0.9;
+  font-size: 0.85rem;
+  font-weight: 200;
+  line-height: 1.6;
+}
+
+/* SPECIAL EVENTS */
+
+.specialEvents {
+  display: grid;
+  gap: 1rem;
+}
+
+.specialEvent {
+  display: grid;
+  grid-template-columns: 5rem 13rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 2rem 1rem 1.5rem;
+  border: 1px solid rgba(248, 247, 244, 0.1);
+  background: rgba(248, 247, 244, 0.035);
+  transition: border-color 180ms ease;
+}
+
+.specialEvent:hover {
+   border-color: var(--accent-on-dark);
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateDay {
+  color: var(--primary-gold);
+  font-family: var(--display-font), serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.dateMonth {
+  margin-top: 0.4rem;
+  color: rgba(242, 242, 242, 0.65);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.eventImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.eventImage:empty {
+  visibility: hidden;
 }
 
 .image {
   object-fit: cover;
 }
 
-.biography {
-  width: 100%;
+.eventContent {
   min-width: 0;
-  text-align: left;
 }
 
-.identity {
-  margin-bottom: 1.5rem;
-}
-
-.name {
-  margin: 0;
-  color: var(--primary-blue, #28334c);
-  font-family: var(--display-font, var(--heading-font, serif));
-  font-size: clamp(1.6rem, 2.7vw, 2.2rem);
-  font-weight: 400;
-  line-height: 1.2;
-  overflow-wrap: anywhere;
-}
-
-.role {
-  margin: 0.9rem 0 0;
+.eventMeta {
+  margin: 0 0 0.5rem;
   color: var(--primary-gold);
-  font-family: var(--body-copy-font, serif);
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  line-height: 1.5;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.description {
-  margin: 1.5rem 0 0;
-  color: var(--dark-text, #28334c);
-  font-family: var(--body-copy-font, serif);
-  font-size: 1.05rem;
+.eventTitle {
+  margin: 0 0 0.6rem;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.4rem;
   font-weight: 400;
-  line-height: 1.8;
-  text-align: left;
-  overflow-wrap: anywhere;
+  line-height: 1.2;
 }
 
-:global(html[data-theme='convivio']) .role {
-  color: var(--accent-on-light);
+.eventDescription {
+  max-width: 38rem;
+  margin: 0;
+  color: var(--light-text);
+  opacity: 0.9;
+  font-size: 0.85rem;
+  font-weight: 200;
+  line-height: 1.6;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .staffMember.animate .portrait {
-    opacity: 0;
-    transform: translateX(-2rem) rotate(-360deg) scale(0.9);
-    transition:
-      transform 2860ms cubic-bezier(0.2, 0.65, 0.25, 1),
-      opacity 600ms ease;
+.price {
+  margin: 0;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+:global(html[data-theme='convivio']) .sectionEyebrow,
+:global(html[data-theme='convivio']) .dayName,
+:global(html[data-theme='convivio']) .weeklyTime,
+:global(html[data-theme='convivio']) .dateDay,
+:global(html[data-theme='convivio']) .eventMeta {
+  color: var(--accent-on-dark);
+}
+
+:global(html[data-theme='convivio']) .dateMonth {
+  color: var(--accent-on-dark);
+  font-family: var(--display-font);
+  font-size: 1.1rem;
+}
+
+:global(html[data-theme='convivio']) .dayName::after {
+  background: var(--accent-on-dark);
+}
+
+/* SMALL DESKTOP / TABLET */
+
+@media (max-width: 1350px) {
+  .events {
+    padding-inline: 3rem;
   }
 
-  .staffMember:nth-child(even).animate .portrait {
-    transform: translateX(2rem) rotate(360deg) scale(0.9);
+  .weeklyGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .staffMember.animate .biography {
-    opacity: 0;
-    transform: translateX(-2rem);
-    transition:
-      transform 1300ms ease 200ms,
-      opacity 900ms ease 200ms;
+  .specialEvent {
+    grid-template-columns: 5rem 11rem minmax(0, 1fr);
   }
 
-  .staffMember:nth-child(even).animate .biography {
-    transform: translateX(2rem);
-  }
-
-  .staffMember.animate.visible .portrait,
-  .staffMember.animate.visible .biography {
-    opacity: 1;
-    transform: none;
+  .price {
+    grid-column: 3;
   }
 }
 
-@media (max-width: 800px) {
-  .staff {
-    padding: 4rem var(--inline-padding, 1.5rem);
+/* MOBILE / NARROW TABLET */
+
+@media (max-width: 1000px) {
+  .events {
+    padding-block: 4rem;
+    padding-inline: var(--inline-padding);
   }
 
-  .staffList {
-    gap: 4rem;
-    margin-top: 3rem;
+  .weeklySection {
+    margin-top: 4rem;
   }
 
-  .staffMember {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    gap: 2rem;
+  .specialSection {
+    margin-top: 4rem;
   }
 
-  .portraitSlot,
-  .staffMember:nth-child(even) .portraitSlot {
+  .weeklyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .specialEvent {
+    grid-template-columns: 4.5rem 9rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  .eventImage {
+    grid-column: 2;
+  }
+
+  .eventContent {
+    grid-column: 3;
+  }
+
+  .price {
+    grid-column: 3;
+  }
+
+  .date {
+    grid-row: auto;
+    padding-top: 0;
+  }
+
+  .eventTitle {
+    font-size: 1.3rem;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 550px) {
+  .weeklyCard {
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .dayName {
+    font-size: 0.9rem;
+  }
+
+  .specialEvent {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+  }
+
+  .date {
+    grid-row: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .dateDay {
+    font-size: 2rem;
+  }
+
+  .dateMonth {
+    margin-top: 0;
+  }
+
+  .eventImage,
+  .eventContent,
+  .price {
     grid-column: 1;
-    grid-row: 1;
-    justify-self: center;
-    width: min(100%, clamp(15rem, 40vw, 17.5rem));
   }
 
-  .biography,
-  .staffMember:nth-child(even) .biography {
-    grid-column: 1;
-    grid-row: 2;
-    justify-self: center;
+  .eventImage {
     width: 100%;
-    text-align: center;
+    height: 11rem;
+    aspect-ratio: auto;
   }
 
-  .name {
-    font-size: clamp(1.5rem, 4vw, 1.7rem);
-  }
-
-  .identity {
-    max-width: 20rem;
-    margin-inline: auto;
-  }
-
-  .description {
-    width: 70vw;
-    max-width: 100%;
-    margin-inline: auto;
-    font-size: 1rem;
+  .eventImage:empty {
+    display: none;
   }
 }
+```
+
+## ./src/sanity/schemaTypes/documents/eventsType.ts
+```ts
+import { defineArrayMember, defineField, defineType } from 'sanity'
+
+export const eventsType = defineType({
+  name: 'events',
+  title: 'Events',
+  type: 'document',
+
+  fields: [
+    defineField({
+      name: 'weeklyEvents',
+      title: 'Weekly Events',
+      type: 'object',
+      description: 
+        'Add details for weekly events',
+
+      fields: [
+        defineField({
+          name: 'monday',
+          title: 'Monday',
+          type: 'weeklyEvent',
+          options: {
+            collapsible: true,
+            collapsed: true
+          },
+        }),
+
+        defineField({
+          name: 'tuesday',
+          title: 'Tuesday',
+          type: 'weeklyEvent',
+          options: {
+            collapsible: true,
+            collapsed: true
+          }
+        }),
+
+        defineField({
+          name: 'wednesday',
+          title: 'Wednesday',
+          type: 'weeklyEvent',
+          options: {
+            collapsible: true,
+            collapsed: true
+          }
+        }),
+
+        defineField({
+          name: 'thursday',
+          title: 'Thursday',
+          type: 'weeklyEvent',
+          options: {
+            collapsible: true,
+            collapsed: true
+          }
+        }),
+
+        defineField({
+          name: 'friday',
+          title: 'Friday',
+          type: 'weeklyEvent',
+          options: {
+            collapsible: true,
+            collapsed: true
+          }
+        }),
+
+        defineField({
+          name: 'saturday',
+          title: 'Saturday',
+          type: 'weeklyEvent',
+          options: {
+            collapsible: true,
+            collapsed: true
+          }
+        }),
+
+        defineField({
+          name: 'sunday',
+          title: 'Sunday',
+          type: 'weeklyEvent',
+          options: {
+            collapsible: true,
+            collapsed: true
+          }
+        })
+      ]
+    }),
+
+    defineField({
+      name: 'specialEvents',
+      title: 'Special Events',
+      type: 'array',
+      description:
+        'Add details for special events',
+
+      of: [
+        defineArrayMember({
+          type: 'specialEvent'
+        })
+      ]
+    })
+  ],
+
+  preview: {
+    prepare() {
+      return {
+        title: 'Events'
+      }
+    }
+  }
+})
+```
+
+## ./src/sanity/schemaTypes/objects/specialEventType.ts
+```ts
+import { defineField, defineType } from 'sanity'
+
+export const specialEventType = defineType({
+  name: 'specialEvent',
+  title: 'Special Event',
+  type: 'object',
+
+  fields: [
+    defineField({
+      name: 'title',
+      title: 'Event Name',
+      type: 'string',
+      validation: (rule) => rule.required()
+    }),
+
+    defineField({
+      name: 'date',
+      title: 'Event Date',
+      type: 'date',
+      validation: (rule) => rule.required()
+    }),
+
+    defineField({
+      name: 'time',
+      title: 'Time',
+      type: 'string',
+    }),
+
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      rows: 3,
+      description: 'Maximum 250 characters',
+      validation: (rule) =>
+        rule.required().max(250)
+          }),
+
+    defineField({
+        name: 'image',
+        title: 'Event Photo',
+        type: 'image',
+        description: 'Optional',
+        options: {
+          hotspot: true
+        }
+      }),
+
+      defineField({
+        name: 'imageAlt',
+        title: 'Image Description',
+        type: 'string',
+        description:
+          'Required when an image is included',
+
+        validation: (rule) =>
+          rule.custom((value, context) => {
+            const parent = context.parent as {
+              image?: unknown
+            }
+
+            if (parent?.image && !value) {
+              return 'Image description is required'
+            }
+
+            return true
+          })
+      }),
+
+    defineField({
+      name: 'price',
+      title: 'Price',
+      type: 'string',
+      description:
+        'Optional'
+    })
+  ],
+
+  preview: {
+    select: {
+      title: 'title',
+      date: 'date',
+      media: 'image'
+    },
+
+    prepare({ title, date, media }) {
+      return {
+        title,
+        subtitle: date || 'Date not set',
+        media
+      }
+    }
+  }
+})
+```
+
+## ./src/sanity/schemaTypes/objects/weeklyEventType.ts
+```ts
+import { defineField, defineType } from 'sanity'
+
+export const weeklyEventType = defineType({
+  name: 'weeklyEvent',
+  title: 'Weekly Event',
+  type: 'object',
+
+  fields: [
+    defineField({
+      name: 'title',
+      title: 'Event Name',
+      type: 'string',
+      validation: (rule) => rule.required()
+    }),
+
+    defineField({
+      name: 'time',
+      title: 'Time',
+      type: 'string',
+      validation: (rule) => rule.required()
+    }),
+
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+      rows: 3,
+      description:
+        'Maximum 180 characters',
+      validation: (rule) =>
+        rule.required().max(180)
+    })
+  ]
+})
 ```

@@ -19,8 +19,8 @@ const files = [
   // './src/components/Button/Button.tsx',
   // './src/components/Button/Button.module.css',
 
-  // './src/components/Events/Events.tsx',
-  // './src/components/Events/Events.module.css',
+  './src/components/Events/Events.tsx',
+  './src/components/Events/Events.module.css',
 
   // './src/components/Faq/Faq.tsx',
   // './src/components/Faq/Faq.module.css',
@@ -46,8 +46,8 @@ const files = [
   // './src/components/SectionHeading/SectionHeading.tsx',
   // './src/components/SectionHeading/SectionHeading.module.css',
 
-  './src/components/Staff/Staff.tsx',
-  './src/components/Staff/Staff.module.css',
+  // './src/components/Staff/Staff.tsx',
+  // './src/components/Staff/Staff.module.css',
 
   // './src/components/StructuredData/StructuredData.tsx',
   // './src/components/StructuredData/StructuredData.module.css',
@@ -73,18 +73,22 @@ const files = [
     //  './src/sanity/schemaTypes/index.ts',
 
     //   './src/sanity/schemaTypes/documents/businessDetailsType.ts',
-    //   './src/sanity/schemaTypes/documents/eventsType.ts',
+      './src/sanity/schemaTypes/documents/eventsType.ts',
     //   './src/sanity/schemaTypes/documents/galleryType.ts',
     //   './src/sanity/schemaTypes/documents/menuType.ts',
     //   './src/sanity/schemaTypes/documents/testimonialType.ts',
+      // './src/sanity/schemaTypes/documents/staffType.ts',
+
+
 
     //  './src/sanity/schemaTypes/objects/galleryImageType.ts',
     //   './src/sanity/schemaTypes/objects/menuCategoryType.ts',
     //   './src/sanity/schemaTypes/objects/menuItemType.ts',
     //   './src/sanity/schemaTypes/objects/openingHoursType.ts',
-    //   './src/sanity/schemaTypes/objects/specialEventType.ts',
+      './src/sanity/schemaTypes/objects/specialEventType.ts',
     //   './src/sanity/schemaTypes/objects/testimonialType.ts',
-    //   './src/sanity/schemaTypes/objects/weeklyEventType.ts',
+      './src/sanity/schemaTypes/objects/weeklyEventType.ts',
+        //  './src/sanity/schemaTypes/objects/staffMemberType.ts',
 
   //     './src/types/businessDetail.ts',
 

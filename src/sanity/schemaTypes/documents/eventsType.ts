@@ -7,92 +7,24 @@ export const eventsType = defineType({
 
   fields: [
     defineField({
-      name: 'weeklyEvents',
-      title: 'Weekly Events',
-      type: 'object',
-      description: 
-        'Add details for weekly events',
-
-      fields: [
-        defineField({
-          name: 'monday',
-          title: 'Monday',
-          type: 'weeklyEvent',
-          options: {
-            collapsible: true,
-            collapsed: true
-          },
-        }),
-
-        defineField({
-          name: 'tuesday',
-          title: 'Tuesday',
-          type: 'weeklyEvent',
-          options: {
-            collapsible: true,
-            collapsed: true
-          }
-        }),
-
-        defineField({
-          name: 'wednesday',
-          title: 'Wednesday',
-          type: 'weeklyEvent',
-          options: {
-            collapsible: true,
-            collapsed: true
-          }
-        }),
-
-        defineField({
-          name: 'thursday',
-          title: 'Thursday',
-          type: 'weeklyEvent',
-          options: {
-            collapsible: true,
-            collapsed: true
-          }
-        }),
-
-        defineField({
-          name: 'friday',
-          title: 'Friday',
-          type: 'weeklyEvent',
-          options: {
-            collapsible: true,
-            collapsed: true
-          }
-        }),
-
-        defineField({
-          name: 'saturday',
-          title: 'Saturday',
-          type: 'weeklyEvent',
-          options: {
-            collapsible: true,
-            collapsed: true
-          }
-        }),
-
-        defineField({
-          name: 'sunday',
-          title: 'Sunday',
-          type: 'weeklyEvent',
-          options: {
-            collapsible: true,
-            collapsed: true
-          }
+      name: 'weeklyOffers',
+      title: 'Weekly Offers',
+      type: 'array',
+      description:
+        'Add details for special events',
+      of: [
+        defineArrayMember({
+          type: 'weeklyEvent'
         })
-      ]
+      ],
+      initialValue: []
     }),
 
     defineField({
       name: 'specialEvents',
       title: 'Special Events',
       type: 'array',
-      description:
-        'Add details for special events',
-
+      description: 'Add details for special events',
       of: [
         defineArrayMember({
           type: 'specialEvent'

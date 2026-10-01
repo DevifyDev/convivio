@@ -25,43 +25,15 @@ export const galleryQuery = `
 
 export const eventsQuery = `
   *[_id == 'events'][0] {
-    weeklyEvents {
-      monday {
-        title,
-        time,
-        description
-      },
-      tuesday {
-        title,
-        time,
-        description
-      },
-      wednesday {
-        title,
-        time,
-        description
-      },
-      thursday {
-        title,
-        time,
-        description
-      },
-      friday {
-        title,
-        time,
-        description
-      },
-      saturday {
-        title,
-        time,
-        description
-      },
-      sunday {
-        title,
-        time,
-        description
-      }
-    },
+  
+    'weeklyEvents': coalesce(weeklyOffers[] {
+      _key,
+      schedule,
+      title,
+      time,
+      price,
+      description
+    }, []),
 
     specialEvents[] {
       _key,
@@ -110,12 +82,12 @@ export const businessDetailsQuery = `
 
 export const staffQuery = `
   *[_type == 'staff' && _id == 'staff'][0] {
+    'groupImage': groupImage.asset->url,
+    groupImageAlt,
     'members': coalesce(members[] {
       _key,
       name,
-      'role': coalesce(role, ''),
-      description,
-      'image': coalesce(image.asset->url, '')
+      description
     }, [])
   }
 `

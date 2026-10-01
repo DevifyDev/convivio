@@ -7,25 +7,10 @@ export const staffMemberType = defineType({
 
   fields: [
     defineField({
-      name: 'image',
-      title: 'Photo',
-      type: 'image',
-      description: 'Use a portrait photo. The website displays it in a 4:5 frame.',
-      validation: (rule) => rule.required().assetRequired()
-    }),
-
-    defineField({
       name: 'name',
       title: 'Name',
       type: 'string',
       validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'role',
-      title: 'Role / Position',
-      type: 'string',
-      description: 'Optional, for example Owner or Chef.'
     }),
 
     defineField({
@@ -40,8 +25,7 @@ export const staffMemberType = defineType({
   preview: {
     select: {
       title: 'name',
-      subtitle: 'role',
-      media: 'image'
+      subtitle: 'description'
     }
   }
 })

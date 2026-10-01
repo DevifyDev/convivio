@@ -48,59 +48,18 @@
   margin-inline: auto;
 }
 
-.staffList {
-  display: grid;
-  gap: 6rem;
-  width: 100%;
-  max-width: 60rem;
-  margin: 4rem auto 0;
-}
+/* Shared team photo */
 
-.staffSlot {
-  min-width: 0;
-}
-
-.staffMember {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: center;
-  gap: clamp(2rem, 5vw, 4rem);
-}
-
-.portraitSlot {
-  width: 100%;
-  max-width: 20rem;
-  aspect-ratio: 4 / 5;
-  justify-self: start;
-}
-
-.staffSlot:nth-child(even) .portraitSlot {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: end;
-}
-
-.staffSlot:nth-child(even) .biography {
-  grid-column: 1;
-  grid-row: 1;
-}
-
-.portrait {
+.groupPhoto {
   position: relative;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: var(--primary-blue, #28334c);
+  max-width: 30rem;
+  margin: 1.5rem auto 2rem;
+  padding: 1rem;
+  background: var(--primary-blue);
 }
 
-.portraitInner {
-  position: absolute;
-  inset: 1rem;
-  overflow: hidden;
-  background: #fff;
-}
-
-.portrait::after {
+.groupPhoto::after {
   content: '';
   position: absolute;
   inset: 0.5rem;
@@ -108,67 +67,69 @@
   pointer-events: none;
 }
 
+.groupPhotoInner {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--primary-white);
+}
+
 .image {
   object-fit: cover;
 }
 
-.biography {
-  width: 100%;
-  min-width: 0;
-  text-align: left;
+/* Centred biographies */
+
+.staffList {
+  display: grid;
+  gap: 4rem;
+  width: 60%;
+  margin: 4rem auto 0;
 }
 
-.identity {
-  margin-bottom: 1.5rem;
+.staffSlot {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.staffMember {
+  width: 100%;
+  min-width: 0;
 }
 
 .name {
-  margin: 0;
-  color: var(--primary-blue, #28334c);
+  margin: 0 0 1.25rem;
+  color: var(--primary-blue);
   font-family: var(--display-font, var(--heading-font, serif));
   font-size: clamp(1.6rem, 2.7vw, 2.2rem);
   font-weight: 400;
   line-height: 1.2;
+  text-align: center;
   overflow-wrap: anywhere;
-}
-
-.role {
-  margin: 0.9rem 0 0;
-  color: var(--primary-gold);
-  font-family: var(--body-copy-font, serif);
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1.5;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
 }
 
 .description {
   margin: 0;
-  color: var(--dark-text, #28334c);
-  font-family: var(--body-copy-font, serif);
+  color: var(--dark-text);
+  font-family: var(--body-copy-font), serif;
   font-size: 1.05rem;
   font-weight: 400;
   line-height: 1.8;
   text-align: left;
+  white-space: pre-line;
   overflow-wrap: anywhere;
 }
 
-/* Convivio theme */
-
-:global(html[data-theme='convivio']) .role {
-  color: var(--accent-on-light);
-}
-
-/* Animate the whole row; its wrapper stays in place */
+/* Alternating slide directions */
 
 @media (prefers-reduced-motion: no-preference) {
   .staffSlot.animate .staffMember {
     opacity: 0;
     transform: translateX(-100vw);
     transition:
-      transform 3200ms ease-in-out,
-      opacity 1800ms ease;
+      transform 4500ms ease-in-out,
+      opacity 2200ms ease;
   }
 
   .staffSlot:nth-child(even).animate .staffMember {
@@ -189,47 +150,25 @@
     padding: 4rem var(--inline-padding, 1.5rem);
   }
 
+  .groupPhoto {
+    padding: 0.75rem;
+  }
+
+  .groupPhoto::after {
+    inset: 0.375rem;
+  }
+
   .staffList {
-    gap: 4rem;
-    margin-top: 3rem;
-  }
-
-  .staffMember {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    gap: 2rem;
-  }
-
-  .portraitSlot,
-  .staffSlot:nth-child(even) .portraitSlot {
-    grid-column: 1;
-    grid-row: 1;
-    justify-self: center;
-    width: min(100%, clamp(15rem, 40vw, 17.5rem));
-  }
-
-  .biography,
-  .staffSlot:nth-child(even) .biography {
-    grid-column: 1;
-    grid-row: 2;
-    justify-self: center;
     width: 100%;
-    text-align: center;
+    gap: 3rem;
+    margin-top: 3rem;
   }
 
   .name {
     font-size: clamp(1.5rem, 4vw, 1.7rem);
   }
 
-  .identity {
-    max-width: 20rem;
-    margin-inline: auto;
-  }
-
   .description {
-    width: 70vw;
-    max-width: 100%;
-    margin-inline: auto;
     font-size: 1rem;
   }
 }

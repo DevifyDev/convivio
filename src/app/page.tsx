@@ -51,6 +51,8 @@ type TestimonialsData = {
 }
 
 type StaffData = {
+  groupImage?: string | null
+  groupImageAlt?: string | null
   members?: StaffMember[]
 }
 
@@ -105,7 +107,11 @@ export default async function Homepage() {
 
         <About images={about} />
 
-        <Staff staff={staff?.members ?? []} />
+        <Staff
+          staff={staff?.members ?? []}
+          groupImage={staff?.groupImage}
+          groupImageAlt={staff?.groupImageAlt}
+        />
 
         <Menu categories={menu?.categories ?? []} />
 
@@ -116,7 +122,7 @@ export default async function Homepage() {
 
         <Events
           weeklyEvents={events?.weeklyEvents}
-          specialEvents={events?.specialEvents ?? []}
+          specialEvents={events?.specialEvents}
         />
 
         <Testimonials
