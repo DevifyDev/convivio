@@ -167,10 +167,6 @@
   left: 0;
 }
 
-:global(html[data-theme='convivio']) .faq :global(header p) {
-  color: var(--accent-on-dark);
-}
-
 :global(html[data-theme='convivio']) .faq :global(header > div[aria-hidden='true']) {
   color: var(--light-text);
 }

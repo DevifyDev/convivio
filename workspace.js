@@ -22,8 +22,8 @@ const files = [
   // './src/components/Events/Events.tsx',
   // './src/components/Events/Events.module.css',
 
-  // './src/components/Faq/Faq.tsx',
-  // './src/components/Faq/Faq.module.css',
+  './src/components/Faq/Faq.tsx',
+  './src/components/Faq/Faq.module.css',
 
   // './src/components/Footer/Footer.tsx',
   // './src/components/Footer/Footer.module.css',
@@ -43,8 +43,8 @@ const files = [
   // './src/components/Menu/Menu.tsx',
   // './src/components/Menu/Menu.module.css',
 
-  // './src/components/SectionHeading/SectionHeading.tsx',
-  // './src/components/SectionHeading/SectionHeading.module.css',
+  './src/components/SectionHeading/SectionHeading.tsx',
+  './src/components/SectionHeading/SectionHeading.module.css',
 
   // './src/components/Staff/Staff.tsx',
   // './src/components/Staff/Staff.module.css',
