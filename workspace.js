@@ -46,13 +46,13 @@ const files = [
   // './src/components/SectionHeading/SectionHeading.tsx',
   // './src/components/SectionHeading/SectionHeading.module.css',
 
-  // './src/components/Staff/Staff.tsx',
-  // './src/components/Staff/Staff.module.css',
+  './src/components/Staff/Staff.tsx',
+  './src/components/Staff/Staff.module.css',
 
   // './src/components/StructuredData/StructuredData.tsx',
   // './src/components/StructuredData/StructuredData.module.css',
 
- './src/components/SvgFilter.tsx',
+//  './src/components/SvgFilter.tsx',
 
   // './src/components/Testimonials/Testimonials.tsx',
   // './src/components/Testimonials/Testimonials.module.css',
