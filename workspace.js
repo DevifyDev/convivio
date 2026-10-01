@@ -52,7 +52,7 @@ const files = [
   // './src/components/StructuredData/StructuredData.tsx',
   // './src/components/StructuredData/StructuredData.module.css',
 
-//  './src/components/SvgFilter.tsx',
+ './src/components/SvgFilter.tsx',
 
   // './src/components/Testimonials/Testimonials.tsx',
   // './src/components/Testimonials/Testimonials.module.css',
