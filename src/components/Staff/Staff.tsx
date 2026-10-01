@@ -109,11 +109,6 @@ export default function Staff({ staff }: StaffProps) {
                   )}
                 </div>
 
-                <span
-                  className={styles.rule}
-                  aria-hidden='true'
-                ></span>
-
                 <p className={styles.description}>
                   {member.description}
                 </p>

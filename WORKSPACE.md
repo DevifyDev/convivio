@@ -1,210 +1,395 @@
 # Workspace Export
-Generated: 2026-10-01T01:38:06.967Z
+Generated: 2026-10-01T02:03:55.878Z
 
-## ./src/components/SectionHeading/SectionHeading.tsx
+## ./src/components/Staff/Staff.tsx
 ```tsx
-import styles from './SectionHeading.module.css'
+'use client'
 
-type SectionHeadingProps = {
-  eyebrow?: string
-  heading: string
-  description?: string
-  variant?: 'light' | 'dark'
-  icon?: 'sparkle' | 'wine' | 'location'
-  className?: string
+import Image from 'next/image'
+import { useEffect, useRef } from 'react'
+import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
+import styles from './Staff.module.css'
+
+export type StaffMember = {
+  _key: string
+  name: string
+  role?: string
+  description: string
+  image?: string
 }
 
-export default function SectionHeading({
-  eyebrow,
-  heading,
-  description,
-  variant = 'light',
-  icon = 'sparkle',
-  className
-}: SectionHeadingProps) {
+type StaffProps = {
+  staff?: StaffMember[] | null
+}
+
+const emptyStaff: StaffMember[] = []
+
+export default function Staff({ staff }: StaffProps) {
+  const members = staff ?? emptyStaff
+  const staffRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const list = staffRef.current
+
+    if (
+      !list ||
+      !('IntersectionObserver' in window) ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) return
+
+    const rows = list.querySelectorAll<HTMLElement>('[data-staff-member]')
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+
+          entry.target
+            .closest('[data-staff-member]')
+            ?.classList.add(styles.visible)
+
+          observer.unobserve(entry.target)
+        })
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -5% 0px' }
+    )
+
+    rows.forEach((row) => {
+      const target = row.querySelector<HTMLElement>('[data-staff-portrait]')
+
+      if (!target) return
+
+      row.classList.add(styles.animate)
+      observer.observe(target)
+    })
+
+    return () => {
+      observer.disconnect()
+      rows.forEach((row) => row.classList.remove(styles.animate))
+    }
+  }, [members])
+
+  if (members.length === 0) return null
+
   return (
-    <header
-      className={[styles.header, styles[variant], className]
-        .filter(Boolean)
-        .join(' ')}
-    >
-      <p className={styles.eyebrow}>{eyebrow ?? ''}</p>
+    <section className={styles.staff} id='staff'>
+      <div className={styles.container}>
+        
+        <SectionHeading {...sectionHeadingData.staff} />
 
-      <h2 className={styles.heading}>{heading}</h2>
+        <div className={styles.staffList} ref={staffRef}>
+          {members.map((member) => (
+            <article
+              className={styles.staffMember}
+              key={member._key}
+              data-staff-member
+            >
+              <div
+                className={styles.portraitSlot}
+                data-staff-portrait
+              >
+                <div className={styles.portrait}>
+                  <div className={styles.portraitInner}>
+                    {member.image && (
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        fill
+                        sizes='(max-width: 600px) 240px, (max-width: 800px) 280px, 320px'
+                        className={styles.image}
+                        unoptimized
+                      />
+                    )}
+                  </div>
+                </div>
+              </div>
 
-      <p className={styles.description}>{description ?? ''}</p>
+              <div className={styles.biography}>
+                <div className={styles.identity}>
+                  <h3 className={styles.name}>{member.name}</h3>
 
-      <div className={styles.divider} aria-hidden='true'>
-        <span className={styles.line}></span>
-        <span className={`${styles.icon} ${styles[icon]}`}></span>
-        <span className={styles.line}></span>
+                  {member.role && (
+                    <p className={styles.role}>{member.role}</p>
+                  )}
+                </div>
+
+                <span
+                  className={styles.rule}
+                  aria-hidden='true'
+                ></span>
+
+                <p className={styles.description}>
+                  {member.description}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
-    </header>
+    </section>
   )
 }
 ```
 
-## ./src/components/SectionHeading/SectionHeading.module.css
+## ./src/components/Staff/Staff.module.css
 ```css
-.header {
-  text-align: center;
+.staff {
+  position: relative;
+  padding: 6rem;
+  background: var(--light-background);
+  color: var(--dark-text);
 }
 
-.light {
-  color: var(--primary-black);
+.staff::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    color-mix(in srgb, var(--accent-on-light-primary) 20%, transparent) 8%,
+    color-mix(in srgb, var(--accent-on-light-primary) 20%, transparent) 92%,
+    transparent 100%
+  );
+  mask: repeating-linear-gradient(
+    90deg,
+    #000 0 17px,
+    transparent 17px 18px,
+    #000 18px 39px,
+    transparent 39px 40px
+  );
+  -webkit-mask: repeating-linear-gradient(
+    90deg,
+    #000 0 17px,
+    transparent 17px 18px,
+    #000 18px 39px,
+    transparent 39px 40px
+  );
+  pointer-events: none;
 }
 
-.dark {
-  color: var(--light-text);
+.staff,
+.staff * {
+  box-sizing: border-box;
 }
 
-.eyebrow {
-  margin: 0 0 1rem;
-  color: var(--section-accent, var(--primary-gold));
-  font-family: var(--body-copy-font), serif;
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+.staffList {
+  display: grid;
+  gap: 6rem;
+  width: 100%;
+  max-width: 60rem;
+  margin: 4rem auto 0;
+}
+
+.staffMember {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.portraitSlot {
+  width: 100%;
+  max-width: 20rem;
+  aspect-ratio: 4 / 5;
+  justify-self: start;
+}
+
+.staffMember:nth-child(even) .portraitSlot {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+}
+
+.staffMember:nth-child(even) .biography {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.portrait {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--primary-blue, #28334c);
+}
+
+.portraitInner {
+  position: absolute;
+  inset: 1rem;
+  overflow: hidden;
+  background: #fff;
+}
+
+.portrait::after {
+  content: '';
+  position: absolute;
+  inset: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.45);
+  pointer-events: none;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.biography {
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+}
+
+.identity {
+  margin-bottom: 1.5rem;
+}
+
+.name {
+  margin: 0;
+  color: var(--primary-blue, #28334c);
+  font-family: var(--display-font, var(--heading-font, serif));
+  font-size: clamp(1.6rem, 2.7vw, 2.2rem);
+  font-weight: 400;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.role {
+  margin: 0.9rem 0 0;
+  color: var(--primary-gold);
+  font-family: var(--body-copy-font, serif);
   font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.3em;
+  line-height: 1.5;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
-.heading {
-  margin: 0 0 1.5rem;
-  color: inherit;
-  font-family: var(--display-font, var(--heading-font, serif));
-  font-size: 2.25rem;
-  font-weight: 300;
-  letter-spacing: -2px;
+.rule {
+  display: block;
+  width: 4rem;
+  height: 1px;
+  background: var(--primary-gold);
 }
 
 .description {
-  max-width: 38rem;
-  margin: 0 auto 1.5rem;
-  color: inherit;
-  font-family: var(--body-copy-font), serif;
+  margin: 1.5rem 0 0;
+  color: var(--dark-text, #28334c);
+  font-family: var(--body-copy-font, serif);
   font-size: 1.05rem;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.8;
+  text-align: left;
+  overflow-wrap: anywhere;
 }
 
-.divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.line {
-  width: 5rem;
-  height: 1px;
-  background: var(--section-accent, var(--primary-gold));
-  opacity: 0.35;
-}
-
-.icon {
-  width: 2rem;
-  height: 2rem;
-  flex-shrink: 0;
-  background: var(--section-accent, var(--primary-gold));
-}
-
-.sparkle {
-  mask: url('/icons/sparkle.svg') center / contain no-repeat;
-  -webkit-mask: url('/icons/sparkle.svg') center / contain no-repeat;
-}
-
-.wine {
-  mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
-  -webkit-mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
-}
-
-.location {
-  mask: url('/icons/location-pin.svg') center / contain no-repeat;
-  -webkit-mask: url('/icons/location-pin.svg') center / contain no-repeat;
-}
-
-/* Convivio theme */
-
-:global(html[data-theme='convivio']) .light {
-  --section-accent: var(--accent-on-light);
-  color: var(--primary-blue);
-}
-
-:global(html[data-theme='convivio']) .dark {
-  --section-accent: var(--accent-on-dark);
-}
-
-:global(html[data-theme='convivio']) .icon,
-:global(html[data-theme='convivio']) .line:last-child {
-  display: none;
-}
-
-:global(html[data-theme='convivio']) .divider {
-  gap: 0;
-}
-
-:global(html[data-theme='convivio']) .line {
-  width: min(8rem, 760px);
+:global(html[data-theme='convivio']) .rule {
+  width: 6rem;
   height: 8px;
-  opacity: 1;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='2.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='0.75'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
 }
 
-:global(html[data-theme='convivio']) .light .line {
-  background: var(--accent-line-on-light);
+:global(html[data-theme='convivio']) .role {
+  color: var(--accent-on-light);
+}
+
+:global(html[data-theme='convivio']) .rule {
+  background: var(--accent-on-light);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .staffMember.animate .portrait {
+    opacity: 0;
+    transform: translateX(-2rem) rotate(-360deg) scale(0.9);
+    transition:
+      transform 2860ms cubic-bezier(0.2, 0.65, 0.25, 1),
+      opacity 600ms ease;
+  }
+
+  .staffMember:nth-child(even).animate .portrait {
+    transform: translateX(2rem) rotate(360deg) scale(0.9);
+  }
+
+  .staffMember.animate .biography {
+    opacity: 0;
+    transform: translateX(-2rem);
+    transition:
+      transform 1300ms ease 200ms,
+      opacity 900ms ease 200ms;
+  }
+
+  .staffMember:nth-child(even).animate .biography {
+    transform: translateX(2rem);
+  }
+
+  .staffMember.animate.visible .portrait,
+  .staffMember.animate.visible .biography {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (max-width: 800px) {
-  .heading {
-    font-size: 2rem;
+  .staff {
+    padding: 4rem var(--inline-padding, 1.5rem);
+  }
+
+  .staffList {
+    gap: 4rem;
+    margin-top: 3rem;
+  }
+
+  .staffMember {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 2rem;
+  }
+
+  .portraitSlot,
+  .staffMember:nth-child(even) .portraitSlot {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    width: min(100%, clamp(15rem, 40vw, 17.5rem));
+  }
+
+  .biography,
+  .staffMember:nth-child(even) .biography {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  .name {
+    font-size: clamp(1.5rem, 4vw, 1.7rem);
+  }
+
+  .identity {
+    max-width: 20rem;
+    margin-inline: auto;
+  }
+
+  .rule {
+    margin-inline: auto;
   }
 
   .description {
+    width: 70vw;
+    max-width: 100%;
+    margin-inline: auto;
     font-size: 1rem;
   }
-}
-```
-
-## ./src/components/SvgFilter.tsx
-```tsx
-export default function SvgFilter() {
-  return (
-    <svg width='0' height='0' style={{ position: 'absolute' }}>
-      <filter id='roughen'>
-        <feTurbulence
-          type='fractalNoise'
-          baseFrequency='0.02 0.15'
-          numOctaves='3'
-          seed='4'
-          result='noise'
-        />
-        <feDisplacementMap
-          in='SourceGraphic'
-          in2='noise'
-          scale='3'
-          xChannelSelector='R'
-          yChannelSelector='G'
-        />
-      </filter>
-
-      <filter id='roughen-reviews'>
-        <feTurbulence
-          type='fractalNoise'
-          baseFrequency='0.02 0.3'
-          numOctaves='3'
-          seed='4'
-          result='review-noise'
-        />
-        <feDisplacementMap
-          in='SourceGraphic'
-          in2='review-noise'
-          scale='5'
-          xChannelSelector='R'
-          yChannelSelector='G'
-        />
-      </filter>
-    </svg>
-  )
 }
 ```
