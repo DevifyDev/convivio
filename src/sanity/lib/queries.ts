@@ -1,13 +1,38 @@
 export const menuQuery = `
-  *[_id == 'menu'][0] {
-    categories[] {
-      _key,
-      title,
-      items[] {
+  {
+    'food': *[_type == 'menu' && _id == 'menu'][0] {
+      categories[] {
         _key,
-        name,
-        description,
-        price
+        title,
+        items[] {
+          _key,
+          name,
+          description,
+          price
+        }
+      }
+    },
+
+    'drinks': *[_type == 'drinksMenu' && _id == 'drinksMenu'][0] {
+      categories[] {
+        _key,
+        title,
+        items[] {
+          _key,
+          name,
+          description,
+          price
+        },
+        subcategories[] {
+          _key,
+          title,
+          items[] {
+            _key,
+            name,
+            description,
+            price
+          }
+        }
       }
     }
   }

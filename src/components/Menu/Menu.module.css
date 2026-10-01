@@ -1,19 +1,3 @@
-:global(html[data-theme='convivio']) .categoryButton,
-:global(html[data-theme='convivio']) .price {
-  font-family: var(--body-copy-font), serif;
-  font-weight: 400;
-}
-
-:global(html[data-theme='convivio']) .itemName {
-  font-family: var(--strong-font), serif;
-  font-weight: 700;
-}
-
-:global(html[data-theme='convivio']) .itemName {
-  font-family: var(--strong-font), serif;
-  font-weight: 700;
-}
-
 .pricing {
   position: relative;
   z-index: 1;
@@ -48,26 +32,43 @@
   margin-inline: auto;
 }
 
+.menuButtons,
 .categories {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-block: 4rem;
 }
 
+.menuButtons {
+  margin: 3rem 0 2rem;
+}
+
+.menuButton,
 .categoryButton {
   padding: 0;
   border: 0;
   background: transparent;
   color: var(--light-text);
-  font-family: var(--heading-font), serif;
-  font-weight: 200;
-  font-size: 1.35rem;
   cursor: pointer;
 }
 
+.menuButton {
+  font-family: var(--display-font), serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.categoryButton {
+  font-family: var(--body-copy-font), serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.menuButton:hover,
 .categoryButton:hover {
   opacity: 0.65;
 }
@@ -80,6 +81,7 @@
   opacity: 1;
 }
 
+.menuButton:focus-visible,
 .categoryButton:focus-visible {
   outline: 2px solid var(--accent-on-dark);
   outline-offset: 4px;
@@ -90,10 +92,53 @@
   opacity: 0.2;
 }
 
-.menuGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2.5rem 4rem;
+.categoryWindow {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 4rem;
+  padding: 0.5rem;
+}
+
+.categories {
+  position: relative;
+  margin: 0;
+}
+
+.outgoingCategories {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  left: 0.5rem;
+  pointer-events: none;
+  animation: categoriesOut 0.6s ease both;
+}
+
+.incomingCategories {
+  animation: categoriesIn 0.6s ease both;
+}
+
+@keyframes categoriesOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(110%);
+    opacity: 0;
+  }
+}
+
+@keyframes categoriesIn {
+  from {
+    transform: translateX(-110%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 .menuWindow {
@@ -101,17 +146,21 @@
   overflow: hidden;
 }
 
+.menuPanel {
+  position: relative;
+  background: var(--primary-black);
+}
+
 .previousMenu {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  pointer-events: none;
 }
 
 .incomingMenu {
-  position: relative;
   z-index: 1;
-  background: var(--primary-black);
   box-shadow: 0 -1rem 2rem rgba(0, 0, 0, 0.2);
   animation: turnPage 0.6s ease;
 }
@@ -126,19 +175,32 @@
   }
 }
 
-.menuItem {
+.categoryContent {
   display: grid;
-  /* grid-template-columns: 4rem minmax(0, 1fr); */
-  grid-template-columns: minmax(0, 1fr);
-  align-items: center;
-  /* gap: 1rem; */
+  gap: 3.5rem;
 }
 
-.itemImage {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  background: #2d2a26;
+.menuGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem 4rem;
+}
+
+.subcategory {
+  min-width: 0;
+}
+
+.subcategoryHeading {
+  margin: 0 0 1.75rem;
+  color: var(--primary-gold);
+  font-family: var(--strong-font), serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.menuItem {
+  min-width: 0;
 }
 
 .itemContent {
@@ -147,21 +209,26 @@
 
 .itemTop {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .itemName {
+  flex: 0 1 auto;
+  min-width: 0;
   margin: 0;
   color: var(--light-text);
+  font-family: var(--strong-font), serif;
   font-size: 1.15rem;
-  font-weight: 300;
+  font-weight: 700;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
 }
 
 .dots {
-  flex: 1;
+  flex: 1 0 1.5rem;
   height: 1px;
   margin-inline: 0.75rem;
-  transform: translateY(0.4rem);
+  margin-bottom: 0.35rem;
   background: repeating-linear-gradient(
     to right,
     rgba(242, 242, 242, 0.25) 0,
@@ -172,30 +239,49 @@
 }
 
 .price {
+  flex-shrink: 0;
   color: var(--primary-gold);
-  font-family: var(--heading-font), serif;
+  font-family: var(--body-copy-font), serif;
   font-size: 1.15rem;
+  font-weight: 400;
+  line-height: 1.45;
+  white-space: nowrap;
 }
 
 .description {
-  margin-top: 0.35rem;
-  font-weight: 300;
-  margin-bottom: 0;
+  margin: 0.35rem 0 0;
   color: var(--light-text);
+  font-family: var(--body-copy-font), serif;
   font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.6;
   opacity: 0.5;
+  white-space: pre-line;
+}
+
+.emptyMessage {
+  margin: 0;
+  text-align: center;
+  opacity: 0.65;
 }
 
 @media (max-width: 1200px) {
   .pricing {
-    /* min-height: auto; */
     padding-block: 4rem;
     padding-inline: var(--inline-padding);
   }
 
+  .menuButtons,
   .categories {
     gap: 0.75rem;
-    margin-block: 3rem;
+  }
+
+  .menuButtons {
+    margin-top: 2.5rem;
+  }
+
+  .categoryWindow {
+    margin-bottom: 3rem;
   }
 
   .categoryButton {
@@ -203,18 +289,8 @@
   }
 
   .menuGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
-  }
-
-  /* .menuItem {
-    grid-template-columns: 3.5rem minmax(0, 1fr);
-    gap: 0.75rem;
-  } */
-
-  .itemImage {
-    width: 3.5rem;
-    height: 3.5rem;
   }
 
   .itemName,
@@ -229,10 +305,42 @@
   .description {
     font-size: 0.9rem;
   }
+
+  .subcategoryHeading {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .menuButtons {
+    flex-direction: column;
+  }
+
+  .menuButtons > .separator {
+    display: none;
+  }
+
+  .menuButton {
+    font-size: 1.1rem;
+  }
+
+  .categoryContent {
+    gap: 3rem;
+  }
+
+  .subcategoryHeading {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .incomingMenu {
+  .incomingMenu,
+  .incomingCategories {
     animation: none;
+  }
+
+  .outgoingCategories {
+    display: none;
   }
 }

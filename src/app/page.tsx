@@ -34,7 +34,13 @@ import {
 import type { BusinessDetails } from '@/types/businessDetails'
 
 type MenuData = {
-  categories?: MenuCategory[]
+  food?: {
+    categories?: MenuCategory[]
+  } | null
+
+  drinks?: {
+    categories?: MenuCategory[]
+  } | null
 }
 
 type GalleryData = {
@@ -113,8 +119,11 @@ export default async function Homepage() {
           groupImageAlt={staff?.groupImageAlt}
         />
 
-        <Menu categories={menu?.categories ?? []} />
-
+        <Menu
+          foodCategories={menu?.food?.categories ?? []}
+          drinksCategories={menu?.drinks?.categories ?? []}
+        />
+        
         <Gallery
           images={gallery?.images ?? []}
           instagramUrl={businessDetails?.instagramUrl}

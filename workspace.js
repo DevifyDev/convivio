@@ -19,8 +19,8 @@ const files = [
   // './src/components/Button/Button.tsx',
   // './src/components/Button/Button.module.css',
 
-  './src/components/Events/Events.tsx',
-  './src/components/Events/Events.module.css',
+  // './src/components/Events/Events.tsx',
+  // './src/components/Events/Events.module.css',
 
   // './src/components/Faq/Faq.tsx',
   // './src/components/Faq/Faq.module.css',
@@ -64,6 +64,7 @@ const files = [
 
     //  './src/sanity/env.ts',
     //  './src/sanity/structure.ts',
+      // './src/sanity/singletons.ts',
 
     //  './src/sanity/lib/client.ts',
     //  './src/sanity/lib/image.ts',
@@ -73,21 +74,21 @@ const files = [
     //  './src/sanity/schemaTypes/index.ts',
 
     //   './src/sanity/schemaTypes/documents/businessDetailsType.ts',
-      './src/sanity/schemaTypes/documents/eventsType.ts',
+      // './src/sanity/schemaTypes/documents/eventsType.ts',
     //   './src/sanity/schemaTypes/documents/galleryType.ts',
-    //   './src/sanity/schemaTypes/documents/menuType.ts',
+      // './src/sanity/schemaTypes/documents/menuType.ts',
     //   './src/sanity/schemaTypes/documents/testimonialType.ts',
       // './src/sanity/schemaTypes/documents/staffType.ts',
 
 
 
     //  './src/sanity/schemaTypes/objects/galleryImageType.ts',
-    //   './src/sanity/schemaTypes/objects/menuCategoryType.ts',
-    //   './src/sanity/schemaTypes/objects/menuItemType.ts',
+      // './src/sanity/schemaTypes/objects/menuCategoryType.ts',
+      // './src/sanity/schemaTypes/objects/menuItemType.ts',
     //   './src/sanity/schemaTypes/objects/openingHoursType.ts',
-      './src/sanity/schemaTypes/objects/specialEventType.ts',
+      // './src/sanity/schemaTypes/objects/specialEventType.ts',
     //   './src/sanity/schemaTypes/objects/testimonialType.ts',
-      './src/sanity/schemaTypes/objects/weeklyEventType.ts',
+      // './src/sanity/schemaTypes/objects/weeklyEventType.ts',
         //  './src/sanity/schemaTypes/objects/staffMemberType.ts',
 
   //     './src/types/businessDetail.ts',

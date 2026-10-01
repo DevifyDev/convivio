@@ -1,20 +1,20 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 
-export const menuType = defineType({
-  name: 'menu',
-  title: 'Food Menu',
+export const drinksMenuType = defineType({
+  name: 'drinksMenu',
+  title: 'Drinks Menu',
   type: 'document',
 
   fields: [
     defineField({
       name: 'categories',
-      title: 'Food Categories',
+      title: 'Drinks Categories',
       type: 'array',
       description:
-        'Add food categories and drag them to change their order.',
+        'Add drinks categories and drag them to change their order.',
       of: [
         defineArrayMember({
-          type: 'menuCategory'
+          type: 'drinksCategory'
         })
       ],
       initialValue: []
@@ -24,7 +24,7 @@ export const menuType = defineType({
   preview: {
     prepare() {
       return {
-        title: 'Food Menu'
+        title: 'Drinks Menu'
       }
     }
   }

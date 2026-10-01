@@ -1,5 +1,6 @@
 export const singletonDocuments = [
-  { type: 'menu', title: 'Menu' },
+  { type: 'menu', title: 'Food Menu' },
+  { type: 'drinksMenu', title: 'Drinks Menu' },
   { type: 'gallery', title: 'Gallery' },
   { type: 'events', title: 'Events' },
   { type: 'testimonials', title: 'Testimonials' },
