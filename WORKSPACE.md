@@ -1,5 +1,5 @@
 # Workspace Export
-Generated: 2026-09-30T07:56:27.549Z
+Generated: 2026-10-01T00:54:22.325Z
 
 ## ./src/components/Header/Header.tsx
 ```tsx
@@ -286,21 +286,23 @@ export default function Header({
   color: var(--primary-blue);
 }
 
-.headerScrolled .menuContainer > a {
-  border-color: var(--accent-on-light-secondary);
-  color: var(--primary-blue);
-}
-
 .headerScrolled .menuContainer > a,
 .headerMenuOpen .menuContainer > a {
   border-width: 1px;
   border-color: var(--accent-on-light-secondary);
-  background: var(--light-background);
   color: var(--accent-on-light-secondary);
   transition:
     background 180ms ease,
     border-color 180ms ease,
     color 180ms ease;
+}
+
+.headerScrolled .menuContainer > a {
+  background: transparent;
+}
+
+.headerMenuOpen .menuContainer > a {
+  background: var(--light-background);
 }
 
 .headerScrolled .menuContainer > a:hover,

@@ -242,3 +242,23 @@
     color: var(--primary-blue);
   }
 }
+
+@media (max-width: 950px) {
+  .header .nav {
+    min-height: 4.5rem;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.75rem;
+  }
+
+  .header .menuButtonOpen {
+    color: var(--light-text);
+  }
+
+  .headerScrolled .menuButtonOpen {
+    border-radius: 0.25rem;
+    background: var(--primary-blue);
+  }
+}
