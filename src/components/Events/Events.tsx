@@ -100,7 +100,7 @@ export default function Events({
         {weeklyEventList.length > 0 && (
           <div className={styles.weeklySection}>
             <div className={styles.subheadingRow}>
-
+              <p className={styles.sectionEyebrow}>What's On</p>
               <h3 className={styles.subheading}>
                 Weekly at Convivio
               </h3>

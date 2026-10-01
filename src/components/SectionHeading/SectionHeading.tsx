@@ -14,7 +14,6 @@ export default function SectionHeading({
   heading,
   description,
   variant = 'light',
-  icon = 'sparkle',
   className
 }: SectionHeadingProps) {
   return (
@@ -23,15 +22,19 @@ export default function SectionHeading({
         .filter(Boolean)
         .join(' ')}
     >
-      <p className={styles.eyebrow}>{eyebrow ?? ''}</p>
+      {eyebrow && (
+        <p className={styles.eyebrow}>{eyebrow}</p>
+      )}
 
       <h2 className={styles.heading}>{heading}</h2>
 
-      <p className={styles.description}>{description ?? ''}</p>
+      {description && (
+        <p className={styles.description}>{description}</p>
+      )}
 
       <div className={styles.divider} aria-hidden='true'>
         <span className={styles.line}></span>
-        <span className={`${styles.icon} ${styles[icon]}`}></span>
+        <span className={styles.olive}></span>
         <span className={styles.line}></span>
       </div>
     </header>

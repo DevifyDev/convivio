@@ -7,37 +7,38 @@ export const sectionHeadingData = {
   },
   gallery: {
     eyebrow: '',
-    heading: 'Food, Wine & Good Company',
+    heading: 'Pour a Glass, Share a Plate, Stay Awhile',
     description:
-      'Pour a glass, share a plate, stay awhile',
+      'Snapshots of good wine, seasonal food & great times',
     variant: 'light',
     icon: 'sparkle'
   },
   events: {
-    eyebrow: "What's On",
+    eyebrow: '',
     heading: 'Upcoming Events',
     description:
-      'See what’s on each week, from regular events to the latest menu specials',
+      'See what’s coming up, from weekly regulars to one-off special events',
     variant: 'dark',
     icon: 'sparkle'
   },
   testimonials: {
     eyebrow: '',
     heading: 'The Guestbook',
+    description: 'Words from some of the people who’ve spent an evening with us ',
     variant: 'light',
     icon: 'sparkle'
   },
   staff: {
-    eyebrow: 'Meet The Team',
-    heading: 'The People Behind Convivio',
-    description: 'A little about the people who make every visit feel special',
+    eyebrow: '',
+    heading: 'Meet The Team',
+    description: 'The locals behind your favorite neighborhood hangout',
     variant: 'light',
     icon: 'sparkle'
   },
   faq: {
     eyebrow: '',
-    heading: 'Before You Visit',
-    description: 'A few answers to help you plan your time with us',
+    heading: 'Good  To Know',
+    description: 'A few quick answers to help make your visit smooth and simple',
     variant: 'dark',
     icon: 'sparkle'
   },
@@ -45,7 +46,7 @@ export const sectionHeadingData = {
     eyebrow: '',
     heading: 'How To Find Us',
     description:
-      'Join us for a warm welcome, great food and a glass with your name on it',
+      'Drop by for a glass, or get in touch',
     variant: 'light',
     icon: 'location'
   }

@@ -63,6 +63,7 @@ export default function Faq({ items = [] }: FaqProps) {
                   <span className={styles.questionText}>
                     {item.question}
                   </span>
+
                   <span
                     className={styles.toggle}
                     aria-hidden='true'

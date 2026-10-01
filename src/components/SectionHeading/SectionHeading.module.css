@@ -21,7 +21,8 @@
 }
 
 .heading {
-  margin: 0 0 1.5rem;
+  margin: 0 0 0.65rem;
+  line-height: 1.2;
   color: inherit;
   font-family: var(--display-font, var(--heading-font, serif));
   font-size: 2.25rem;
@@ -31,7 +32,7 @@
 
 .description {
   max-width: 38rem;
-  margin: 0 auto 1.5rem;
+  margin: 0 auto 1.25rem;
   color: inherit;
   font-family: var(--body-copy-font), serif;
   font-size: 1.05rem;
@@ -77,6 +78,19 @@
 
 /* Convivio theme */
 
+.olive {
+  display: none;
+  margin: 0 auto;
+}
+
+:global(html[data-theme='convivio']) .header {
+  --heading-decoration-width: 4rem;
+}
+
+:global(html[data-theme='convivio']) .eyebrow {
+  display: none;
+}
+
 :global(html[data-theme='convivio']) .light {
   --section-accent: var(--accent-on-light);
   color: var(--primary-blue);
@@ -86,25 +100,54 @@
   --section-accent: var(--accent-on-dark);
 }
 
-:global(html[data-theme='convivio']) .icon,
-:global(html[data-theme='convivio']) .line:last-child {
-  display: none;
-}
-
 :global(html[data-theme='convivio']) .divider {
   gap: 0;
+  margin: 0;
 }
 
-:global(html[data-theme='convivio']) .line {
-  width: min(8rem, 760px);
-  height: 8px;
-  opacity: 1;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='2.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='0.75'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+:global(html[data-theme='convivio']) .divider .line {
+  display: block;
+  width: 3.5rem;
+  height: 1px;
+  background: var(--section-accent);
+  opacity: 0.2;
+  mask: none;
+  -webkit-mask: none;
 }
 
-:global(html[data-theme='convivio']) .light .line {
-  background: var(--accent-line-on-light);
+:global(html[data-theme='convivio']) .olive {
+  display: block;
+  width: 4rem;
+  aspect-ratio: 389 / 191;
+  flex-shrink: 0;
+  margin: 0;
+  background: var(--section-accent);
+  opacity: 0.3;
+  transform: rotate(-20deg);
+  mask: url('/icons/olive-skewer-transparent.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/olive-skewer-transparent.svg') center / contain no-repeat;
+}
+
+:global(html[data-theme='convivio']) .description {
+  color: var(--section-accent);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+:global(html[data-theme='convivio']) .light .description {
+  color: var(--primary-black);
+}
+
+@media (max-width: 800px) {
+  :global(html[data-theme='convivio']) .description {
+    font-size: 1.05rem;
+  }
+}
+
+:global(html[data-theme='convivio']) .dark .olive,
+:global(html[data-theme='convivio']) .dark .divider .line {
+  background: #a6bbc6;
 }
 
 @media (max-width: 800px) {
