@@ -31,8 +31,8 @@ const files = [
   // './src/components/Gallery/Gallery.tsx',
   // './src/components/Gallery/Gallery.module.css',
 
-  './src/components/Header/Header.tsx',
-  './src/components/Header/Header.module.css',
+  // './src/components/Header/Header.tsx',
+  // './src/components/Header/Header.module.css',
 
   // './src/components/Hero/Hero.tsx',
   // './src/components/Hero/Hero.module.css',
@@ -52,7 +52,7 @@ const files = [
   // './src/components/StructuredData/StructuredData.tsx',
   // './src/components/StructuredData/StructuredData.module.css',
 
- // './src/components/SvgFilter.tsx',
+//  './src/components/SvgFilter.tsx',
 
   // './src/components/Testimonials/Testimonials.tsx',
   // './src/components/Testimonials/Testimonials.module.css',

@@ -12,7 +12,7 @@ export default function SvgFilter() {
         <feDisplacementMap
           in='SourceGraphic'
           in2='noise'
-          scale='3'
+          scale='6'
           xChannelSelector='R'
           yChannelSelector='G'
         />

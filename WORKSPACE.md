@@ -1,446 +1,210 @@
 # Workspace Export
-Generated: 2026-10-01T00:54:22.325Z
+Generated: 2026-10-01T01:38:06.967Z
 
-## ./src/components/Header/Header.tsx
+## ./src/components/SectionHeading/SectionHeading.tsx
 ```tsx
-'use client'
+import styles from './SectionHeading.module.css'
 
-import { useEffect, useState } from 'react'
-import Button from '@/components/Button/Button'
-import type { BusinessDetails } from '@/types/businessDetails'
-import styles from './Header.module.css'
-
-const name = 'Convivio'
-
-const baseMenuItems = [
-  {
-    href: '#about',
-    label: 'ABOUT'
-  },
-  {
-    href: '#menu',
-    label: 'MENU'
-  },
-  {
-    href: '#gallery',
-    label: 'GALLERY'
-  },
-  {
-    href: '#events',
-    label: 'EVENTS'
-  },
-  {
-    href: '#location',
-    label: 'VISIT'
-  }
-]
-
-type HeaderProps = {
-  businessDetails?: BusinessDetails | null
+type SectionHeadingProps = {
+  eyebrow?: string
+  heading: string
+  description?: string
+  variant?: 'light' | 'dark'
+  icon?: 'sparkle' | 'wine' | 'location'
+  className?: string
 }
 
-export default function Header({
-  businessDetails
-}: HeaderProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
-
-  const menuItems = [
-    ...baseMenuItems,
-    ...(businessDetails?.giftCardUrl
-      ? [
-          {
-            href: businessDetails.giftCardUrl,
-            label: 'GIFT CARDS'
-          }
-        ]
-      : [])
-  ]
-
-  function closeMenu() {
-    setIsMenuOpen(false)
-  }
-
-  useEffect(() => {
-    function handleScroll() {
-      setIsScrolled(window.scrollY > 20)
-      setIsMenuOpen(false)
-    }
-
-    function handleResize() {
-      if (window.innerWidth > 950) {
-        setIsMenuOpen(false)
-      }
-    }
-
-    handleScroll()
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!isMenuOpen) return
-
-    function handleKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') {
-        closeMenu()
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isMenuOpen])
-
-  useEffect(() => {
-    document.body.classList.toggle(
-      'mobile-menu-open',
-      isMenuOpen
-    )
-
-    return () => {
-      document.body.classList.remove('mobile-menu-open')
-    }
-  }, [isMenuOpen])
-
+export default function SectionHeading({
+  eyebrow,
+  heading,
+  description,
+  variant = 'light',
+  icon = 'sparkle',
+  className
+}: SectionHeadingProps) {
   return (
-    <>
-      <header
-        className={`${styles.header} ${
-          isScrolled ? styles.headerScrolled : ''
-        } ${isMenuOpen ? styles.headerMenuOpen : ''}`}
-      >
-        <nav className={styles.nav} aria-label='Main navigation'>
-          <a
-            className={styles.name}
-            href='#home'
-            aria-label={`${name} home`}
-            onClick={closeMenu}
-          >
-            {name}
-          </a>
+    <header
+      className={[styles.header, styles[variant], className]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      <p className={styles.eyebrow}>{eyebrow ?? ''}</p>
 
-          <button
-            type='button'
-            className={`${styles.menuButton} ${
-              isMenuOpen ? styles.menuButtonOpen : ''
-            }`}
-            aria-label={
-              isMenuOpen
-                ? 'Close navigation menu'
-                : 'Open navigation menu'
-            }
-            aria-expanded={isMenuOpen}
-            aria-controls='nav-menu'
-            onClick={() =>
-              setIsMenuOpen((current) => !current)
-            }
-          >
-            <span
-              className={`${styles.menuIcon} ${
-                isMenuOpen
-                  ? styles.closeIcon
-                  : styles.openIcon
-              }`}
-              aria-hidden='true'
-            ></span>
-          </button>
+      <h2 className={styles.heading}>{heading}</h2>
 
-          <div
-            id='nav-menu'
-            className={`${styles.menuContainer} ${
-              isMenuOpen ? styles.menuContainerOpen : ''
-            }`}
-          >
-            <div className={styles.menuItems}>
-              {menuItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  onClick={closeMenu}
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
+      <p className={styles.description}>{description ?? ''}</p>
 
-            {businessDetails?.bookingUrl && (
-              <Button
-                label='BOOK A TABLE'
-                href={businessDetails.bookingUrl}
-                target='_blank'
-              />
-            )}
-          </div>
-        </nav>
-        
-      </header>
-
-      {isMenuOpen && (
-        <button
-          type='button'
-          className={styles.backdrop}
-          aria-label='Close navigation menu'
-          onClick={closeMenu}
-        ></button>
-      )}
-    </>
+      <div className={styles.divider} aria-hidden='true'>
+        <span className={styles.line}></span>
+        <span className={`${styles.icon} ${styles[icon]}`}></span>
+        <span className={styles.line}></span>
+      </div>
+    </header>
   )
 }
 ```
 
-## ./src/components/Header/Header.module.css
+## ./src/components/SectionHeading/SectionHeading.module.css
 ```css
-:global(body.mobile-menu-open) section,
-:global(body.mobile-menu-open) footer {
-  filter: blur(8px);
-}
-
 .header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  width: 100%;
-  background: transparent;
-  transition:
-    background 220ms ease,
-    box-shadow 220ms ease;
+  text-align: center;
 }
 
-.headerScrolled {
-  position: fixed;
-  background: rgba(248, 247, 244, 0.94);
-  box-shadow: 0 0.25px 0 var(--accent-on-light-secondary);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+.light {
+  color: var(--primary-black);
 }
 
-.nav {
-  position: relative;
-  display: flex;
-  width: 100%;
-  min-height: 4rem;
-  align-items: center;
-  justify-content: space-between;
-  padding-inline: var(--inline-padding);
-}
-
-.nav a:focus-visible,
-.menuButton:focus-visible {
-  outline: 2px solid var(--primary-gold);
-  outline-offset: 4px;
-}
-
-.name {
+.dark {
   color: var(--light-text);
-  font-family: 'Aloja Extended', serif;
-  font-size: 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: var(--section-accent, var(--primary-gold));
+  font-family: var(--body-copy-font), serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0 0 1.5rem;
+  color: inherit;
+  font-family: var(--display-font, var(--heading-font, serif));
+  font-size: 2.25rem;
+  font-weight: 300;
+  letter-spacing: -2px;
+}
+
+.description {
+  max-width: 38rem;
+  margin: 0 auto 1.5rem;
+  color: inherit;
+  font-family: var(--body-copy-font), serif;
+  font-size: 1.05rem;
   font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0.03em;
-  transition: color 220ms ease;
+  line-height: 1.6;
 }
 
-.headerScrolled .name {
-  color: var(--primary-blue);
-}
-
-/* DESKTOP NAVIGATION */
-
-.menuContainer {
+.divider {
   display: flex;
-  align-items: center;
-  gap: 2.25rem;
-}
-
-.menuItems {
-  display: flex;
-  align-items: center;
-  gap: 2.25rem;
-}
-
-.menuItems > a {
-  color: var(--light-text);
-  font-size: 0.85rem;
-  font-weight: 200;
-  letter-spacing: 0.05em;
-  transition:
-    color 180ms ease,
-    opacity 180ms ease;
-}
-
-.menuItems > a:hover {
-  opacity: 0.65;
-}
-
-.headerScrolled .menuItems > a {
-  color: var(--primary-blue);
-}
-
-.headerScrolled .menuContainer > a,
-.headerMenuOpen .menuContainer > a {
-  border-width: 1px;
-  border-color: var(--accent-on-light-secondary);
-  color: var(--accent-on-light-secondary);
-  transition:
-    background 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease;
-}
-
-.headerScrolled .menuContainer > a {
-  background: transparent;
-}
-
-.headerMenuOpen .menuContainer > a {
-  background: var(--light-background);
-}
-
-.headerScrolled .menuContainer > a:hover,
-.headerMenuOpen .menuContainer > a:hover {
-  border-color: var(--primary-blue);
-  background: var(--primary-blue);
-  color: var(--light-text);
-  opacity: 1;
-}
-
-/* MOBILE MENU BUTTON */
-
-.menuButton {
-  display: none;
-  width: 3rem;
-  height: 3rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--light-text);
-  cursor: pointer;
   align-items: center;
   justify-content: center;
-  transition: color 180ms ease;
+  gap: 1rem;
 }
 
-.headerScrolled .menuButton {
-  color: var(--primary-blue);
+.line {
+  width: 5rem;
+  height: 1px;
+  background: var(--section-accent, var(--primary-gold));
+  opacity: 0.35;
 }
 
-.menuButtonOpen {
-  color: var(--primary-blue);
-}
-
-.menuIcon {
-  display: block;
+.icon {
   width: 2rem;
   height: 2rem;
-  background: currentColor;
+  flex-shrink: 0;
+  background: var(--section-accent, var(--primary-gold));
 }
 
-.openIcon {
-  mask: url('/icons/menu.svg') center / contain no-repeat;
-  -webkit-mask: url('/icons/menu.svg') center / contain no-repeat;
+.sparkle {
+  mask: url('/icons/sparkle.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/sparkle.svg') center / contain no-repeat;
 }
 
-.closeIcon {
-  mask: url('/icons/close.svg') center / contain no-repeat;
-  -webkit-mask: url('/icons/close.svg') center / contain no-repeat;
+.wine {
+  mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
 }
 
-/* BACKDROP */
-
-.backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 90;
-  padding: 0;
-  border: 0;
-  background: rgba(22, 18, 14, 0.15);
-  cursor: default;
+.location {
+  mask: url('/icons/location-pin.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/location-pin.svg') center / contain no-repeat;
 }
 
-/* MOBILE */
+/* Convivio theme */
 
-@media (max-width: 950px) {
-  .name {
-    font-size: 1.65rem;
+:global(html[data-theme='convivio']) .light {
+  --section-accent: var(--accent-on-light);
+  color: var(--primary-blue);
+}
+
+:global(html[data-theme='convivio']) .dark {
+  --section-accent: var(--accent-on-dark);
+}
+
+:global(html[data-theme='convivio']) .icon,
+:global(html[data-theme='convivio']) .line:last-child {
+  display: none;
+}
+
+:global(html[data-theme='convivio']) .divider {
+  gap: 0;
+}
+
+:global(html[data-theme='convivio']) .line {
+  width: min(8rem, 760px);
+  height: 8px;
+  opacity: 1;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='2.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+}
+
+:global(html[data-theme='convivio']) .light .line {
+  background: var(--accent-line-on-light);
+}
+
+@media (max-width: 800px) {
+  .heading {
+    font-size: 2rem;
   }
 
-  .menuButton {
-    display: flex;
+  .description {
+    font-size: 1rem;
   }
+}
+```
 
-  .menuContainer {
-    position: absolute;
-    top: calc(100% + 0.75rem);
-    left: 50%;
-    z-index: 110;
-    display: flex;
-    width: calc(100% - 2rem);
-    max-width: 32rem;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1rem;
-    padding: 1rem;
-    border: 1px solid rgba(40, 51, 76, 0.12);
-    border-radius: 0.75rem;
-    background: rgba(248, 247, 244, 0.97);
-    box-shadow:
-      0 1rem 3rem rgba(22, 18, 14, 0.14),
-      0 0.25rem 0.75rem rgba(22, 18, 14, 0.08);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translate(-50%, -0.5rem);
-    transition:
-      opacity 180ms ease,
-      transform 180ms ease,
-      visibility 180ms ease;
-  }
+## ./src/components/SvgFilter.tsx
+```tsx
+export default function SvgFilter() {
+  return (
+    <svg width='0' height='0' style={{ position: 'absolute' }}>
+      <filter id='roughen'>
+        <feTurbulence
+          type='fractalNoise'
+          baseFrequency='0.02 0.15'
+          numOctaves='3'
+          seed='4'
+          result='noise'
+        />
+        <feDisplacementMap
+          in='SourceGraphic'
+          in2='noise'
+          scale='3'
+          xChannelSelector='R'
+          yChannelSelector='G'
+        />
+      </filter>
 
-  .menuContainerOpen {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    transform: translate(-50%, 0);
-  }
-
-  .menuItems {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-  }
-
-  .menuItems > a {
-    padding: 0.9rem 1rem;
-    border-bottom: 1px solid rgba(40, 51, 76, 0.08);
-    color: var(--primary-blue);
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-  }
-
-  .menuItems > a:last-child {
-    border-bottom: 0;
-  }
-
-  .menuItems > a:hover {
-    background: rgba(40, 51, 76, 0.04);
-    opacity: 1;
-  }
-
-  .menuContainer > a {
-    width: 100%;
-    min-height: 3rem;
-    border-color: var(--primary-blue);
-    color: var(--primary-blue);
-  }
+      <filter id='roughen-reviews'>
+        <feTurbulence
+          type='fractalNoise'
+          baseFrequency='0.02 0.3'
+          numOctaves='3'
+          seed='4'
+          result='review-noise'
+        />
+        <feDisplacementMap
+          in='SourceGraphic'
+          in2='review-noise'
+          scale='5'
+          xChannelSelector='R'
+          yChannelSelector='G'
+        />
+      </filter>
+    </svg>
+  )
 }
 ```

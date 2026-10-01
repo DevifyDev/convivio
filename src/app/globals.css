@@ -59,11 +59,13 @@ html[data-theme='convivio'] {
   --primary-blue: #28334c;
 
   --accent-on-light: #395c70;
-   --accent-on-light-primary: #395c70;
+  
+  --accent-on-light-primary: #395c70;
 
    --accent-on-light-secondary: #4e4866;
  
-  --accent-on-dark: #A6BBC6;
+  /* --accent-on-dark: #A6BBC6; */
+  --accent-on-dark: #c8b995;
  
 
    --accent-line-on-light: #395c70;
