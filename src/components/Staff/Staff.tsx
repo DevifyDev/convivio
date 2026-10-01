@@ -33,35 +33,36 @@ export default function Staff({ staff }: StaffProps) {
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
     ) return
 
-    const rows = list.querySelectorAll<HTMLElement>('[data-staff-member]')
+    const slots = list.querySelectorAll<HTMLElement>(
+      '[data-staff-slot]'
+    )
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return
 
-          entry.target
-            .closest('[data-staff-member]')
-            ?.classList.add(styles.visible)
-
+          entry.target.classList.add(styles.visible)
           observer.unobserve(entry.target)
         })
       },
-      { threshold: 0.15, rootMargin: '0px 0px -5% 0px' }
+      {
+        threshold: 0,
+        rootMargin: '0px'
+      }
     )
 
-    rows.forEach((row) => {
-      const target = row.querySelector<HTMLElement>('[data-staff-portrait]')
-
-      if (!target) return
-
-      row.classList.add(styles.animate)
-      observer.observe(target)
+    slots.forEach((slot) => {
+      slot.classList.add(styles.animate)
+      observer.observe(slot)
     })
 
     return () => {
       observer.disconnect()
-      rows.forEach((row) => row.classList.remove(styles.animate))
+
+      slots.forEach((slot) => {
+        slot.classList.remove(styles.animate, styles.visible)
+      })
     }
   }, [members])
 
@@ -70,50 +71,52 @@ export default function Staff({ staff }: StaffProps) {
   return (
     <section className={styles.staff} id='staff'>
       <div className={styles.container}>
-        
         <SectionHeading {...sectionHeadingData.staff} />
 
         <div className={styles.staffList} ref={staffRef}>
           {members.map((member) => (
-            <article
-              className={styles.staffMember}
+            <div
+              className={styles.staffSlot}
               key={member._key}
-              data-staff-member
+              data-staff-slot
             >
-              <div
-                className={styles.portraitSlot}
-                data-staff-portrait
-              >
-                <div className={styles.portrait}>
-                  <div className={styles.portraitInner}>
-                    {member.image && (
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        fill
-                        sizes='(max-width: 600px) 240px, (max-width: 800px) 280px, 320px'
-                        className={styles.image}
-                        unoptimized
-                      />
-                    )}
+              <article className={styles.staffMember}>
+                <div className={styles.portraitSlot}>
+                  <div className={styles.portrait}>
+                    <div className={styles.portraitInner}>
+                      {member.image && (
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          fill
+                          sizes='(max-width: 600px) 240px, (max-width: 800px) 280px, 320px'
+                          className={styles.image}
+                          unoptimized
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className={styles.biography}>
-                <div className={styles.identity}>
-                  <h3 className={styles.name}>{member.name}</h3>
+                <div className={styles.biography}>
+                  <div className={styles.identity}>
+                    <h3 className={styles.name}>
+                      {member.name}
+                    </h3>
 
-                  {member.role && (
-                    <p className={styles.role}>{member.role}</p>
-                  )}
+                    {member.role && (
+                      <p className={styles.role}>
+                        {member.role}
+                      </p>
+                    )}
+                  </div>
+
+                  <p className={styles.description}>
+                    {member.description}
+                  </p>
                 </div>
-
-                <p className={styles.description}>
-                  {member.description}
-                </p>
-              </div>
-            </article>
+              </article>
+            </div>
           ))}
         </div>
       </div>

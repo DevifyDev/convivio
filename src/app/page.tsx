@@ -59,6 +59,11 @@ type FaqData = {
 }
 
 export default async function Homepage() {
+    const fetchOptions = {
+    perspective: 'published',
+    next: { revalidate: 60 }
+  } as const
+
   const [
     menu,
     gallery,
@@ -69,20 +74,22 @@ export default async function Homepage() {
     faq,
     about
   ] = await Promise.all([
-    client.fetch<MenuData | null>(menuQuery),
-    client.fetch<GalleryData | null>(galleryQuery),
-    client.fetch<EventsData | null>(eventsQuery),
-    client.fetch<TestimonialsData | null>(testimonialsQuery),
-    client.fetch<BusinessDetails | null>(businessDetailsQuery),
-    client.fetch<StaffData | null>(staffQuery, {}, {
-      perspective: 'published',
-      cache: 'no-store'
-    }),
-    client.fetch<FaqData | null>(faqQuery, {}, {
-      perspective: 'published',
-      cache: 'no-store'
-    }),
-    client.fetch<AboutImages | null>(aboutQuery)
+    client.fetch<MenuData | null>(menuQuery, {}, fetchOptions),
+    client.fetch<GalleryData | null>(galleryQuery, {}, fetchOptions),
+    client.fetch<EventsData | null>(eventsQuery, {}, fetchOptions),
+    client.fetch<TestimonialsData | null>(
+      testimonialsQuery,
+      {},
+      fetchOptions
+    ),
+    client.fetch<BusinessDetails | null>(
+      businessDetailsQuery,
+      {},
+      fetchOptions
+    ),
+    client.fetch<StaffData | null>(staffQuery, {}, fetchOptions),
+    client.fetch<FaqData | null>(faqQuery, {}, fetchOptions),
+    client.fetch<AboutImages | null>(aboutQuery, {}, fetchOptions)
   ])
 
   return (

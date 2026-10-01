@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Fraunces, Hanken_Grotesk } from 'next/font/google'
+import { preload } from 'react-dom'
 import './globals.css'
 
 
@@ -40,16 +41,21 @@ export const metadata: Metadata = {
   creator: 'Devify'
 }
 
-export default function Root({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function Root({
+  children
+}: Readonly<{ children: React.ReactNode }>) {
+  preload('/images/hero-background.webp', {
+    as: 'image',
+    fetchPriority: 'high'
+  })
+
   return (
     <html
       lang='en'
       data-theme='convivio'
       className={`${headingFont.variable} ${bodyFont.variable}`}
     >
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   )
 }

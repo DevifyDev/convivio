@@ -1,6 +1,7 @@
 .staff {
   position: relative;
   padding: 6rem;
+  overflow-x: clip;
   background: var(--light-background);
   color: var(--dark-text);
 }
@@ -55,6 +56,10 @@
   margin: 4rem auto 0;
 }
 
+.staffSlot {
+  min-width: 0;
+}
+
 .staffMember {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -69,13 +74,13 @@
   justify-self: start;
 }
 
-.staffMember:nth-child(even) .portraitSlot {
+.staffSlot:nth-child(even) .portraitSlot {
   grid-column: 2;
   grid-row: 1;
   justify-self: end;
 }
 
-.staffMember:nth-child(even) .biography {
+.staffSlot:nth-child(even) .biography {
   grid-column: 1;
   grid-row: 1;
 }
@@ -139,7 +144,7 @@
 }
 
 .description {
-  margin: 1.5rem 0 0;
+  margin: 0;
   color: var(--dark-text, #28334c);
   font-family: var(--body-copy-font, serif);
   font-size: 1.05rem;
@@ -149,41 +154,35 @@
   overflow-wrap: anywhere;
 }
 
+/* Convivio theme */
+
 :global(html[data-theme='convivio']) .role {
   color: var(--accent-on-light);
 }
 
+/* Animate the whole row; its wrapper stays in place */
+
 @media (prefers-reduced-motion: no-preference) {
-  .staffMember.animate .portrait {
+  .staffSlot.animate .staffMember {
     opacity: 0;
-    transform: translateX(-2rem) rotate(-360deg) scale(0.9);
+    transform: translateX(-100vw);
     transition:
-      transform 2860ms cubic-bezier(0.2, 0.65, 0.25, 1),
-      opacity 600ms ease;
+      transform 3200ms ease-in-out,
+      opacity 1800ms ease;
   }
 
-  .staffMember:nth-child(even).animate .portrait {
-    transform: translateX(2rem) rotate(360deg) scale(0.9);
+  .staffSlot:nth-child(even).animate .staffMember {
+    transform: translateX(100vw);
   }
 
-  .staffMember.animate .biography {
-    opacity: 0;
-    transform: translateX(-2rem);
-    transition:
-      transform 1300ms ease 200ms,
-      opacity 900ms ease 200ms;
-  }
-
-  .staffMember:nth-child(even).animate .biography {
-    transform: translateX(2rem);
-  }
-
-  .staffMember.animate.visible .portrait,
-  .staffMember.animate.visible .biography {
+  .staffSlot.animate.visible .staffMember,
+  .staffSlot:nth-child(even).animate.visible .staffMember {
     opacity: 1;
     transform: none;
   }
 }
+
+/* Mobile */
 
 @media (max-width: 800px) {
   .staff {
@@ -202,7 +201,7 @@
   }
 
   .portraitSlot,
-  .staffMember:nth-child(even) .portraitSlot {
+  .staffSlot:nth-child(even) .portraitSlot {
     grid-column: 1;
     grid-row: 1;
     justify-self: center;
@@ -210,7 +209,7 @@
   }
 
   .biography,
-  .staffMember:nth-child(even) .biography {
+  .staffSlot:nth-child(even) .biography {
     grid-column: 1;
     grid-row: 2;
     justify-self: center;

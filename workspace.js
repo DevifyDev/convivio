@@ -4,7 +4,7 @@ import path from 'path'
 const files = [
   // './package.json',
   // './tsconfig.json',
-  // './next-config.ts',
+  // './next.config.ts',
   // './sanity.cli.js',
   // './sanity.config.ts',
 
@@ -43,11 +43,11 @@ const files = [
   // './src/components/Menu/Menu.tsx',
   // './src/components/Menu/Menu.module.css',
 
-  './src/components/SectionHeading/SectionHeading.tsx',
-  './src/components/SectionHeading/SectionHeading.module.css',
+  // './src/components/SectionHeading/SectionHeading.tsx',
+  // './src/components/SectionHeading/SectionHeading.module.css',
 
-  // './src/components/Staff/Staff.tsx',
-  // './src/components/Staff/Staff.module.css',
+  './src/components/Staff/Staff.tsx',
+  './src/components/Staff/Staff.module.css',
 
   // './src/components/StructuredData/StructuredData.tsx',
   // './src/components/StructuredData/StructuredData.module.css',
