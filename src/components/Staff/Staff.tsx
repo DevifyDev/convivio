@@ -91,7 +91,6 @@ export default function Staff({ staff }: StaffProps) {
                           fill
                           sizes='(max-width: 600px) 240px, (max-width: 800px) 280px, 320px'
                           className={styles.image}
-                          unoptimized
                         />
                       )}
                     </div>

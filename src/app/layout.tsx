@@ -44,6 +44,11 @@ export const metadata: Metadata = {
 export default function Root({
   children
 }: Readonly<{ children: React.ReactNode }>) {
+  preload('/fonts/aloja-extended.woff2', {
+  as: 'font',
+  type: 'font/woff2',
+  crossOrigin: 'anonymous'
+})
   preload('/images/hero-background.webp', {
     as: 'image',
     fetchPriority: 'high'
