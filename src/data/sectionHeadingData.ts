@@ -31,7 +31,7 @@ export const sectionHeadingData = {
   staff: {
     eyebrow: '',
     heading: 'Meet The Team',
-    description: 'The locals behind your favorite neighborhood hangout',
+    description: 'The locals behind your favorite neighbourhood hangout',
     variant: 'light',
     icon: 'sparkle'
   },
