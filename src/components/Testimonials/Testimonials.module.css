@@ -125,11 +125,7 @@
   position: absolute;
   z-index: 1;
   inset: 1px;
-  background: color-mix(
-    in srgb,
-    #28334c 4.5%,
-    var(--light-background)
-  );
+  background: color-mix(in srgb, #28334c 4.5%, var(--light-background));
   pointer-events: none;
 }
 
@@ -169,7 +165,6 @@
   font-weight: 300;
   line-height: 1;
 }
-
 
 :global(html[data-theme='convivio']) .source {
   color: var(--review-accent);
@@ -243,4 +238,10 @@
   .quote {
     font-size: 1.15rem;
   }
+}
+
+:global(html[data-theme='convivio']) .quoteMark .openingQuoteGlyph {
+  display: inline-block;
+  transform: scaleX(-1);
+  transform-origin: center;
 }

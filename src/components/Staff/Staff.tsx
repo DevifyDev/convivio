@@ -26,7 +26,7 @@ export default function Staff({
   groupImageAlt
 }: StaffProps) {
   const members = staff ?? emptyStaff
-  const staffRef = useRef<HTMLDivElement>(null)
+  const staffRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     const list = staffRef.current
@@ -35,10 +35,11 @@ export default function Staff({
       !list ||
       !('IntersectionObserver' in window) ||
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) return
+    )
+      return
 
     const slots = list.querySelectorAll<HTMLElement>(
-      '[data-staff-slot]'
+      '[data-staff-slot], [data-group-photo]'
     )
 
     const observer = new IntersectionObserver(
@@ -52,7 +53,7 @@ export default function Staff({
       },
       {
         threshold: 0,
-        rootMargin: '0px 0px 160px 0px'
+        rootMargin: '0px 0px 240px 0px'
       }
     )
 
@@ -68,45 +69,42 @@ export default function Staff({
         slot.classList.remove(styles.animate, styles.visible)
       })
     }
-  }, [members])
+  }, [members, groupImage])
 
   if (members.length === 0 && !groupImage) return null
 
   return (
-    <section className={styles.staff} id='staff'>
+    <section className={styles.staff} id='staff' ref={staffRef}>
       <div className={styles.container}>
-        
-        <SectionHeading {...sectionHeadingData.staff}>
+        <SectionHeading
+          {...sectionHeadingData.staff}
+          descriptionClassName={styles.staffHeadingDescription}
+          childrenBeforeDescription
+        >
           {groupImage && (
-            <div className={styles.groupPhoto}>
-              <div className={styles.groupPhotoInner}>
-                <Image
-                  src={groupImage}
-                  alt={groupImageAlt || 'The Convivio team'}
-                  fill
-                  sizes='(max-width: 800px) 100vw, 480px'
-                  className={styles.image}
-                />
+            <div className={styles.groupPhotoSlot} data-group-photo>
+              <div className={styles.groupPhoto}>
+                <div className={styles.groupPhotoInner}>
+                  <Image
+                    src={groupImage}
+                    alt={groupImageAlt || 'The Convivio team'}
+                    fill
+                    sizes='(max-width: 800px) 100vw, 480px'
+                    className={styles.image}
+                  />
+                </div>
               </div>
             </div>
           )}
         </SectionHeading>
 
-        <div className={styles.staffList} ref={staffRef}>
+        <div className={styles.staffList}>
           {members.map((member) => (
-            <div
-              className={styles.staffSlot}
-              key={member._key}
-              data-staff-slot
-            >
+            <div className={styles.staffSlot} key={member._key} data-staff-slot>
               <article className={styles.staffMember}>
-                <h3 className={styles.name}>
-                  {member.name}
-                </h3>
+                <h3 className={styles.name}>{member.name}</h3>
 
-                <p className={styles.description}>
-                  {member.description}
-                </p>
+                <p className={styles.description}>{member.description}</p>
               </article>
             </div>
           ))}

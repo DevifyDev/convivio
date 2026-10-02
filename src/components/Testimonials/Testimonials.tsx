@@ -43,10 +43,8 @@ function ReviewQuote({ quote }: { quote: string }) {
       const quoteBounds = quoteBody.getBoundingClientRect()
       const columnGap = parseFloat(getComputedStyle(block).columnGap) || 0
 
-      closingQuote.style.left =
-        `${quoteBounds.right - blockBounds.left + columnGap}px`
-      closingQuote.style.top =
-        `${lastLine.top - blockBounds.top}px`
+      closingQuote.style.left = `${quoteBounds.right - blockBounds.left + columnGap}px`
+      closingQuote.style.top = `${lastLine.top - blockBounds.top}px`
       closingQuote.style.visibility = 'visible'
     }
 
@@ -68,7 +66,7 @@ function ReviewQuote({ quote }: { quote: string }) {
   return (
     <div className={styles.quoteBlock} ref={blockRef}>
       <span className={styles.quoteMark} aria-hidden='true'>
-        "
+        <span className={styles.openingQuoteGlyph}>"</span>
       </span>
 
       <blockquote className={styles.quote} ref={quoteRef}>
@@ -86,9 +84,7 @@ function ReviewQuote({ quote }: { quote: string }) {
   )
 }
 
-export default function Testimonials({
-  testimonials
-}: TestimonialsProps) {
+export default function Testimonials({ testimonials }: TestimonialsProps) {
   if (testimonials.length === 0) {
     return null
   }
@@ -106,16 +102,11 @@ export default function Testimonials({
             )
 
             return (
-              <article
-                className={styles.review}
-                key={testimonial._key}
-              >
+              <article className={styles.review} key={testimonial._key}>
                 <ReviewQuote quote={testimonial.quote} />
 
                 <footer className={styles.reviewer}>
-                  <p className={styles.name}>
-                    {testimonial.name}
-                  </p>
+                  <p className={styles.name}>{testimonial.name}</p>
 
                   <div
                     className={styles.rating}
@@ -125,9 +116,7 @@ export default function Testimonials({
                     {Array.from({ length: 5 }, (_, index) => (
                       <span
                         className={
-                          index < rating
-                            ? styles.star
-                            : styles.starMuted
+                          index < rating ? styles.star : styles.starMuted
                         }
                         key={index}
                         aria-hidden='true'
@@ -138,9 +127,7 @@ export default function Testimonials({
                   </div>
 
                   {testimonial.source && (
-                    <p className={styles.source}>
-                      {testimonial.source}
-                    </p>
+                    <p className={styles.source}>{testimonial.source}</p>
                   )}
                 </footer>
               </article>

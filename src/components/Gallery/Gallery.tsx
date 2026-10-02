@@ -1,7 +1,13 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties
+} from 'react'
 import Button from '../Button/Button'
 import SectionHeading from '../SectionHeading/SectionHeading'
 import { sectionHeadingData } from '../../data/sectionHeadingData'
@@ -27,12 +33,20 @@ export default function Gallery({
   const galleryRef = useRef<HTMLDivElement>(null)
   const [activeSlide, setActiveSlide] = useState(0)
   const [isCompact, setIsCompact] = useState(false)
+  const activeSlideRef = useRef(0)
+  const animationRef = useRef<number | null>(null)
+  const restoreScrollRef = useRef<(() => void) | null>(null)
+
+  const cancelSlide = useCallback(() => {
+    if (animationRef.current !== null)
+      window.cancelAnimationFrame(animationRef.current)
+    animationRef.current = null
+    restoreScrollRef.current?.()
+    restoreScrollRef.current = null
+  }, [])
 
   const visibleImages = images.slice(0, 12)
-  const columnCount = Math.min(
-    isCompact ? 2 : 4,
-    visibleImages.length
-  )
+  const columnCount = Math.min(isCompact ? 2 : 4, visibleImages.length)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(max-width: 1000px)')
@@ -51,44 +65,74 @@ export default function Gallery({
     index
   }))
 
-  const columns = Array.from(
-    { length: columnCount },
-    (_, columnIndex) =>
-      indexedImages.filter(
-        ({ index }) => index % columnCount === columnIndex
-      )
+  const columns = Array.from({ length: columnCount }, (_, columnIndex) =>
+    indexedImages.filter(({ index }) => index % columnCount === columnIndex)
   )
 
-  function scrollToSlide(index: number) {
-    const gallery = galleryRef.current
+  const scrollToSlide = useCallback(
+    (index: number) => {
+      const gallery = galleryRef.current
+      if (!gallery) return
+      cancelSlide()
+      const selected = gallery.querySelector<HTMLElement>(
+        `[data-gallery-index='${index}']`
+      )
+      if (!selected) return
+      const left =
+        selected.getBoundingClientRect().left -
+        gallery.getBoundingClientRect().left +
+        gallery.scrollLeft
+      const target = Math.max(
+        0,
+        Math.min(left, gallery.scrollWidth - gallery.clientWidth)
+      )
+      activeSlideRef.current = index
+      setActiveSlide(index)
 
-    if (!gallery) return
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        gallery.scrollTo({ left: target, behavior: 'instant' })
+        return
+      }
 
-    const selected = gallery.querySelector<HTMLElement>(
-      `[data-gallery-index='${index}']`
-    )
+      const start = gallery.scrollLeft
+      const distance = target - start
+      if (Math.abs(distance) < 1) return
+      const previousSnap = gallery.style.scrollSnapType
+      const previousBehavior = gallery.style.scrollBehavior
+      gallery.style.scrollSnapType = 'none'
+      gallery.style.scrollBehavior = 'auto'
+      restoreScrollRef.current = () => {
+        gallery.style.scrollSnapType = previousSnap
+        gallery.style.scrollBehavior = previousBehavior
+      }
+      const duration = Math.min(
+        2800,
+        1400 * Math.sqrt(Math.max(1, Math.abs(distance) / gallery.clientWidth))
+      )
+      const started = performance.now()
+      const animate = (now: number) => {
+        const progress = Math.min(1, (now - started) / duration)
+        const eased = (1 - Math.cos(Math.PI * progress)) / 2
+        gallery.scrollLeft = start + distance * eased
+        if (progress < 1) {
+          animationRef.current = window.requestAnimationFrame(animate)
+        } else {
+          animationRef.current = null
+          restoreScrollRef.current?.()
+          restoreScrollRef.current = null
+        }
+      }
+      animationRef.current = window.requestAnimationFrame(animate)
+    },
+    [cancelSlide]
+  )
 
-    if (!selected) return
-
-    const left =
-      selected.getBoundingClientRect().left -
-      gallery.getBoundingClientRect().left +
-      gallery.scrollLeft
-
-    gallery.scrollTo({
-      left,
-      behavior: window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-      ).matches
-        ? 'instant'
-        : 'smooth'
-    })
-
-    setActiveSlide(index)
-  }
+  useEffect(() => () => cancelSlide(), [cancelSlide])
 
   function updateActiveSlide() {
     const gallery = galleryRef.current
+
+    if (animationRef.current !== null) return
 
     if (!gallery || gallery.scrollWidth <= gallery.clientWidth) {
       return
@@ -101,9 +145,7 @@ export default function Gallery({
     gallery
       .querySelectorAll<HTMLElement>('[data-gallery-index]')
       .forEach((item) => {
-        const distance = Math.abs(
-          item.getBoundingClientRect().left - left
-        )
+        const distance = Math.abs(item.getBoundingClientRect().left - left)
 
         if (distance < closestDistance) {
           closestDistance = distance
@@ -111,8 +153,50 @@ export default function Gallery({
         }
       })
 
+    activeSlideRef.current = closestIndex
     setActiveSlide(closestIndex)
   }
+
+  useEffect(() => {
+    const gallery = galleryRef.current
+    if (!gallery || visibleImages.length < 2) return
+    const mobile = window.matchMedia('(max-width: 499px)')
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let interacting = false
+    const pause = () => {
+      interacting = true
+      cancelSlide()
+    }
+    const resume = () => {
+      interacting = false
+    }
+    const timer = window.setInterval(() => {
+      if (
+        !mobile.matches ||
+        reducedMotion.matches ||
+        interacting ||
+        document.hidden
+      )
+        return
+      const bounds = gallery.getBoundingClientRect()
+      if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return
+      const index = (activeSlideRef.current + 1) % visibleImages.length
+      scrollToSlide(index)
+    }, 4000)
+    gallery.addEventListener('pointerdown', pause)
+    window.addEventListener('pointerup', resume)
+    window.addEventListener('pointercancel', resume)
+    gallery.addEventListener('focusin', pause)
+    gallery.addEventListener('focusout', resume)
+    return () => {
+      window.clearInterval(timer)
+      gallery.removeEventListener('pointerdown', pause)
+      window.removeEventListener('pointerup', resume)
+      window.removeEventListener('pointercancel', resume)
+      gallery.removeEventListener('focusin', pause)
+      gallery.removeEventListener('focusout', resume)
+    }
+  }, [visibleImages.length, scrollToSlide, cancelSlide])
 
   if (visibleImages.length === 0) return null
 
@@ -127,20 +211,14 @@ export default function Gallery({
 
         <div
           className={styles.galleryGrid}
-          style={
-            { '--gallery-columns': columnCount } as CSSProperties
-          }
+          style={{ '--gallery-columns': columnCount } as CSSProperties}
           ref={galleryRef}
           onScroll={updateActiveSlide}
         >
           {columns.map((column, columnIndex) => (
-            <div
-              className={styles.galleryColumn}
-              key={columnIndex}
-            >
+            <div className={styles.galleryColumn} key={columnIndex}>
               {column.map((item, rowIndex) => {
-                const isTall =
-                  (columnIndex + rowIndex) % 2 === 1
+                const isTall = (columnIndex + rowIndex) % 2 === 1
 
                 return (
                   <div
@@ -151,13 +229,15 @@ export default function Gallery({
                     data-gallery-index={item.index}
                     key={item._key}
                   >
-                    <Image
-                      src={item.src}
-                      alt={item.alt}
-                      fill
-                      sizes='(max-width: 499px) 270px, (max-width: 1000px) 320px, (max-width: 1200px) 22vw, 17rem'
-                      className={styles.galleryImage}
-                    />
+                    <div className={styles.imageInner}>
+                      <Image
+                        src={item.src}
+                        alt={item.alt}
+                        fill
+                        sizes='(max-width: 499px) 270px, (max-width: 1000px) 320px, (max-width: 1200px) 22vw, 17rem'
+                        className={styles.galleryImage}
+                      />
+                    </div>
                   </div>
                 )
               })}

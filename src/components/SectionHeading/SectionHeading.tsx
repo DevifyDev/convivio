@@ -9,6 +9,8 @@ type SectionHeadingProps = {
   icon?: 'sparkle' | 'wine' | 'location'
   className?: string
   children?: ReactNode
+  childrenBeforeDescription?: boolean
+  descriptionClassName?: string
 }
 
 export default function SectionHeading({
@@ -17,7 +19,9 @@ export default function SectionHeading({
   description,
   variant = 'light',
   className,
-  children
+  children,
+  childrenBeforeDescription = false,
+  descriptionClassName
 }: SectionHeadingProps) {
   return (
     <header
@@ -25,17 +29,23 @@ export default function SectionHeading({
         .filter(Boolean)
         .join(' ')}
     >
-      {eyebrow && (
-        <p className={styles.eyebrow}>{eyebrow}</p>
-      )}
+      {eyebrow && <p className={styles.eyebrow}>{eyebrow}</p>}
 
       <h2 className={styles.heading}>{heading}</h2>
 
+      {childrenBeforeDescription && children}
+
       {description && (
-        <p className={styles.description}>{description}</p>
+        <p
+          className={[styles.description, descriptionClassName]
+            .filter(Boolean)
+            .join(' ')}
+        >
+          {description}
+        </p>
       )}
 
-      {children}
+      {!childrenBeforeDescription && children}
 
       <div className={styles.divider} aria-hidden='true'>
         <span className={styles.line}></span>

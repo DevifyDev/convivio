@@ -1,432 +1,219 @@
 # Workspace Export
-Generated: 2026-10-02T00:29:40.780Z
+Generated: 2026-10-02T02:20:06.630Z
 
-## ./src/components/Menu/Menu.tsx
+## ./src/components/Gallery/Gallery.tsx
 ```tsx
 'use client'
 
-import { Fragment, useEffect, useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import Button from '../Button/Button'
 import SectionHeading from '../SectionHeading/SectionHeading'
-import { sectionHeadingData } from '@/data/sectionHeadingData'
-import styles from './Menu.module.css'
+import { sectionHeadingData } from '../../data/sectionHeadingData'
+import styles from './Gallery.module.css'
 
-type FoodLine1Span = {
+export type GalleryImage = {
   _key: string
-  _type: 'span'
-  text: string
-  marks?: string[]
+  src: string
+  alt: string
 }
 
-type FoodLine1Block = {
-  _key: string
-  _type: 'block'
-  children: FoodLine1Span[]
-}
-
-export type MenuItem = {
-  _key: string
-  name: string
-  foodLine1?: FoodLine1Block[]
+type GalleryProps = {
   description?: string
-  price: string
+  images: GalleryImage[]
+  instagramUrl?: string
 }
 
-export type MenuSubcategory = {
-  _key: string
-  title: string
-  items?: MenuItem[]
-}
+export default function Gallery({
+  description,
+  images,
+  instagramUrl
+}: GalleryProps) {
+  const galleryRef = useRef<HTMLDivElement>(null)
+  const [activeSlide, setActiveSlide] = useState(0)
+  const [isCompact, setIsCompact] = useState(false)
 
-export type MenuCategory = {
-  _key: string
-  title: string
-  items?: MenuItem[]
-  subcategories?: MenuSubcategory[]
-}
-
-type MenuProps = {
-  foodCategories: MenuCategory[]
-  drinksCategories: MenuCategory[]
-}
-
-type MenuId = 'food' | 'drinks'
-
-type MenuDefinition = {
-  id: MenuId
-  label: string
-  categories: MenuCategory[]
-}
-
-type MenuSelection = {
-  menuId: MenuId
-  categoryKey: string | null
-  previousCategory: MenuCategory | null
-  previousMenu: MenuDefinition | null
-  version: number
-}
-
-function getDefaultCategory(
-  menuId: MenuId,
-  categories: MenuCategory[]
-) {
-  if (menuId === 'food') {
-    return (
-      categories.find(
-        (category) => category.title.trim().toLowerCase() === 'small'
-      ) ??
-      categories[0] ??
-      null
-    )
-  }
-
-  return categories[0] ?? null
-}
-
-function FoodLine1({ blocks }: { blocks: FoodLine1Block[] }) {
-  return (
-    <>
-      {blocks.map((block, index) => (
-        <Fragment key={block._key}>
-          {index > 0 && <br />}
-          {block.children.map((span) => {
-            const text = span.text.split('\n').map((line, lineIndex) => (
-              <Fragment key={lineIndex}>
-                {lineIndex > 0 && <br />}
-                {line}
-              </Fragment>
-            ))
-            const emphasis = span.marks?.includes('em') ? <em>{text}</em> : text
-
-            return (
-              <Fragment key={span._key}>
-                {span.marks?.includes('strong') ? <strong>{emphasis}</strong> : emphasis}
-              </Fragment>
-            )
-          })}
-        </Fragment>
-      ))}
-    </>
+  const visibleImages = images.slice(0, 12)
+  const columnCount = Math.min(
+    isCompact ? 2 : 4,
+    visibleImages.length
   )
-}
-
-function MenuItems({ items, menuId }: { items?: MenuItem[]; menuId: MenuId }) {
-  return (
-    <div className={styles.menuGrid}>
-      {items?.map((item) => (
-        <article className={styles.menuItem} key={item._key}>
-          <div className={styles.itemContent}>
-            <div className={styles.itemTop}>
-              <h4
-              className={`${styles.itemName} ${
-                menuId === 'food' && item.foodLine1?.length ? styles.foodLine1 : ''
-              }`}
-            >
-              {menuId === 'food' && item.foodLine1?.length ? (
-                <FoodLine1 blocks={item.foodLine1} />
-              ) : item.name}
-            </h4>
-
-              <span className={styles.dots} aria-hidden='true' />
-
-              <span className={styles.price}>{item.price}</span>
-            </div>
-
-            {item.description && (
-              <p className={styles.description}>
-                {item.description}
-              </p>
-            )}
-          </div>
-        </article>
-      ))}
-    </div>
-  )
-}
-
-function CategoryContent({
-  category,
-  menuId
-}: {
-  category: MenuCategory | null
-  menuId: MenuId
-}) {
-  if (!category) {
-    return (
-      <p className={styles.emptyMessage}>
-        This menu is being updated.
-      </p>
-    )
-  }
-
-  return (
-    <div className={styles.categoryContent}>
-      {!!category.items?.length && (
-        <MenuItems items={category.items} menuId={menuId} />
-      )}
-
-      {category.subcategories?.map((subcategory) => (
-        <section
-          className={styles.subcategory}
-          key={subcategory._key}
-        >
-          <h3 className={styles.subcategoryHeading}>
-            {subcategory.title}
-          </h3>
-
-          <MenuItems items={subcategory.items} menuId={menuId} />
-        </section>
-      ))}
-    </div>
-  )
-}
-
-export default function Menu({
-  foodCategories,
-  drinksCategories
-}: MenuProps) {
-  const menus: MenuDefinition[] = [
-    {
-      id: 'food',
-      label: 'Chefs Selection',
-      categories: foodCategories
-    },
-    {
-      id: 'drinks',
-      label: 'Wine List & Drinks',
-      categories: drinksCategories
-    }
-  ]
-
-  const [selection, setSelection] = useState<MenuSelection>(() => ({
-    menuId: 'food',
-    categoryKey:
-      getDefaultCategory('food', foodCategories)?._key ?? null,
-    previousCategory: null,
-    previousMenu: null,
-    version: 0
-  }))
-
-  const activeMenu =
-    menus.find((menu) => menu.id === selection.menuId) ?? menus[0]
-
-  const activeCategory =
-    activeMenu.categories.find(
-      (category) => category._key === selection.categoryKey
-    ) ??
-    getDefaultCategory(activeMenu.id, activeMenu.categories)
 
   useEffect(() => {
-    if (selection.version === 0) return
+    const mediaQuery = window.matchMedia('(max-width: 1000px)')
+    const updateLayout = () => setIsCompact(mediaQuery.matches)
 
-    const version = selection.version
+    updateLayout()
+    mediaQuery.addEventListener('change', updateLayout)
 
-    const timeout = window.setTimeout(() => {
-      setSelection((current) =>
-        current.version === version
-          ? {
-              ...current,
-              previousCategory: null,
-              previousMenu: null
-            }
-          : current
+    return () => {
+      mediaQuery.removeEventListener('change', updateLayout)
+    }
+  }, [])
+
+  const indexedImages = visibleImages.map((item, index) => ({
+    ...item,
+    index
+  }))
+
+  const columns = Array.from(
+    { length: columnCount },
+    (_, columnIndex) =>
+      indexedImages.filter(
+        ({ index }) => index % columnCount === columnIndex
       )
-    }, 600)
+  )
 
-    return () => window.clearTimeout(timeout)
-  }, [selection.version])
+  function scrollToSlide(index: number) {
+    const gallery = galleryRef.current
 
-  function changeMenu(menu: MenuDefinition) {
-    if (menu.id === activeMenu.id) return
+    if (!gallery) return
 
-    setSelection({
-      menuId: menu.id,
-      categoryKey:
-        getDefaultCategory(menu.id, menu.categories)?._key ?? null,
-      previousCategory: activeCategory,
-      previousMenu: activeMenu,
-      version: selection.version + 1
+    const selected = gallery.querySelector<HTMLElement>(
+      `[data-gallery-index='${index}']`
+    )
+
+    if (!selected) return
+
+    const left =
+      selected.getBoundingClientRect().left -
+      gallery.getBoundingClientRect().left +
+      gallery.scrollLeft
+
+    gallery.scrollTo({
+      left,
+      behavior: window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches
+        ? 'instant'
+        : 'smooth'
     })
+
+    setActiveSlide(index)
   }
 
-  function changeCategory(category: MenuCategory) {
-    if (category._key === activeCategory?._key) return
+  function updateActiveSlide() {
+    const gallery = galleryRef.current
 
-    setSelection({
-      menuId: activeMenu.id,
-      categoryKey: category._key,
-      previousCategory: activeCategory,
-      previousMenu: null,
-      version: selection.version + 1
-    })
+    if (!gallery || gallery.scrollWidth <= gallery.clientWidth) {
+      return
+    }
+
+    let closestIndex = 0
+    let closestDistance = Infinity
+    const left = gallery.getBoundingClientRect().left
+
+    gallery
+      .querySelectorAll<HTMLElement>('[data-gallery-index]')
+      .forEach((item) => {
+        const distance = Math.abs(
+          item.getBoundingClientRect().left - left
+        )
+
+        if (distance < closestDistance) {
+          closestDistance = distance
+          closestIndex = Number(item.dataset.galleryIndex)
+        }
+      })
+
+    setActiveSlide(closestIndex)
   }
 
-  if (
-    foodCategories.length === 0 &&
-    drinksCategories.length === 0
-  ) {
-    return null
-  }
+  if (visibleImages.length === 0) return null
 
   return (
-    <section className={styles.pricing} id='menu'>
+    <section className={styles.gallery} id='gallery'>
       <div className={styles.container}>
-        <SectionHeading {...sectionHeadingData.menu} />
+        <SectionHeading
+          {...sectionHeadingData.gallery}
+          description={description ?? sectionHeadingData.gallery.description}
+          className={styles.sectionHeading}
+        />
 
-        <nav
-          className={styles.menuButtons}
-          aria-label='Choose a menu'
+        <div
+          className={styles.galleryGrid}
+          style={
+            { '--gallery-columns': columnCount } as CSSProperties
+          }
+          ref={galleryRef}
+          onScroll={updateActiveSlide}
         >
-          {menus.map((menu, index) => (
-            <Fragment key={menu.id}>
-              <button
-                className={`${styles.menuButton} ${
-                  activeMenu.id === menu.id ? styles.active : ''
-                }`}
-                type='button'
-                aria-pressed={activeMenu.id === menu.id}
-                onClick={() => changeMenu(menu)}
-              >
-                {menu.label}
-              </button>
-
-              {index < menus.length - 1 && (
-                <span
-                  className={styles.separator}
-                  aria-hidden='true'
-                >
-                  |
-                </span>
-              )}
-            </Fragment>
-          ))}
-        </nav>
-
-        <div className={styles.categoryWindow}>
-          {selection.previousMenu && (
+          {columns.map((column, columnIndex) => (
             <div
-              className={`${styles.categories} ${styles.outgoingCategories}`}
-              aria-hidden='true'
-              key={`previous-${selection.version}`}
+              className={styles.galleryColumn}
+              key={columnIndex}
             >
-              {selection.previousMenu.categories.map(
-                (category, index, categories) => (
-                  <Fragment key={category._key}>
-                    <span className={styles.categoryButton}>
-                      {category.title}
-                    </span>
+              {column.map((item, rowIndex) => {
+                const isTall =
+                  (columnIndex + rowIndex) % 2 === 1
 
-                    {index < categories.length - 1 && (
-                      <span className={styles.separator}>|</span>
-                    )}
-                  </Fragment>
-                )
-              )}
-            </div>
-          )}
-
-          <nav
-            className={`${styles.categories} ${
-              selection.previousMenu
-                ? styles.incomingCategories
-                : ''
-            }`}
-            aria-label={`${activeMenu.label} categories`}
-            key={activeMenu.id}
-          >
-            {activeMenu.categories.map((category, index) => (
-              <Fragment key={category._key}>
-                <button
-                  className={`${styles.categoryButton} ${
-                    activeCategory?._key === category._key
-                      ? styles.active
-                      : ''
-                  }`}
-                  type='button'
-                  aria-pressed={
-                    activeCategory?._key === category._key
-                  }
-                  onClick={() => changeCategory(category)}
-                >
-                  {category.title}
-                </button>
-
-                {index < activeMenu.categories.length - 1 && (
-                  <span
-                    className={styles.separator}
-                    aria-hidden='true'
+                return (
+                  <div
+                    className={`${styles.imageFrame} ${
+                      isTall ? styles.tall : styles.short
+                    }`}
+                    style={{ order: item.index }}
+                    data-gallery-index={item.index}
+                    key={item._key}
                   >
-                    |
-                  </span>
-                )}
-              </Fragment>
-            ))}
-          </nav>
-        </div>
-
-        <div className={styles.menuWindow}>
-          {selection.previousCategory && (
-            <div
-              className={styles.previousMenu}
-              aria-hidden='true'
-            >
-              <CategoryContent
-                category={selection.previousCategory}
-              menuId={selection.previousMenu?.id ?? activeMenu.id}
-              />
+                    <Image
+                      src={item.src}
+                      alt={item.alt}
+                      fill
+                      sizes='(max-width: 499px) 270px, (max-width: 1000px) 320px, (max-width: 1200px) 22vw, 17rem'
+                      className={styles.galleryImage}
+                    />
+                  </div>
+                )
+              })}
             </div>
-          )}
-{activeMenu.id === 'food' && (
-  <p className={styles.dietaryKey}>
-    V = Vegetarian, VG = Vegan, GF = Gluten Free, DF = Dairy Free, NF = Nut Free
-  </p>
-)}
-          
-
-          <div
-            className={`${styles.menuPanel} ${
-              selection.version > 0 ? styles.incomingMenu : ''
-            }`}
-            key={`${activeMenu.id}-${activeCategory?._key ?? 'empty'}-${selection.version}`}
-          >
-            
-            <CategoryContent category={activeCategory} menuId={activeMenu.id} />
-          </div>
+          ))}
         </div>
+
+        <div
+          className={styles.pagination}
+          role='group'
+          aria-label='Gallery navigation'
+        >
+          {visibleImages.map((item, index) => (
+            <button
+              className={`${styles.dot} ${
+                Math.min(activeSlide, visibleImages.length - 1) === index
+                  ? styles.activeDot
+                  : ''
+              }`}
+              type='button'
+              aria-label={`View image ${index + 1}`}
+              aria-pressed={
+                Math.min(activeSlide, visibleImages.length - 1) === index
+              }
+              onClick={() => scrollToSlide(index)}
+              key={item._key}
+            ></button>
+          ))}
+        </div>
+
+        {instagramUrl && (
+          <div className={styles.ctaContainer}>
+            <Button
+              label='See More On Instagram'
+              href={instagramUrl}
+              variant='ctaLarge'
+              target='_blank'
+            />
+          </div>
+        )}
       </div>
     </section>
   )
 }
-
 ```
 
-## ./src/components/Menu/Menu.module.css
+## ./src/components/Gallery/Gallery.module.css
 ```css
-.pricing {
-  position: relative;
-  z-index: 1;
+.gallery {
   padding: 6rem;
-  background: var(--primary-black);
-  color: var(--light-text);
-}
-
-.pricing::before,
-.pricing::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 24px;
-  background: var(--primary-black);
-  filter: url('#roughen');
-  pointer-events: none;
-}
-
-.pricing::before {
-  top: -12px;
-}
-
-.pricing::after {
-  bottom: -12px;
+  background: var(--light-background);
 }
 
 .container {
@@ -435,516 +222,387 @@ export default function Menu({
   margin-inline: auto;
 }
 
-.menuButtons,
-.categories {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--gallery-columns),
+    minmax(0, 1fr)
+  );
+  align-items: start;
   gap: 1rem;
-}
-
-.menuButtons {
-  margin: 3rem 0 2rem;
-}
-
-.menuButton,
-.categoryButton {
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--light-text);
-  cursor: pointer;
-}
-
-.menuButton {
-  font-family: var(--display-font), serif;
-  font-size: 1.5rem;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.categoryButton {
-  font-family: var(--body-copy-font), serif;
-  font-size: 1.35rem;
-  font-weight: 400;
-  line-height: 1.5;
-}
-
-.menuButton:hover,
-.categoryButton:hover {
-  opacity: 0.65;
-}
-
-.active {
-  color: var(--primary-gold);
-}
-
-.active:hover {
-  opacity: 1;
-}
-
-.menuButton:focus-visible,
-.categoryButton:focus-visible {
-  outline: 2px solid var(--accent-on-dark);
-  outline-offset: 4px;
-}
-
-.separator {
-  color: var(--light-text);
-  opacity: 0.2;
-}
-
-.categoryWindow {
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 4rem;
-  padding: 0.5rem;
-}
-
-.categories {
-  position: relative;
-  margin: 0;
-}
-
-.outgoingCategories {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  left: 0.5rem;
-  pointer-events: none;
-  animation: categoriesOut 0.6s ease both;
-}
-
-.incomingCategories {
-  animation: categoriesIn 0.6s ease both;
-}
-
-@keyframes categoriesOut {
-  from {
-    transform: translateX(0);
-    opacity: 1;
-  }
-
-  to {
-    transform: translateX(110%);
-    opacity: 0;
-  }
-}
-
-@keyframes categoriesIn {
-  from {
-    transform: translateX(-110%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-.menuWindow {
-  position: relative;
-  overflow: hidden;
-}
-
-.menuPanel {
-  position: relative;
-  background: var(--primary-black);
-}
-
-.previousMenu {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  pointer-events: none;
+  max-width: calc(
+    var(--gallery-columns) * 17rem +
+    (var(--gallery-columns) - 1) * 1rem
+  );
+  margin: 4rem auto 0;
 }
 
-.incomingMenu {
-  z-index: 1;
-  box-shadow: 0 -1rem 2rem rgba(0, 0, 0, 0.2);
-  animation: turnPage 0.6s ease;
-}
-
-@keyframes turnPage {
-  from {
-    transform: translateY(100%);
-  }
-
-  to {
-    transform: translateY(0);
-  }
-}
-
-.categoryContent {
-  display: grid;
-  gap: 3.5rem;
-}
-
-.menuGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2.5rem 4rem;
-}
-
-.subcategory {
-  min-width: 0;
-}
-
-.subcategoryHeading {
-  margin: 0 0 1.75rem;
-  color: var(--primary-gold);
-  font-family: var(--strong-font), serif;
-  font-size: 1.4rem;
-  font-weight: 700;
-  line-height: 1.4;
-}
-
-.menuItem {
-  min-width: 0;
-}
-
-.itemContent {
-  min-width: 0;
-}
-
-.itemTop {
+.galleryColumn {
   display: flex;
-  align-items: flex-end;
-}
-
-.itemName {
-  flex: 0 1 auto;
+  flex-direction: column;
+  gap: 1rem;
   min-width: 0;
-  margin: 0;
-  color: var(--light-text);
-  font-family: var(--strong-font), serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  line-height: 1.45;
-  overflow-wrap: anywhere;
 }
 
-.dots {
-  flex: 1 0 1.5rem;
-  height: 1px;
-  margin-inline: 0.75rem;
-  margin-bottom: 0.35rem;
-  background: repeating-linear-gradient(
-  to right,
-  var(--light-text) 0,
-  var(--light-text) 1px,
-  transparent 1px,
-  transparent 5px
-);
+.imageFrame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: var(--shadow-color, #d8dde3);
 }
 
-.price {
-  flex-shrink: 0;
-  color: var(--primary-gold);
-  font-family: var(--body-copy-font), serif;
-  font-size: 1.15rem;
-  font-weight: 400;
-  line-height: 1.45;
-  white-space: nowrap;
+.short {
+  aspect-ratio: 4 / 5;
 }
 
-.description {
-  margin: 0.35rem 0 0;
-  color: var(--light-text);
-  font-family: var(--body-copy-font), serif;
-  font-size: 0.95rem;
-  font-weight: 400;
-  line-height: 1.6;
-  opacity: 0.5;
-  white-space: pre-line;
+.tall {
+  aspect-ratio: 2 / 3;
 }
 
-.emptyMessage {
-  margin: 0;
-  text-align: center;
-  opacity: 0.65;
+.galleryImage {
+  object-fit: cover;
+  object-position: center;
 }
 
-.dietaryKey {
-  margin: 2.5rem 0 0;
-  color: var(--light-text);
-  font-family: var(--body-copy-font), serif;
-  font-size: 0.75rem;
-  font-weight: 400;
-  line-height: 1.6;
-  text-align: center;
+.pagination {
+  display: none;
 }
 
-@media (max-width: 1200px) {
-  .pricing {
-    padding-block: 4rem;
-    padding-inline: var(--inline-padding);
+.ctaContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+@media (max-width: 1000px) {
+  .gallery {
+    padding-inline: clamp(2rem, 6vw, 4rem);
   }
 
-  .menuButtons,
-  .categories {
-    gap: 0.75rem;
-  }
-
-  .menuButtons {
-    margin-top: 2.5rem;
-  }
-
-  .categoryWindow {
-    margin-bottom: 3rem;
-  }
-
-  .categoryButton {
-    font-size: 1.1rem;
-  }
-
-  .menuGrid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 2rem;
-  }
-
-  .itemName,
-  .price {
-    font-size: 1rem;
-  }
-
-  .dots {
-    margin-inline: 0.5rem;
-  }
-
-  .description {
-    font-size: 0.9rem;
-  }
-
-  .subcategoryHeading {
-    font-size: 1.25rem;
+  .galleryGrid {
+    max-width: 41rem;
   }
 }
 
-@media (max-width: 550px) {
-  .menuButtons {
-    flex-direction: column;
+@media (max-width: 800px) {
+  .gallery {
+    padding: 4rem var(--inline-padding, 1.5rem);
   }
 
-  .menuButtons > .separator {
+  .galleryGrid {
+    margin-top: 3rem;
+  }
+}
+
+@media (min-width: 600px) and (max-width: 1000px) {
+  .galleryGrid {
+    max-width: 34rem;
+  }
+}
+
+@media (max-width: 499px) {
+  .gallery {
+    padding-inline: 0;
+  }
+
+  .sectionHeading {
+    padding-inline: 1rem;
+  }
+
+  .galleryGrid {
+    display: flex;
+    width: min(270px, calc(100% - 2rem));
+    max-width: none;
+    gap: 0;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .galleryGrid::-webkit-scrollbar {
     display: none;
   }
 
-  .menuButton {
-    font-size: 1.1rem;
+  .galleryColumn {
+    display: contents;
   }
 
-  .categoryContent {
-    gap: 3rem;
+  .imageFrame {
+    flex: 0 0 100%;
+    aspect-ratio: 3 / 4;
+    scroll-snap-align: start;
   }
 
-  .subcategoryHeading {
-    margin-bottom: 1.5rem;
-    font-size: 1.2rem;
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding-inline: 1rem;
+    margin-top: 2rem;
+  }
+
+  .dot {
+    width: 0.75rem;
+    height: 0.75rem;
+    padding: 0;
+    border: 1px solid var(--primary-gold);
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .activeDot {
+    background: var(--primary-gold);
+  }
+
+  .dot:focus-visible {
+    outline: 2px solid var(--primary-gold);
+    outline-offset: 3px;
+  }
+
+  :global(html[data-theme='convivio']) .dot {
+    border-color: var(--accent-on-light-primary);
+    opacity: 0.55;
+  }
+
+  :global(html[data-theme='convivio']) .activeDot {
+    background: var(--accent-on-light-primary);
+    opacity: 1;
+  }
+
+  :global(html[data-theme='convivio']) .dot:focus-visible {
+    outline-color: var(--accent-on-light-primary);
+  }
+
+  .ctaContainer {
+    margin-top: 2.5rem;
+    padding-inline: 1rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .incomingMenu,
-  .incomingCategories {
-    animation: none;
-  }
-
-  .outgoingCategories {
-    display: none;
+  .galleryGrid {
+    scroll-behavior: auto;
   }
 }
+```
 
-/* Formatted food text uses regular weight unless the editor applies bold. */
-.foodLine1 {
+## ./src/components/SectionHeading/SectionHeading.tsx
+```tsx
+import type { ReactNode } from 'react'
+import styles from './SectionHeading.module.css'
+
+type SectionHeadingProps = {
+  eyebrow?: string
+  heading: string
+  description?: string
+  variant?: 'light' | 'dark'
+  icon?: 'sparkle' | 'wine' | 'location'
+  className?: string
+  children?: ReactNode
+}
+
+export default function SectionHeading({
+  eyebrow,
+  heading,
+  description,
+  variant = 'light',
+  className,
+  children
+}: SectionHeadingProps) {
+  return (
+    <header
+      className={[styles.header, styles[variant], className]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {eyebrow && (
+        <p className={styles.eyebrow}>{eyebrow}</p>
+      )}
+
+      <h2 className={styles.heading}>{heading}</h2>
+
+      {description && (
+        <p className={styles.description}>{description}</p>
+      )}
+
+      {children}
+
+      <div className={styles.divider} aria-hidden='true'>
+        <span className={styles.line}></span>
+        <span className={styles.olive}></span>
+        <span className={styles.line}></span>
+      </div>
+    </header>
+  )
+}
+```
+
+## ./src/components/SectionHeading/SectionHeading.module.css
+```css
+.header {
+  text-align: center;
+}
+
+.light {
+  color: var(--primary-black);
+}
+
+.dark {
+  color: var(--light-text);
+}
+
+.eyebrow {
+  margin: 0 0 1rem;
+  color: var(--section-accent, var(--primary-gold));
   font-family: var(--body-copy-font), serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0 0 0.65rem;
+  line-height: 1.2;
+  color: inherit;
+  font-family: var(--display-font, var(--heading-font, serif));
+  font-size: 2.25rem;
+  font-weight: 300;
+  letter-spacing: -2px;
+}
+
+.description {
+  max-width: 38rem;
+  margin: 0 auto 1.25rem;
+  color: inherit;
+  font-family: var(--body-copy-font), serif;
+  font-size: 1.05rem;
   font-weight: 400;
-  overflow-wrap: break-word;
+  line-height: 1.6;
 }
 
-.foodLine1 strong {
-  color: var(--primary-gold);
-  font-family: var(--strong-font), serif;
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.line {
+  width: 5rem;
+  height: 1px;
+  background: var(--section-accent, var(--primary-gold));
+  opacity: 0.35;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  background: var(--section-accent, var(--primary-gold));
+}
+
+.sparkle {
+  mask: url('/icons/sparkle.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/sparkle.svg') center / contain no-repeat;
+}
+
+.wine {
+  mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/wine-bottle.svg') center / contain no-repeat;
+}
+
+.location {
+  mask: url('/icons/location-pin.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/location-pin.svg') center / contain no-repeat;
+}
+
+/* Convivio theme */
+
+.olive {
+  display: none;
+  margin: 0 auto;
+}
+
+:global(html[data-theme='convivio']) .header {
+  --heading-decoration-width: 4rem;
+}
+
+:global(html[data-theme='convivio']) .eyebrow {
+  display: none;
+}
+
+:global(html[data-theme='convivio']) .light {
+  --section-accent: var(--accent-on-light);
+  color: var(--primary-blue);
+}
+
+:global(html[data-theme='convivio']) .dark {
+  --section-accent: var(--accent-on-dark);
+}
+
+:global(html[data-theme='convivio']) .divider {
+  gap: 0;
+  margin: 0;
+}
+
+:global(html[data-theme='convivio']) .divider .line {
+  display: block;
+  width: 3.5rem;
+  height: 1px;
+  background: var(--section-accent);
+  opacity: 0.2;
+  mask: none;
+  -webkit-mask: none;
+}
+
+:global(html[data-theme='convivio']) .olive {
+  display: block;
+  width: 4rem;
+  aspect-ratio: 389 / 191;
+  flex-shrink: 0;
+  margin: 0;
+  background: var(--section-accent);
+  opacity: 0.3;
+  transform: rotate(-20deg);
+  mask: url('/icons/olive-skewer-transparent.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/olive-skewer-transparent.svg') center / contain no-repeat;
+}
+
+:global(html[data-theme='convivio']) .description {
+  color: var(--section-accent);
+  font-size: 1.15rem;
   font-weight: 700;
+  line-height: 1.5;
 }
 
-.foodLine1 em {
-  font-style: italic;
+:global(html[data-theme='convivio']) .light .description {
+  color: var(--primary-black);
 }
 
-```
-
-## ./src/sanity/schemaTypes/documents/menuType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const menuType = defineType({
-  name: 'menu',
-  title: 'Food Menu',
-  type: 'document',
-
-  fields: [
-    defineField({
-      name: 'categories',
-      title: 'Food Categories',
-      type: 'array',
-      description:
-        'Add food categories and drag them to change their order.',
-      of: [
-        defineArrayMember({
-          type: 'menuCategory'
-        })
-      ],
-      initialValue: []
-    })
-  ],
-
-  preview: {
-    prepare() {
-      return {
-        title: 'Food Menu'
-      }
-    }
+@media (max-width: 800px) {
+  :global(html[data-theme='convivio']) .description {
+    font-size: 1.05rem;
   }
-})
-```
+}
 
-## ./src/sanity/schemaTypes/objects/menuCategoryType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
+:global(html[data-theme='convivio']) .dark .olive,
+:global(html[data-theme='convivio']) .dark .divider .line {
+  background: #a6bbc6;
+}
 
-export const menuCategoryType = defineType({
-  name: 'menuCategory',
-  title: 'Menu Category',
-  type: 'object',
-
-  fields: [
-    defineField({
-      name: 'title',
-      title: 'Category Name',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'items',
-      title: 'Menu Items',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'menuItem'
-        })
-      ]
-    })
-  ],
-
-  preview: {
-    select: {
-      title: 'title',
-      items: 'items'
-    },
-
-    prepare({ title, items }) {
-      return {
-        title,
-        subtitle: `${items?.length ?? 0} items`
-      }
-    }
+@media (max-width: 800px) {
+  .heading {
+    font-size: 2rem;
   }
-})
-```
 
-## ./src/sanity/schemaTypes/objects/menuItemType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const menuItemType = defineType({
-  name: 'menuItem',
-  title: 'Menu Item',
-  type: 'object',
-
-  fields: [
-    defineField({
-      name: 'foodLine1',
-      title: 'Line 1',
-      type: 'array',
-      description: 'Food item and accompaniments. Select text to apply bold or italic. This text wraps naturally on the website.',
-      hidden: ({ document }) => document?._type !== 'menu',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          styles: [],
-          lists: [],
-          marks: {
-            decorators: [
-              { title: 'Bold', value: 'strong' },
-              { title: 'Italic', value: 'em' }
-            ],
-            annotations: []
-          }
-        })
-      ],
-      validation: (rule) => rule.max(1).custom((value, context) => {
-        if (context.document?._type !== 'menu') return true
-        const blocks = value as { children?: { text?: string }[] }[] | undefined
-        const text = blocks?.map((block) =>
-          block.children?.map((span) => span.text ?? '').join('') ?? ''
-        ).join('').trim()
-        const parent = context.parent as { name?: string } | undefined
-        return text || parent?.name?.trim()
-          ? true
-          : 'Enter Line 1 text.'
-      })
-    }),
-    defineField({
-      name: 'name',
-      title: 'Line 1',
-      type: 'string',
-      hidden: ({ document, parent }) =>
-        document?._type === 'menu' && !!parent?.foodLine1?.length,
-      description:
-        'Plain text for drinks or existing food items. For food, use the formatted Line 1 field above; this fallback is hidden once formatted text is saved.',
-      validation: (rule) => rule.custom((value, context) =>
-      context.document?._type === 'menu' || value?.trim()
-        ? true
-        : 'Enter Line 1 text.'
-    )
-    }),
-
-    defineField({
-      name: 'description',
-      title: 'Line 2',
-      type: 'text',
-      rows: 2,
-      description: 'Optional supporting text beneath the top line.'
-    }),
-
-    defineField({
-      name: 'price',
-      title: 'Price',
-      type: 'string',
-      description:
-        'Enter the price exactly as it should appear, including any symbols.',
-      validation: (rule) => rule.required()
-    })
-  ],
-
-  preview: {
-    select: {
-      title: 'name',
-      foodLine1: 'foodLine1',
-      subtitle: 'price'
-    },
-    prepare({ title, foodLine1, subtitle }) {
-      const formattedTitle = foodLine1?.map((block: { children?: { text?: string }[] }) =>
-        block.children?.map((span) => span.text ?? '').join('') ?? ''
-      ).join(' ')
-      return { title: formattedTitle || title || 'Menu Item', subtitle }
-    }
+  .description {
+    font-size: 1rem;
   }
-})
-
+}
 ```

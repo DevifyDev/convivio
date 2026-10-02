@@ -30,8 +30,8 @@ export const sectionHeadingData = {
   },
   staff: {
     eyebrow: '',
-    heading: 'Meet The Team',
-    description: 'The locals behind your favorite neighbourhood hangout',
+    heading: 'The Team Behind Convivio',
+    description: 'Meet the Crew',
     variant: 'light',
     icon: 'sparkle'
   },

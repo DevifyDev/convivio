@@ -60,10 +60,7 @@ type MenuSelection = {
   version: number
 }
 
-function getDefaultCategory(
-  menuId: MenuId,
-  categories: MenuCategory[]
-) {
+function getDefaultCategory(menuId: MenuId, categories: MenuCategory[]) {
   if (menuId === 'food') {
     return (
       categories.find(
@@ -94,7 +91,11 @@ function FoodLine1({ blocks }: { blocks: FoodLine1Block[] }) {
 
             return (
               <Fragment key={span._key}>
-                {span.marks?.includes('strong') ? <strong>{emphasis}</strong> : emphasis}
+                {span.marks?.includes('strong') ? (
+                  <strong>{emphasis}</strong>
+                ) : (
+                  emphasis
+                )}
               </Fragment>
             )
           })}
@@ -111,25 +112,29 @@ function MenuItems({ items, menuId }: { items?: MenuItem[]; menuId: MenuId }) {
         <article className={styles.menuItem} key={item._key}>
           <div className={styles.itemContent}>
             <div className={styles.itemTop}>
-              <h4
-              className={`${styles.itemName} ${
-                menuId === 'food' && item.foodLine1?.length ? styles.foodLine1 : ''
-              }`}
-            >
-              {menuId === 'food' && item.foodLine1?.length ? (
-                <FoodLine1 blocks={item.foodLine1} />
-              ) : item.name}
-            </h4>
+              <div className={styles.itemLabel}>
+                <h4
+                  className={`${styles.itemName} ${
+                    menuId === 'food' && item.foodLine1?.length
+                      ? styles.foodLine1
+                      : ''
+                  }`}
+                >
+                  {menuId === 'food' && item.foodLine1?.length ? (
+                    <FoodLine1 blocks={item.foodLine1} />
+                  ) : (
+                    item.name
+                  )}
+                </h4>
 
-              <span className={styles.dots} aria-hidden='true' />
+                <span className={styles.dots} aria-hidden='true' />
+              </div>
 
               <span className={styles.price}>{item.price}</span>
             </div>
 
             {item.description && (
-              <p className={styles.description}>
-                {item.description}
-              </p>
+              <p className={styles.description}>{item.description}</p>
             )}
           </div>
         </article>
@@ -146,11 +151,7 @@ function CategoryContent({
   menuId: MenuId
 }) {
   if (!category) {
-    return (
-      <p className={styles.emptyMessage}>
-        This menu is being updated.
-      </p>
-    )
+    return <p className={styles.emptyMessage}>This menu is being updated.</p>
   }
 
   return (
@@ -160,13 +161,8 @@ function CategoryContent({
       )}
 
       {category.subcategories?.map((subcategory) => (
-        <section
-          className={styles.subcategory}
-          key={subcategory._key}
-        >
-          <h3 className={styles.subcategoryHeading}>
-            {subcategory.title}
-          </h3>
+        <section className={styles.subcategory} key={subcategory._key}>
+          <h3 className={styles.subcategoryHeading}>{subcategory.title}</h3>
 
           <MenuItems items={subcategory.items} menuId={menuId} />
         </section>
@@ -175,10 +171,7 @@ function CategoryContent({
   )
 }
 
-export default function Menu({
-  foodCategories,
-  drinksCategories
-}: MenuProps) {
+export default function Menu({ foodCategories, drinksCategories }: MenuProps) {
   const menus: MenuDefinition[] = [
     {
       id: 'food',
@@ -194,8 +187,7 @@ export default function Menu({
 
   const [selection, setSelection] = useState<MenuSelection>(() => ({
     menuId: 'food',
-    categoryKey:
-      getDefaultCategory('food', foodCategories)?._key ?? null,
+    categoryKey: getDefaultCategory('food', foodCategories)?._key ?? null,
     previousCategory: null,
     previousMenu: null,
     version: 0
@@ -207,8 +199,7 @@ export default function Menu({
   const activeCategory =
     activeMenu.categories.find(
       (category) => category._key === selection.categoryKey
-    ) ??
-    getDefaultCategory(activeMenu.id, activeMenu.categories)
+    ) ?? getDefaultCategory(activeMenu.id, activeMenu.categories)
 
   useEffect(() => {
     if (selection.version === 0) return
@@ -235,8 +226,7 @@ export default function Menu({
 
     setSelection({
       menuId: menu.id,
-      categoryKey:
-        getDefaultCategory(menu.id, menu.categories)?._key ?? null,
+      categoryKey: getDefaultCategory(menu.id, menu.categories)?._key ?? null,
       previousCategory: activeCategory,
       previousMenu: activeMenu,
       version: selection.version + 1
@@ -255,10 +245,7 @@ export default function Menu({
     })
   }
 
-  if (
-    foodCategories.length === 0 &&
-    drinksCategories.length === 0
-  ) {
+  if (foodCategories.length === 0 && drinksCategories.length === 0) {
     return null
   }
 
@@ -267,10 +254,7 @@ export default function Menu({
       <div className={styles.container}>
         <SectionHeading {...sectionHeadingData.menu} />
 
-        <nav
-          className={styles.menuButtons}
-          aria-label='Choose a menu'
-        >
+        <nav className={styles.menuButtons} aria-label='Choose a menu'>
           {menus.map((menu, index) => (
             <Fragment key={menu.id}>
               <button
@@ -285,10 +269,7 @@ export default function Menu({
               </button>
 
               {index < menus.length - 1 && (
-                <span
-                  className={styles.separator}
-                  aria-hidden='true'
-                >
+                <span className={styles.separator} aria-hidden='true'>
                   |
                 </span>
               )}
@@ -321,9 +302,7 @@ export default function Menu({
 
           <nav
             className={`${styles.categories} ${
-              selection.previousMenu
-                ? styles.incomingCategories
-                : ''
+              selection.previousMenu ? styles.incomingCategories : ''
             }`}
             aria-label={`${activeMenu.label} categories`}
             key={activeMenu.id}
@@ -332,24 +311,17 @@ export default function Menu({
               <Fragment key={category._key}>
                 <button
                   className={`${styles.categoryButton} ${
-                    activeCategory?._key === category._key
-                      ? styles.active
-                      : ''
+                    activeCategory?._key === category._key ? styles.active : ''
                   }`}
                   type='button'
-                  aria-pressed={
-                    activeCategory?._key === category._key
-                  }
+                  aria-pressed={activeCategory?._key === category._key}
                   onClick={() => changeCategory(category)}
                 >
                   {category.title}
                 </button>
 
                 {index < activeMenu.categories.length - 1 && (
-                  <span
-                    className={styles.separator}
-                    aria-hidden='true'
-                  >
+                  <span className={styles.separator} aria-hidden='true'>
                     |
                   </span>
                 )}
@@ -360,35 +332,28 @@ export default function Menu({
 
         <div className={styles.menuWindow}>
           {selection.previousCategory && (
-            <div
-              className={styles.previousMenu}
-              aria-hidden='true'
-            >
+            <div className={styles.previousMenu} aria-hidden='true'>
               <CategoryContent
                 category={selection.previousCategory}
-              menuId={selection.previousMenu?.id ?? activeMenu.id}
+                menuId={selection.previousMenu?.id ?? activeMenu.id}
               />
             </div>
           )}
-          
 
-      <div
+          <div
             className={`${styles.menuPanel} ${
               selection.version > 0 ? styles.incomingMenu : ''
             }`}
             key={`${activeMenu.id}-${activeCategory?._key ?? 'empty'}-${selection.version}`}
           >
-            <CategoryContent
-              category={activeCategory}
-              menuId={activeMenu.id}
-            />
+            <CategoryContent category={activeCategory} menuId={activeMenu.id} />
           </div>
         </div>
 
         {activeMenu.id === 'food' && (
           <p className={styles.dietaryKey}>
-            V = Vegetarian, VG = Vegan, GF = Gluten Free,
-            DF = Dairy Free, NF = Nut Free
+            V = Vegetarian, VG = Vegan, GF = Gluten Free, DF = Dairy Free, NF =
+            Nut Free
           </p>
         )}
       </div>
