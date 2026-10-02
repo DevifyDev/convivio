@@ -54,7 +54,7 @@
   position: relative;
   width: 100%;
   max-width: 30rem;
-  margin: 1.5rem auto 2rem;
+  margin: 1.5rem auto 0.75rem;
   padding: 1rem;
   background: var(--primary-blue);
 }
@@ -194,8 +194,9 @@
   }
 }
 
-:global(html[data-theme='convivio']) .staff .staffHeadingDescription {
-  font-family: var(--display-font, var(--heading-font, serif));
-  font-weight: 400;
+ :global(html[data-theme='convivio']) .staff .staffHeadingDescription {
+  font-family: var(--body-copy-font), serif;
+  font-size: 1.25rem;
+  font-weight: 700;
   letter-spacing: 0;
 }

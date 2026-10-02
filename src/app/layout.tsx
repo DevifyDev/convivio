@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     locale: 'en_AU',
     url: '/',
     siteName: 'Convivio Wine Bar',
-    title: 'Convivio Wine Bar | Scarborough, Perth',
+    title: 'Convivio Wine Bar | Scarborough',
     description:
       'Convivio is a neighbourhood wine bar in Scarborough, Perth, serving thoughtful wines, generous food and relaxed evenings. View the menu and book a table.'
   },
