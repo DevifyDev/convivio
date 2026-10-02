@@ -10,7 +10,6 @@ export const menuItemType = defineType({
       name: 'foodLine1',
       title: 'Line 1',
       type: 'array',
-      description: 'Food item and accompaniments. Select text to apply bold or italic. This text wraps naturally on the website.',
       hidden: ({ document }) => document?._type !== 'menu',
       of: [
         defineArrayMember({
@@ -44,8 +43,6 @@ export const menuItemType = defineType({
       type: 'string',
       hidden: ({ document, parent }) =>
         document?._type === 'menu' && !!parent?.foodLine1?.length,
-      description:
-        'Plain text for drinks or existing food items. For food, use the formatted Line 1 field above; this fallback is hidden once formatted text is saved.',
       validation: (rule) => rule.custom((value, context) =>
       context.document?._type === 'menu' || value?.trim()
         ? true
@@ -58,15 +55,12 @@ export const menuItemType = defineType({
       title: 'Line 2',
       type: 'text',
       rows: 2,
-      description: 'Optional supporting text beneath the top line.'
     }),
 
     defineField({
       name: 'price',
       title: 'Price',
       type: 'string',
-      description:
-        'Enter the price exactly as it should appear, including any symbols.',
       validation: (rule) => rule.required()
     })
   ],

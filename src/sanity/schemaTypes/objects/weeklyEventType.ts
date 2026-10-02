@@ -15,7 +15,7 @@ export const weeklyEventType = defineType({
 
     defineField({
       name: 'title',
-      title: 'Weekly Event',
+      title: 'Event',
       type: 'string',
       validation: (rule) => rule.required()
     }),

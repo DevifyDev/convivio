@@ -22,7 +22,7 @@ export const staffType = defineType({
       title: 'Image Description',
       type: 'string',
       description:
-        'Briefly describe what is displayed in the image',
+        'Required when an image is included',
       validation: (rule) =>
         rule.custom((value, context) => {
           const document = context.document as {

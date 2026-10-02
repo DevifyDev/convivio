@@ -13,6 +13,8 @@ import {
 } from './src/sanity/singletons'
 
 export default defineConfig({
+  name: 'default',
+  title: 'Convivio',
   basePath: '/studio',
   projectId,
   dataset,

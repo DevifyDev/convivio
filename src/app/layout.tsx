@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: 'Convivio Wine Bar | Scarborough',
 
   description:
-    'Convivio is a neighbourhood wine bar in Scarborough, Perth, serving thoughtful wines, generous food and relaxed evenings. View the menu and book a table.',
+    'Mediterranean soul. Coastal spirit. Convivio is your neighbourhood wine bar, serving European wines, signature cocktails and seasonal plates',
 
   alternates: {
     canonical: '/'
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: 'Convivio Wine Bar',
     title: 'Convivio Wine Bar | Scarborough',
     description:
-      'Convivio is a neighbourhood wine bar in Scarborough, Perth, serving thoughtful wines, generous food and relaxed evenings. View the menu and book a table.'
+      'Mediterranean soul. Coastal spirit. Convivio is your neighbourhood wine bar, serving European wines, signature cocktails and seasonal plates'
   },
 
   creator: 'Devify'

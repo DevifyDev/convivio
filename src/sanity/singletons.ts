@@ -1,13 +1,13 @@
 export const singletonDocuments = [
   { type: 'menu', title: 'Food Menu' },
   { type: 'drinksMenu', title: 'Drinks Menu' },
-  { type: 'gallery', title: 'Gallery' },
+  { type: 'gallery', title: 'Image Gallery' },
   { type: 'events', title: 'Events' },
-  { type: 'testimonials', title: 'Testimonials' },
+  { type: 'testimonials', title: 'Reviews' },
   { type: 'staff', title: 'Staff' },
-  { type: 'faq', title: 'FAQ' },
+  { type: 'faq', title: 'FAQs' },
   { type: 'businessDetails', title: 'Business Details' },
-  { type: 'about', title: 'About' },
+  { type: 'about', title: 'About Section Images' }
 ]
 
 export const singletonTypes = new Set(

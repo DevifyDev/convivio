@@ -2,39 +2,44 @@ import { defineField, defineType } from 'sanity'
 
 export const aboutType = defineType({
   name: 'about',
-  title: 'About',
+  title: 'About Section Images',
   type: 'document',
+
   fields: [
     defineField({
       name: 'imageOne',
-      title: 'First image',
+      title: 'First Image',
       type: 'image',
       options: { hotspot: true },
       validation: (rule) => rule.required()
     }),
+
     defineField({
       name: 'imageOneAlt',
-      title: 'First image description',
+      title: 'First Image Description',
       type: 'string',
       validation: (rule) => rule.required()
     }),
+
     defineField({
       name: 'imageTwo',
-      title: 'Second image',
+      title: 'Second Image',
       type: 'image',
       options: { hotspot: true },
       validation: (rule) => rule.required()
     }),
+
     defineField({
       name: 'imageTwoAlt',
-      title: 'Second image description',
+      title: 'Second Image Description',
       type: 'string',
       validation: (rule) => rule.required()
     })
   ],
+
   preview: {
     prepare() {
-      return { title: 'About' }
+      return { title: 'About Section Images' }
     }
   }
 })

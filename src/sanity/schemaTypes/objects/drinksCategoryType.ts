@@ -18,7 +18,7 @@ export const drinksCategoryType = defineType({
       title: 'Items Without a Subcategory',
       type: 'array',
       description:
-        'These items appear first, above any subcategories. Drag entries to change their order.',
+        'These items appear first, above any subcategories',
       of: [
         defineArrayMember({
           type: 'menuItem'
@@ -31,8 +31,6 @@ export const drinksCategoryType = defineType({
       name: 'subcategories',
       title: 'Subcategories',
       type: 'array',
-      description:
-        'Optional. Add subcategories and drag them to change their order.',
       of: [
         defineArrayMember({
           type: 'menuSubcategory'

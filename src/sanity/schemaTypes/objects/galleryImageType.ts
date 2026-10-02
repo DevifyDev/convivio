@@ -20,8 +20,6 @@ export const galleryImageType = defineType({
       name: 'alt',
       title: 'Image Description',
       type: 'string',
-      description:
-        'Briefly describe what is displayed in the image',
       validation: (rule) => rule.required()
     })
   ],

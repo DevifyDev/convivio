@@ -8,10 +8,8 @@ export const menuType = defineType({
   fields: [
     defineField({
       name: 'categories',
-      title: 'Food Categories',
+      title: 'Food Menu Categories',
       type: 'array',
-      description:
-        'Add food categories and drag them to change their order.',
       of: [
         defineArrayMember({
           type: 'menuCategory'

@@ -8,10 +8,10 @@ export const galleryType = defineType({
   fields: [
     defineField({
       name: 'images',
-      title: 'Gallery Images',
+      title: 'Image Gallery',
       type: 'array',
       description:
-        'Add up to 12 images. Images fill each column in pairs before continuing below.',
+        'Add up to 12 images',
       of: [
         defineArrayMember({
           type: 'galleryImage'
@@ -24,7 +24,7 @@ export const galleryType = defineType({
   preview: {
     prepare() {
       return {
-        title: 'Gallery'
+        title: 'Image Gallery'
       }
     }
   }

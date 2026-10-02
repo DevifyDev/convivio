@@ -2,7 +2,7 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 
 export const faqType = defineType({
   name: 'faq',
-  title: 'FAQ',
+  title: 'FAQs',
   type: 'document',
 
   fields: [
@@ -10,8 +10,6 @@ export const faqType = defineType({
       name: 'items',
       title: 'Questions and Answers',
       type: 'array',
-      description:
-        'Add, remove or drag entries to change their order on the website.',
       of: [
         defineArrayMember({
           type: 'faqItem'
@@ -24,7 +22,7 @@ export const faqType = defineType({
   preview: {
     prepare() {
       return {
-        title: 'FAQ'
+        title: 'FAQs'
       }
     }
   }

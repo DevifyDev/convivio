@@ -10,8 +10,6 @@ export const eventsType = defineType({
       name: 'weeklyOffers',
       title: 'Weekly Offers',
       type: 'array',
-      description:
-        'Add details for special events',
       of: [
         defineArrayMember({
           type: 'weeklyEvent'
@@ -24,7 +22,6 @@ export const eventsType = defineType({
       name: 'specialEvents',
       title: 'Special Events',
       type: 'array',
-      description: 'Add details for special events',
       of: [
         defineArrayMember({
           type: 'specialEvent'
