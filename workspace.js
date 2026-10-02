@@ -40,14 +40,14 @@ const files = [
   // './src/components/Location/Location.tsx',
   // './src/components/Location/Location.module.css',
 
-  // './src/components/Menu/Menu.tsx',
-  // './src/components/Menu/Menu.module.css',
+  './src/components/Menu/Menu.tsx',
+  './src/components/Menu/Menu.module.css',
 
   // './src/components/SectionHeading/SectionHeading.tsx',
   // './src/components/SectionHeading/SectionHeading.module.css',
 
-  './src/components/Staff/Staff.tsx',
-  './src/components/Staff/Staff.module.css',
+  // './src/components/Staff/Staff.tsx',
+  // './src/components/Staff/Staff.module.css',
 
   // './src/components/StructuredData/StructuredData.tsx',
   // './src/components/StructuredData/StructuredData.module.css',
@@ -76,15 +76,15 @@ const files = [
     //   './src/sanity/schemaTypes/documents/businessDetailsType.ts',
       // './src/sanity/schemaTypes/documents/eventsType.ts',
     //   './src/sanity/schemaTypes/documents/galleryType.ts',
-      // './src/sanity/schemaTypes/documents/menuType.ts',
+      './src/sanity/schemaTypes/documents/menuType.ts',
     //   './src/sanity/schemaTypes/documents/testimonialType.ts',
       // './src/sanity/schemaTypes/documents/staffType.ts',
 
 
 
     //  './src/sanity/schemaTypes/objects/galleryImageType.ts',
-      // './src/sanity/schemaTypes/objects/menuCategoryType.ts',
-      // './src/sanity/schemaTypes/objects/menuItemType.ts',
+      './src/sanity/schemaTypes/objects/menuCategoryType.ts',
+      './src/sanity/schemaTypes/objects/menuItemType.ts',
     //   './src/sanity/schemaTypes/objects/openingHoursType.ts',
       // './src/sanity/schemaTypes/objects/specialEventType.ts',
     //   './src/sanity/schemaTypes/objects/testimonialType.ts',

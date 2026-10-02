@@ -7,6 +7,7 @@ export const menuQuery = `
         items[] {
           _key,
           name,
+          foodLine1,
           description,
           price
         }

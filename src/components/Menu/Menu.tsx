@@ -5,9 +5,23 @@ import SectionHeading from '../SectionHeading/SectionHeading'
 import { sectionHeadingData } from '@/data/sectionHeadingData'
 import styles from './Menu.module.css'
 
+type FoodLine1Span = {
+  _key: string
+  _type: 'span'
+  text: string
+  marks?: string[]
+}
+
+type FoodLine1Block = {
+  _key: string
+  _type: 'block'
+  children: FoodLine1Span[]
+}
+
 export type MenuItem = {
   _key: string
   name: string
+  foodLine1?: FoodLine1Block[]
   description?: string
   price: string
 }
@@ -63,14 +77,49 @@ function getDefaultCategory(
   return categories[0] ?? null
 }
 
-function MenuItems({ items }: { items?: MenuItem[] }) {
+function FoodLine1({ blocks }: { blocks: FoodLine1Block[] }) {
+  return (
+    <>
+      {blocks.map((block, index) => (
+        <Fragment key={block._key}>
+          {index > 0 && <br />}
+          {block.children.map((span) => {
+            const text = span.text.split('\n').map((line, lineIndex) => (
+              <Fragment key={lineIndex}>
+                {lineIndex > 0 && <br />}
+                {line}
+              </Fragment>
+            ))
+            const emphasis = span.marks?.includes('em') ? <em>{text}</em> : text
+
+            return (
+              <Fragment key={span._key}>
+                {span.marks?.includes('strong') ? <strong>{emphasis}</strong> : emphasis}
+              </Fragment>
+            )
+          })}
+        </Fragment>
+      ))}
+    </>
+  )
+}
+
+function MenuItems({ items, menuId }: { items?: MenuItem[]; menuId: MenuId }) {
   return (
     <div className={styles.menuGrid}>
       {items?.map((item) => (
         <article className={styles.menuItem} key={item._key}>
           <div className={styles.itemContent}>
             <div className={styles.itemTop}>
-              <h4 className={styles.itemName}>{item.name}</h4>
+              <h4
+              className={`${styles.itemName} ${
+                menuId === 'food' && item.foodLine1?.length ? styles.foodLine1 : ''
+              }`}
+            >
+              {menuId === 'food' && item.foodLine1?.length ? (
+                <FoodLine1 blocks={item.foodLine1} />
+              ) : item.name}
+            </h4>
 
               <span className={styles.dots} aria-hidden='true' />
 
@@ -90,9 +139,11 @@ function MenuItems({ items }: { items?: MenuItem[] }) {
 }
 
 function CategoryContent({
-  category
+  category,
+  menuId
 }: {
   category: MenuCategory | null
+  menuId: MenuId
 }) {
   if (!category) {
     return (
@@ -105,7 +156,7 @@ function CategoryContent({
   return (
     <div className={styles.categoryContent}>
       {!!category.items?.length && (
-        <MenuItems items={category.items} />
+        <MenuItems items={category.items} menuId={menuId} />
       )}
 
       {category.subcategories?.map((subcategory) => (
@@ -117,7 +168,7 @@ function CategoryContent({
             {subcategory.title}
           </h3>
 
-          <MenuItems items={subcategory.items} />
+          <MenuItems items={subcategory.items} menuId={menuId} />
         </section>
       ))}
     </div>
@@ -315,19 +366,31 @@ export default function Menu({
             >
               <CategoryContent
                 category={selection.previousCategory}
+              menuId={selection.previousMenu?.id ?? activeMenu.id}
               />
             </div>
           )}
+          
 
-          <div
+      <div
             className={`${styles.menuPanel} ${
               selection.version > 0 ? styles.incomingMenu : ''
             }`}
             key={`${activeMenu.id}-${activeCategory?._key ?? 'empty'}-${selection.version}`}
           >
-            <CategoryContent category={activeCategory} />
+            <CategoryContent
+              category={activeCategory}
+              menuId={activeMenu.id}
+            />
           </div>
         </div>
+
+        {activeMenu.id === 'food' && (
+          <p className={styles.dietaryKey}>
+            V = Vegetarian, VG = Vegan, GF = Gluten Free,
+            DF = Dairy Free, NF = Nut Free
+          </p>
+        )}
       </div>
     </section>
   )

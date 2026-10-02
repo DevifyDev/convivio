@@ -229,11 +229,12 @@
   height: 1px;
   margin-inline: 0.75rem;
   margin-bottom: 0.35rem;
+  opacity: 0.6;
   background: repeating-linear-gradient(
     to right,
-    rgba(242, 242, 242, 0.25) 0,
-    rgba(242, 242, 242, 0.25) 1px,
-    transparent 1px,
+    var(--light-text) 0,
+    var(--light-text) 0.75px,
+    transparent 0.75px,
     transparent 5px
   );
 }
@@ -263,6 +264,16 @@
   margin: 0;
   text-align: center;
   opacity: 0.65;
+}
+
+.dietaryKey {
+  margin: 2.5rem 0 0;
+  color: var(--light-text);
+  font-family: var(--body-copy-font), serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: center;
 }
 
 @media (max-width: 1200px) {
@@ -343,4 +354,21 @@
   .outgoingCategories {
     display: none;
   }
+}
+
+/* Formatted food text uses regular weight unless the editor applies bold. */
+.foodLine1 {
+  font-family: var(--body-copy-font), serif;
+  font-weight: 400;
+  overflow-wrap: break-word;
+}
+
+.foodLine1 strong {
+  color: var(--primary-gold);
+  font-family: var(--strong-font), serif;
+  font-weight: 700;
+}
+
+.foodLine1 em {
+  font-style: italic;
 }
