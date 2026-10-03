@@ -106,6 +106,13 @@ html[data-theme='convivio'] {
     #f3f2ef 100%
   );
 
+--card-background-gradient: linear-gradient(
+  135deg,
+  color-mix(in srgb, #28334c 2%, var(--light-background)) 0%,
+  color-mix(in srgb, #28334c 4.5%, var(--light-background)) 55%,
+  color-mix(in srgb, #28334c 7%, var(--light-background)) 100%
+);
+
   --dark-background-gradient: linear-gradient(
       135deg,
       #35425e 0%,

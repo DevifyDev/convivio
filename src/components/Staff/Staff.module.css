@@ -208,3 +208,9 @@
     font-size: 1.65rem;
   }
 }
+
+/* Convivio gradient background */
+
+:global(html[data-theme='convivio']) .staff {
+  background: var(--light-background-gradient);
+}

@@ -197,3 +197,9 @@
     pointer-events: none;
   }
 }
+
+/* Convivio gradient background */
+
+:global(html[data-theme='convivio']) .gallery {
+  background: var(--light-background-gradient);
+}

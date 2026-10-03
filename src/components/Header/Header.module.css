@@ -262,3 +262,7 @@
     background: var(--primary-blue);
   }
 }
+
+:global(html[data-theme='convivio']) .headerScrolled {
+  background: var(--light-background-gradient);
+}

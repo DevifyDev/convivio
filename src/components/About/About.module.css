@@ -185,3 +185,9 @@
     gap: 3rem;
   }
 }
+
+/* Convivio gradient background */
+
+:global(html[data-theme='convivio']) .about {
+  background: var(--light-background-gradient);
+}

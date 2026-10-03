@@ -237,3 +237,153 @@ a.value:hover {
     transition: none;
   }
 }
+
+/* Convivio gradient background */
+
+:global(html[data-theme='convivio']) .location {
+  background: var(--light-background-gradient);
+}
+
+:global(html[data-theme='convivio']) .contactCard,
+:global(html[data-theme='convivio']) .map {
+  background: transparent;
+}
+
+/* Convivio contact card */
+
+:global(html[data-theme='convivio']) .content {
+  gap: 1rem;
+}
+
+:global(html[data-theme='convivio']) .contactCard {
+  position: relative;
+  isolation: isolate;
+  border: 0;
+  background: transparent;
+}
+
+:global(html[data-theme='convivio']) .contactCard::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background: rgba(40, 51, 76, 0.18);
+  filter: url('#roughen-reviews');
+  pointer-events: none;
+}
+
+:global(html[data-theme='convivio']) .contactCard::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 1px;
+  background: var(--card-background-gradient);
+  pointer-events: none;
+}
+
+:global(html[data-theme='convivio']) .contactCard > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Broken internal separators */
+
+:global(html[data-theme='convivio']) .detail {
+  position: relative;
+  border-bottom: 0;
+}
+
+:global(html[data-theme='convivio']) .detail::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    color-mix(in srgb, var(--accent-on-light-primary) 20%, transparent) 8%,
+    color-mix(in srgb, var(--accent-on-light-primary) 20%, transparent) 92%,
+    transparent 100%
+  );
+  mask: repeating-linear-gradient(
+    90deg,
+    #000 0 17px,
+    transparent 17px 18px,
+    #000 18px 39px,
+    transparent 39px 40px
+  );
+  -webkit-mask: repeating-linear-gradient(
+    90deg,
+    #000 0 17px,
+    transparent 17px 18px,
+    #000 18px 39px,
+    transparent 39px 40px
+  );
+  pointer-events: none;
+}
+
+/* Convivio contact typography */
+
+:global(html[data-theme='convivio']) .label {
+  color: var(--premium-black);
+}
+
+:global(html[data-theme='convivio']) .value,
+:global(html[data-theme='convivio']) .hourRow {
+  color: var(--premium-purple);
+}
+
+/* Social buttons */
+
+:global(html[data-theme='convivio']) .socialLink {
+  background: var(--light-background);
+}
+
+:global(html[data-theme='convivio']) .socialLink:hover {
+  background: var(--light-background);
+}
+
+:global(html[data-theme='convivio']) .socialLink .instagramIcon,
+:global(html[data-theme='convivio']) .socialLink:hover .instagramIcon {
+  background: linear-gradient(
+    35deg,
+    #feda75 0%,
+    #fa7e1e 25%,
+    #d62976 50%,
+    #962fbf 75%,
+    #4f5bd5 100%
+  );
+}
+
+:global(html[data-theme='convivio']) .socialLink .facebookIcon,
+:global(html[data-theme='convivio']) .socialLink:hover .facebookIcon {
+  background: #1877f2;
+}
+
+/* Refined contact details */
+
+:global(html[data-theme='convivio']) .label {
+  margin-bottom: 0.65rem;
+}
+
+:global(html[data-theme='convivio']) .value,
+:global(html[data-theme='convivio']) .hourRow {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+:global(html[data-theme='convivio']) .hours {
+  gap: 0.4rem;
+}
+
+:global(html[data-theme='convivio']) .hourRow {
+  font-variant-numeric: tabular-nums;
+}
+
+:global(html[data-theme='convivio']) .map {
+  border-color: rgb(40 51 76 / 0.2);
+}
