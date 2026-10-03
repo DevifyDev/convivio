@@ -28,114 +28,114 @@ export default function Staff({
   const members = staff ?? emptyStaff
   const staffRef = useRef<HTMLElement>(null)
 
-    useEffect(() => {
-      const section = staffRef.current
-      if (!section || !('IntersectionObserver' in window)) return
+  useEffect(() => {
+    const section = staffRef.current
+    if (!section || !('IntersectionObserver' in window)) return
 
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-      const slots = Array.from(
-        section.querySelectorAll<HTMLElement>(
-          '[data-staff-slot], [data-group-photo]'
-        )
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const slots = Array.from(
+      section.querySelectorAll<HTMLElement>(
+        '[data-staff-slot], [data-group-photo]'
       )
+    )
 
-      const revealed = new WeakSet<HTMLElement>()
-      let bioObserver: IntersectionObserver | undefined
-      let photoObserver: IntersectionObserver | undefined
+    const revealed = new WeakSet<HTMLElement>()
+    let bioObserver: IntersectionObserver | undefined
+    let photoObserver: IntersectionObserver | undefined
 
-      const configure = () => {
-        bioObserver?.disconnect()
-        photoObserver?.disconnect()
+    const configure = () => {
+      bioObserver?.disconnect()
+      photoObserver?.disconnect()
 
-        slots.forEach((slot) => {
-          slot.classList.remove(styles.animate, styles.visible)
-        })
+      slots.forEach((slot) => {
+        slot.classList.remove(styles.animate, styles.visible)
+      })
 
-        if (reducedMotion.matches) return
+      if (reducedMotion.matches) return
 
-        const reveal = (slot: HTMLElement) => {
-          revealed.add(slot)
-          slot.classList.add(styles.visible)
-        }
+      const reveal = (slot: HTMLElement) => {
+        revealed.add(slot)
+        slot.classList.add(styles.visible)
+      }
 
-        // Bios start when their top reaches 15% up from the screen bottom.
-        const bioLead = Math.round(window.innerHeight * 0.15)
+      // Bios start 15% of the viewport height before entering the screen.
+      const bioLead = Math.round(window.innerHeight * 0.15)
 
-        bioObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (!entry.isIntersecting) return
+      bioObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return
 
-              const slot = entry.target as HTMLElement
-              reveal(slot)
-              bioObserver?.unobserve(slot)
-            })
-          },
-                  {
+            const slot = entry.target as HTMLElement
+            reveal(slot)
+            bioObserver?.unobserve(slot)
+          })
+        },
+        {
           threshold: 0,
           rootMargin: `0px 0px ${bioLead}px 0px`
         }
-        )
+      )
 
-        // Preserve the team photo's 75% visibility trigger.
-        photoObserver = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              const requiredHeight = Math.min(
-                entry.boundingClientRect.height * 0.75,
-                (entry.rootBounds?.height ?? window.innerHeight) * 0.75
-              )
+      // Preserve the team photo's 75% visibility trigger.
+      photoObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const requiredHeight = Math.min(
+              entry.boundingClientRect.height * 0.75,
+              (entry.rootBounds?.height ?? window.innerHeight) * 0.75
+            )
 
-              if (
-                !entry.isIntersecting ||
-                entry.intersectionRect.height < requiredHeight
-              ) {
-                return
-              }
+            if (
+              !entry.isIntersecting ||
+              entry.intersectionRect.height < requiredHeight
+            ) {
+              return
+            }
 
-              const slot = entry.target as HTMLElement
-              reveal(slot)
-              photoObserver?.unobserve(slot)
-            })
-          },
-          {
-            rootMargin: '0px',
-            threshold: Array.from({ length: 101 }, (_, index) => index / 100)
-          }
-        )
+            const slot = entry.target as HTMLElement
+            reveal(slot)
+            photoObserver?.unobserve(slot)
+          })
+        },
+        {
+          rootMargin: '0px',
+          threshold: Array.from({ length: 101 }, (_, index) => index / 100)
+        }
+      )
 
-        slots.forEach((slot) => {
-          slot.classList.add(styles.animate)
+      slots.forEach((slot) => {
+        slot.classList.add(styles.animate)
 
-          if (revealed.has(slot)) {
-            slot.classList.add(styles.visible)
-          } else if (slot.hasAttribute('data-group-photo')) {
-            photoObserver?.observe(slot)
-          } else {
-            bioObserver?.observe(slot)
-          }
-        })
-      }
+        if (revealed.has(slot)) {
+          slot.classList.add(styles.visible)
+        } else if (slot.hasAttribute('data-group-photo')) {
+          photoObserver?.observe(slot)
+        } else {
+          bioObserver?.observe(slot)
+        }
+      })
+    }
 
-      configure()
-      reducedMotion.addEventListener('change', configure)
-      window.addEventListener('resize', configure)
+    configure()
+    reducedMotion.addEventListener('change', configure)
+    window.addEventListener('resize', configure)
 
-      return () => {
-        bioObserver?.disconnect()
-        photoObserver?.disconnect()
-        reducedMotion.removeEventListener('change', configure)
-        window.removeEventListener('resize', configure)
+    return () => {
+      bioObserver?.disconnect()
+      photoObserver?.disconnect()
+      reducedMotion.removeEventListener('change', configure)
+      window.removeEventListener('resize', configure)
 
-        slots.forEach((slot) => {
-          slot.classList.remove(styles.animate, styles.visible)
-        })
-      }
-    }, [members, groupImage])
+      slots.forEach((slot) => {
+        slot.classList.remove(styles.animate, styles.visible)
+      })
+    }
+  }, [members, groupImage])
 
-    if (members.length === 0 && !groupImage) return null
+  if (members.length === 0 && !groupImage) return null
 
-  return (
+    return (
     <section className={styles.staff} id='staff' ref={staffRef}>
       <div className={styles.container}>
         <SectionHeading

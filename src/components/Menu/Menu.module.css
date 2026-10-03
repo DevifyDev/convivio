@@ -220,11 +220,11 @@
 .itemLabel {
   grid-column: 1;
   grid-row: 1;
-  padding-right: var(--leader-reserve);
-  font-family: var(--body-copy-font), serif;
   min-width: 0;
+  padding-right: var(--leader-reserve);
   overflow: hidden;
-  font-size: 1.15rem;
+  font-family: var(--body-copy-font), serif;
+  font-size: 1.05rem;
   line-height: 1.45;
 }
 
@@ -234,7 +234,7 @@
   margin: 0;
   color: var(--light-text);
   font-family: var(--strong-font), serif;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 700;
   line-height: 1.45;
   overflow-wrap: anywhere;
@@ -262,7 +262,7 @@
   grid-row: 1;
   color: var(--primary-gold);
   font-family: var(--body-copy-font), serif;
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   font-weight: 400;
   line-height: 1.45;
   white-space: nowrap;
@@ -320,7 +320,7 @@
   }
 
   .categoryButton {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
 
   .menuGrid {
@@ -331,7 +331,7 @@
   .itemLabel,
   .itemName,
   .price {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 
   .itemTop {
@@ -382,6 +382,7 @@
 }
 
 /* Formatted food text uses regular weight unless the editor applies bold. */
+
 .foodLine1 {
   font-family: var(--body-copy-font), serif;
   font-weight: 400;
@@ -396,4 +397,26 @@
 
 .foodLine1 em {
   font-style: italic;
+}
+
+@media (max-width: 800px) {
+  .menuButton {
+    font-size: 1.5rem;
+    line-height: 1.35;
+  }
+
+  .categoryButton {
+    font-size: 1.2rem;
+    line-height: 1.45;
+  }
+
+  .itemLabel,
+  .itemName,
+  .price {
+    font-size: 0.95rem;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
 }

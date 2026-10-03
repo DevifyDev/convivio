@@ -193,8 +193,18 @@
 }
 
 :global(html[data-theme='convivio']) .staff .staffHeadingDescription {
-  font-family: var(--body-copy-font), serif;
-  font-size: 1.25rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  color: var(--primary-blue);
+  font-family: var(--strong-font), serif;
+  font-size: 2rem;
   font-weight: 700;
-  letter-spacing: 0;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+@media (max-width: 800px) {
+  :global(html[data-theme='convivio']) .staff .staffHeadingDescription {
+    font-size: 1.65rem;
+  }
 }

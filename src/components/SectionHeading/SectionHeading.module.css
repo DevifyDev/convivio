@@ -31,7 +31,7 @@
 }
 
 .description {
-  max-width: 38rem;
+  max-width: 32rem;
   margin: 0 auto 1.25rem;
   color: inherit;
   font-family: var(--body-copy-font), serif;
@@ -129,21 +129,19 @@
 }
 
 :global(html[data-theme='convivio']) .description {
+  max-width: 32ch;
   color: var(--section-accent);
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-family: var(--body-copy-font), serif;
+  font-size: 1.2rem;
+  font-weight: 400;
   line-height: 1.5;
+  letter-spacing: 0;
 }
 
 :global(html[data-theme='convivio']) .light .description {
-  color: var(--primary-black);
+  color: var(--primary-blue);
 }
 
-@media (max-width: 800px) {
-  :global(html[data-theme='convivio']) .description {
-    font-size: 1.05rem;
-  }
-}
 
 :global(html[data-theme='convivio']) .dark .olive,
 :global(html[data-theme='convivio']) .dark .divider .line {
@@ -157,5 +155,15 @@
 
   .description {
     font-size: 1rem;
+  }
+
+  :global(html[data-theme='convivio']) .description {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 800px) {
+  :global(html[data-theme='convivio']) .description {
+    font-size: 1.1rem;
   }
 }
