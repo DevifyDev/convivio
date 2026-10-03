@@ -61,7 +61,8 @@ html[data-theme='convivio'] {
 
   --primary-blue: #28334c;
   --primary-black: #28334c;
-  --primary-gold: #c8b995;
+  --primary-gold: #cdbb98;
+
   --secondary-gold: #c98268;
 
   --premium-black: #19191a;
@@ -70,7 +71,7 @@ html[data-theme='convivio'] {
   --accent-on-light: #395c70;
   --accent-on-light-primary: #395c70;
   --accent-on-light-secondary: #4e4866;
-  --accent-on-dark: #c8b995;
+  --accent-on-dark: #cdbb98;
   --accent-line-on-light: #395c70;
 
   --cta-btn-accent-dark: #2f284c;
@@ -170,4 +171,9 @@ h3 {
   html {
     scroll-behavior: auto;
   }
+}
+
+html[data-theme='convivio'],
+html[data-theme='convivio'] body {
+  overflow-x: clip;
 }

@@ -21,7 +21,6 @@
     transparent 100%
   );
   opacity: 0.65;
-
   mask: linear-gradient(
     to right,
     #000 0%,
@@ -41,7 +40,6 @@
     #000 91.7%,
     #000 100%
   );
-
   -webkit-mask: linear-gradient(
     to right,
     #000 0%,
@@ -73,6 +71,10 @@
   width: 100%;
   max-width: var(--page-width);
   margin-inline: auto;
+}
+
+.staffHeading {
+  position: relative;
 }
 
 /* Shared team photo */
@@ -153,7 +155,7 @@
   overflow-wrap: anywhere;
 }
 
-/* Alternating biography entrances */
+/* Entrances */
 
 @media (prefers-reduced-motion: no-preference) {
   .staffSlot.animate .staffMember {
@@ -187,6 +189,31 @@
     opacity: 1;
     transform: none;
   }
+
+  .staffHeadingDescription.animate {
+    opacity: 0;
+    transform: translateX(-100vw);
+    transition:
+      transform 900ms cubic-bezier(0.2, 0.65, 0.25, 1),
+      opacity 600ms ease;
+  }
+
+  .staffHeadingDescription.animate.visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Wider biographies on tablets and smaller desktops */
+
+@media (min-width: 801px) and (max-width: 1200px) {
+  .staff {
+    padding-inline: 3rem;
+  }
+
+  .staffList {
+    width: 90%;
+  }
 }
 
 /* Mobile */
@@ -219,58 +246,29 @@
   }
 }
 
-:global(html[data-theme='convivio']) .staff .staffHeadingDescription {
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
-  color: var(--primary-blue);
-  font-family: var(--strong-font), serif;
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-@media (max-width: 800px) {
-  :global(html[data-theme='convivio']) .staff .staffHeadingDescription {
-    font-size: 1.65rem;
-  }
-}
-
-/* Convivio gradient background */
+/* Convivio */
 
 :global(html[data-theme='convivio']) .staff {
   background: var(--light-background-gradient);
-}
-
-/* Wider biographies on tablets and smaller desktops */
-
-@media (min-width: 801px) and (max-width: 1200px) {
-  .staff {
-    padding-inline: 3rem;
-  }
-
-  .staffList {
-    width: 90%;
-  }
 }
 
 :global(html[data-theme='convivio']) .description {
   color: var(--premium-black);
 }
 
-:global(html[data-theme='convivio']) .name,
-:global(html[data-theme='convivio']) .staff .staffHeadingDescription {
+:global(html[data-theme='convivio']) .name {
   color: var(--primary-blue);
 }
 
-:global(html[data-theme='convivio']) .light .description {
-  color: var(--premium-black);
-}
-
 :global(html[data-theme='convivio']) .staff .staffHeadingDescription {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  color: var(--accent-on-light);
+  font-family: var(--strong-font), serif;
   font-size: 1.6rem;
   font-weight: 900;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 @media (max-width: 800px) {

@@ -33,42 +33,117 @@ export default function Staff({
     if (!section || !('IntersectionObserver' in window)) return
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const slots = Array.from(
-      section.querySelectorAll<HTMLElement>(
-        '[data-staff-slot], [data-group-photo]'
-      )
+    const photo = section.querySelector<HTMLElement>('[data-group-photo]')
+    const heading = section.querySelector<HTMLElement>(
+      `.${styles.staffHeadingDescription}`
     )
+    const headingContainer = section.querySelector<HTMLElement>(
+      `.${styles.staffHeading}`
+    )
+    const bios = Array.from(
+      section.querySelectorAll<HTMLElement>('[data-staff-slot]')
+    )
+    const animatedElements = [
+      ...bios,
+      ...(photo ? [photo] : []),
+      ...(heading ? [heading] : [])
+    ]
 
     const revealed = new WeakSet<HTMLElement>()
+    const pendingBios = new Set<HTMLElement>()
+    const timers = new Set<number>()
+
     let bioObserver: IntersectionObserver | undefined
     let photoObserver: IntersectionObserver | undefined
+    let headingObserver: IntersectionObserver | undefined
+    let sequenceStarted = false
+    let biosReady = !heading
 
-    const configure = () => {
-      bioObserver?.disconnect()
-      photoObserver?.disconnect()
+    const reveal = (element: HTMLElement) => {
+      revealed.add(element)
+      element.classList.add(styles.visible)
+    }
 
-      slots.forEach((slot) => {
-        slot.classList.remove(styles.animate, styles.visible)
-      })
+    const schedule = (callback: () => void, delay: number) => {
+      const timer = window.setTimeout(() => {
+        timers.delete(timer)
+        callback()
+      }, delay)
 
-      if (reducedMotion.matches) return
+      timers.add(timer)
+    }
 
-      const reveal = (slot: HTMLElement) => {
-        revealed.add(slot)
-        slot.classList.add(styles.visible)
+    const clearTimers = () => {
+      timers.forEach((timer) => window.clearTimeout(timer))
+      timers.clear()
+    }
+
+    const releaseBios = () => {
+      biosReady = true
+      pendingBios.forEach(reveal)
+      pendingBios.clear()
+    }
+
+    const startHeadingSequence = () => {
+      if (sequenceStarted) return
+      sequenceStarted = true
+
+      if (!heading) {
+        releaseBios()
+        return
       }
 
-      // Bios start 15% of the viewport height before entering the screen.
+      schedule(() => reveal(heading), 300)
+      schedule(releaseBios, 1200)
+    }
+
+    const disconnectObservers = () => {
+      bioObserver?.disconnect()
+      photoObserver?.disconnect()
+      headingObserver?.disconnect()
+    }
+
+    const configure = () => {
+      disconnectObservers()
+
+      animatedElements.forEach((element) => {
+        element.classList.remove(styles.animate, styles.visible)
+      })
+
+      if (reducedMotion.matches) {
+        clearTimers()
+        sequenceStarted = true
+        animatedElements.forEach(reveal)
+        releaseBios()
+        return
+      }
+
+      animatedElements.forEach((element) => {
+        element.classList.add(styles.animate)
+
+        if (revealed.has(element)) {
+          element.classList.add(styles.visible)
+        }
+      })
+
+      // Preserve the bios' 15% viewport lead.
       const bioLead = Math.round(window.innerHeight * 0.15)
 
       bioObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (!entry.isIntersecting) return
+            const aboveViewport = entry.boundingClientRect.bottom <= 0
+            if (!entry.isIntersecting && !aboveViewport) return
 
-            const slot = entry.target as HTMLElement
-            reveal(slot)
-            bioObserver?.unobserve(slot)
+            const bio = entry.target as HTMLElement
+
+            if (biosReady) {
+              reveal(bio)
+            } else {
+              pendingBios.add(bio)
+            }
+
+            bioObserver?.unobserve(bio)
           })
         },
         {
@@ -77,44 +152,69 @@ export default function Staff({
         }
       )
 
-      // Preserve the team photo's 75% visibility trigger.
-      photoObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const requiredHeight = Math.min(
-              entry.boundingClientRect.height * 0.75,
-              (entry.rootBounds?.height ?? window.innerHeight) * 0.75
-            )
-
-            if (
-              !entry.isIntersecting ||
-              entry.intersectionRect.height < requiredHeight
-            ) {
-              return
-            }
-
-            const slot = entry.target as HTMLElement
-            reveal(slot)
-            photoObserver?.unobserve(slot)
-          })
-        },
-        {
-          rootMargin: '0px',
-          threshold: Array.from({ length: 101 }, (_, index) => index / 100)
-        }
-      )
-
-      slots.forEach((slot) => {
-        slot.classList.add(styles.animate)
-
-        if (revealed.has(slot)) {
-          slot.classList.add(styles.visible)
-        } else if (slot.hasAttribute('data-group-photo')) {
-          photoObserver?.observe(slot)
-        } else {
-          bioObserver?.observe(slot)
+      bios.forEach((bio) => {
+        if (!revealed.has(bio)) {
+          bioObserver?.observe(bio)
         }
       })
+
+      if (photo && !revealed.has(photo)) {
+        photoObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const requiredHeight = Math.min(
+                entry.boundingClientRect.height * 0.75,
+                (entry.rootBounds?.height ?? window.innerHeight) * 0.75
+              )
+              const aboveViewport = entry.boundingClientRect.bottom <= 0
+
+              if (
+                !aboveViewport &&
+                (!entry.isIntersecting ||
+                  entry.intersectionRect.height < requiredHeight)
+              ) {
+                return
+              }
+
+              reveal(photo)
+              startHeadingSequence()
+              photoObserver?.unobserve(photo)
+            })
+          },
+          {
+            rootMargin: '0px',
+            threshold: Array.from(
+              { length: 101 },
+              (_, index) => index / 100
+            )
+          }
+        )
+
+        photoObserver.observe(photo)
+      } else if (photo) {
+        startHeadingSequence()
+      } else if (headingContainer && !sequenceStarted) {
+        // Keep the heading and bios working when no photo is supplied.
+        headingObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const aboveViewport = entry.boundingClientRect.bottom <= 0
+              if (!entry.isIntersecting && !aboveViewport) return
+
+              startHeadingSequence()
+              headingObserver?.disconnect()
+            })
+          },
+          {
+            threshold: 0,
+            rootMargin: `0px 0px ${bioLead}px 0px`
+          }
+        )
+
+        headingObserver.observe(headingContainer)
+      } else if (!headingContainer) {
+        startHeadingSequence()
+      }
     }
 
     configure()
@@ -122,24 +222,26 @@ export default function Staff({
     window.addEventListener('resize', configure)
 
     return () => {
-      bioObserver?.disconnect()
-      photoObserver?.disconnect()
+      disconnectObservers()
+      clearTimers()
+      pendingBios.clear()
       reducedMotion.removeEventListener('change', configure)
       window.removeEventListener('resize', configure)
 
-      slots.forEach((slot) => {
-        slot.classList.remove(styles.animate, styles.visible)
+      animatedElements.forEach((element) => {
+        element.classList.remove(styles.animate, styles.visible)
       })
     }
   }, [members, groupImage])
 
   if (members.length === 0 && !groupImage) return null
 
-    return (
+  return (
     <section className={styles.staff} id='staff' ref={staffRef}>
       <div className={styles.container}>
         <SectionHeading
           {...sectionHeadingData.staff}
+          className={styles.staffHeading}
           descriptionClassName={styles.staffHeadingDescription}
           childrenBeforeDescription
         >
