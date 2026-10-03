@@ -8,16 +8,16 @@ const files = [
   // './sanity.cli.js',
   // './sanity.config.ts',
 
-  './src/app/globals.css',
-  './src/app/layout.tsx',
+  // './src/app/globals.css',
+  // './src/app/layout.tsx',
   // './src/app/page.tsx',
   // './src/app/page.module.css',
 
   // './src/components/About/About.tsx',
   // './src/components/About/About.module.css',
 
-  // './src/components/Button/Button.tsx',
-  // './src/components/Button/Button.module.css',
+  './src/components/Button/Button.tsx',
+  './src/components/Button/Button.module.css',
 
   // './src/components/Events/Events.tsx',
   // './src/components/Events/Events.module.css',
@@ -31,11 +31,11 @@ const files = [
   // './src/components/Gallery/Gallery.tsx',
   // './src/components/Gallery/Gallery.module.css',
 
-  // './src/components/Header/Header.tsx',
-  // './src/components/Header/Header.module.css',
+  './src/components/Header/Header.tsx',
+  './src/components/Header/Header.module.css',
 
-  // './src/components/Hero/Hero.tsx',
-  // './src/components/Hero/Hero.module.css',
+  './src/components/Hero/Hero.tsx',
+  './src/components/Hero/Hero.module.css',
 
   // './src/components/Location/Location.tsx',
   // './src/components/Location/Location.module.css',

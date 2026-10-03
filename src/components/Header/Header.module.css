@@ -266,3 +266,26 @@
 :global(html[data-theme='convivio']) .headerScrolled {
   background: var(--light-background-gradient);
 }
+
+@media (max-width: 950px) {
+  :global(html[data-theme='convivio']) .menuContainer {
+    background: var(--light-background-gradient);
+  }
+
+  :global(html[data-theme='convivio']) .header .menuContainer > a {
+    border-color: var(--premium-purple);
+    background: transparent;
+    color: var(--premium-purple);
+  }
+
+  :global(html[data-theme='convivio']) .header .menuContainer > a:hover {
+    border-color: var(--premium-purple);
+    background: var(--premium-purple);
+    color: var(--light-text);
+    opacity: 1;
+  }
+
+  :global(html[data-theme='convivio']) .header .menuContainer > a:focus-visible {
+    outline-color: var(--premium-purple);
+  }
+}

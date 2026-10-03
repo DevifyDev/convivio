@@ -1,269 +1,734 @@
 # Workspace Export
-Generated: 2026-10-03T12:27:38.572Z
+Generated: 2026-10-03T13:05:24.525Z
 
-## ./src/app/globals.css
+## ./src/components/Button/Button.tsx
+```tsx
+import styles from './Button.module.css'
+
+type ButtonVariant = 'primary' | 'cta' | 'ctaLight' | 'ctaLarge'
+
+type ButtonProps = {
+  label: string
+  href: string
+  variant?: ButtonVariant
+  target?: '_self' | '_blank'
+}
+
+export default function Button({
+  label,
+  href,
+  variant = 'primary',
+  target = '_self'
+}: ButtonProps) {
+  return (
+    <a
+      className={`${styles.button} ${styles[variant]}`}
+      href={href}
+      target={target}
+      rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+    >
+      {label}
+    </a>
+  )
+}
+```
+
+## ./src/components/Button/Button.module.css
 ```css
-@font-face {
-  font-family: 'Aloja Extended';
-  src: url('/fonts/aloja-extended.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  cursor: pointer;
 }
 
-@font-face {
-  font-family: 'Corporate E';
-  src: url('/fonts/corporate-e-regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+.button:hover {
+  opacity: 0.65;
 }
 
-@font-face {
-  font-family: 'Corporate E';
-  src: url('/fonts/corporate-e-bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+.button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }
 
-@font-face {
-  font-family: 'Folkies Vantage';
-  src: url('/fonts/folkies-vantage.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+.primary {
+  padding: 0.75rem 1.25rem;
+  border: 0.5px solid var(--light-text);
+  color: var(--light-text);
+  font-size: 1rem;
+  font-weight: 200;
 }
 
-:root {
-  --display-font: var(--heading-font);
-  --body-copy-font: var(--body-font);
-  --strong-font: var(--body-font);
-
-  --primary-white: #f8f7f4;
-  --primary-blue: #28334c;
-  --secondary-blue: #3a5d71; 
-  --primary-gold: #916b3b;
-  --primary-black: #16120e;
-  --premium-black: #19191a;
-
-  --light-background: #f8f7f4;
-  --medium-background: #28334c;
-  --dark-background: #16120e;
-
-  --light-text: #f2f2f2;
-  --dark-text: #16120e;
-
-  --shadow-color: #e4e4e4;
-
-  --page-width: 1200px;
-  --content-width: 760px;
-
-  --inline-padding: 1.5rem;
-  --block-padding: 4rem;
-
+.cta {
+  padding: 0.9rem 1.5rem;
+  border: 1px solid var(--primary-gold);
+  color: var(--primary-white);
+  font-size: 0.75rem;
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
-html[data-theme='convivio'] {
-  --display-font: 'Aloja Extended', serif;
-  --body-copy-font: 'Corporate E', serif;
-  --strong-font: 'Corporate E', serif;
-  --sub-heading-font: 'Folkies Vantage', serif; 
-  
-  --primary-blue: #28334c;
-
-  --accent-on-light: #395c70;
-  
-  --accent-on-light-primary: #395c70;
-
-   --accent-on-light-secondary: #4e4866;
- 
-  /* --accent-on-dark: #A6BBC6; */
-  --accent-on-dark: #c8b995;
-
-  --cta-btn-accent-dark: #2f284c;
- 
-
-   --accent-line-on-light: #395c70;
-
-  --primary-gold: #c8b995;
-   /* --primary-gold: #916b3b; */
-  /* --primary-gold: #c98268; */
-  --secondary-gold: #c98268;
-
-  
-
-  --primary-black: #28334c;
-  --premium-purple: #2f284c;
-
-  --light-background: #f8f7f4;
-   /* --light-background: #f0f7f4; */
-  --medium-background: #3a5d71;
-  --dark-background: #28334c;
-
-  --dark-text: #28334c;
-  --shadow-color: #d8dde3;
-
-  --light-background-gradient: linear-gradient(
-    135deg,
-    #fdfcf9 0%,
-    #f8f7f4 55%,
-    #f3f2ef 100%
-  );
-
---card-background-gradient: linear-gradient(
-  135deg,
-  color-mix(in srgb, #28334c 2%, var(--light-background)) 0%,
-  color-mix(in srgb, #28334c 4.5%, var(--light-background)) 55%,
-  color-mix(in srgb, #28334c 7%, var(--light-background)) 100%
-);
-
-  --dark-background-gradient: linear-gradient(
-      135deg,
-      #35425e 0%,
-      #28334c 55%,
-      #202a40 100%
-  );
-
+.ctaLarge {
+  min-width: 14rem;
+  padding: 1rem 2.5rem;
+  border: 1px solid var(--primary-gold);
+  background: transparent;
+  color: var(--primary-black);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
 }
 
-[data-torn] {
-  position: relative;
-  overflow: visible;
+.ctaLarge:hover {
+  border-color: var(--primary-black);
+  background: var(--primary-black);
+  color: var(--primary-white);
+  opacity: 1;
 }
 
-[data-torn]::before,
-[data-torn]::after {
-  position: absolute;
-  left: 0;
-  z-index: 2;
-  width: 100%;
-  height: 20px;
-  background: var(--torn-color);
-  filter: url('#roughen');
-  pointer-events: none;
+.ctaLarge:focus-visible {
+  outline: 2px solid var(--primary-gold);
+  outline-offset: 4px;
 }
 
-[data-torn='both']::before,
-[data-torn='top']::before {
-  content: '';
-  top: -10px;
+.ctaLight {
+  padding: 0.9rem 1.5rem;
+  border: 1px solid var(--primary-gold);
+  color: var(--primary-black);
+  font-size: 0.75rem;
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
-[data-torn='both']::after,
-[data-torn='bottom']::after {
-  content: '';
-  bottom: -10px;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  padding: 0;
+:global(html[data-theme='convivio']) .ctaLight,
+:global(html[data-theme='convivio']) .ctaLarge {
+  border-color: var(--accent-on-light-secondary);
   background: var(--light-background);
-  color: var(--dark-text);
-  font-family: var(--body-copy-font), sans-serif;
+  color: var(--accent-on-light-secondary);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
 }
 
-a {
-  text-decoration: none;
+:global(html[data-theme='convivio']) .ctaLight:hover,
+:global(html[data-theme='convivio']) .ctaLarge:hover {
+  border-color: var(--primary-blue);
+  background: var(--primary-blue);
+  color: var(--light-text);
+  opacity: 1;
 }
 
-h1,
-h2,
-h3 {
-  font-family: var(--display-font), serif;
+:global(html[data-theme='convivio']) .ctaLarge:focus-visible {
+  outline-color: var(--accent-on-light-secondary);
 }
 
-/* Allow for the fixed navbar when scrolling to anchors. */
-
-html {
-  scroll-padding-top: 4.75rem;
+:global(html[data-theme='convivio']) .cta {
+  border-color: var(--light-text);
 }
+```
+
+## ./src/components/Header/Header.tsx
+```tsx
+'use client'
+
+import { useEffect, useState } from 'react'
+import Button from '@/components/Button/Button'
+import type { BusinessDetails } from '@/types/businessDetails'
+import styles from './Header.module.css'
+
+const name = 'Convivio'
+
+const baseMenuItems = [
+  {
+    href: '#about',
+    label: 'ABOUT'
+  },
+  {
+    href: '#menu',
+    label: 'MENU'
+  },
+  {
+    href: '#gallery',
+    label: 'GALLERY'
+  },
+  {
+    href: '#events',
+    label: 'EVENTS'
+  },
+  {
+    href: '#location',
+    label: 'VISIT'
+  }
+]
+
+type HeaderProps = {
+  businessDetails?: BusinessDetails | null
+}
+
+export default function Header({
+  businessDetails
+}: HeaderProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  const menuItems = [
+    ...baseMenuItems,
+    ...(businessDetails?.giftCardUrl
+      ? [
+          {
+            href: businessDetails.giftCardUrl,
+            label: 'GIFT CARDS'
+          }
+        ]
+      : [])
+  ]
+
+  function closeMenu() {
+    setIsMenuOpen(false)
+  }
+
+  useEffect(() => {
+    function handleScroll() {
+      setIsScrolled(window.scrollY > 20)
+      setIsMenuOpen(false)
+    }
+
+    function handleResize() {
+      if (window.innerWidth > 950) {
+        setIsMenuOpen(false)
+      }
+    }
+
+    handleScroll()
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isMenuOpen) return
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        closeMenu()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isMenuOpen])
+
+  useEffect(() => {
+    document.body.classList.toggle(
+      'mobile-menu-open',
+      isMenuOpen
+    )
+
+    return () => {
+      document.body.classList.remove('mobile-menu-open')
+    }
+  }, [isMenuOpen])
+
+  return (
+    <>
+      <header
+        className={`${styles.header} ${
+          isScrolled ? styles.headerScrolled : ''
+        } ${isMenuOpen ? styles.headerMenuOpen : ''}`}
+      >
+        <nav className={styles.nav} aria-label='Main navigation'>
+          <a
+            className={styles.name}
+            href='#home'
+            aria-label={`${name} home`}
+            onClick={closeMenu}
+          >
+            {name}
+          </a>
+
+          <button
+            type='button'
+            className={`${styles.menuButton} ${
+              isMenuOpen ? styles.menuButtonOpen : ''
+            }`}
+            aria-label={
+              isMenuOpen
+                ? 'Close navigation menu'
+                : 'Open navigation menu'
+            }
+            aria-expanded={isMenuOpen}
+            aria-controls='nav-menu'
+            onClick={() =>
+              setIsMenuOpen((current) => !current)
+            }
+          >
+            <span
+              className={`${styles.menuIcon} ${
+                isMenuOpen
+                  ? styles.closeIcon
+                  : styles.openIcon
+              }`}
+              aria-hidden='true'
+            ></span>
+          </button>
+
+          <div
+            id='nav-menu'
+            className={`${styles.menuContainer} ${
+              isMenuOpen ? styles.menuContainerOpen : ''
+            }`}
+          >
+            <div className={styles.menuItems}>
+              {menuItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeMenu}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
+            {businessDetails?.bookingUrl && (
+              <Button
+                label='BOOK A TABLE'
+                href={businessDetails.bookingUrl}
+                target='_blank'
+              />
+            )}
+          </div>
+        </nav>
+        
+      </header>
+
+      {isMenuOpen && (
+        <button
+          type='button'
+          className={styles.backdrop}
+          aria-label='Close navigation menu'
+          onClick={closeMenu}
+        ></button>
+      )}
+    </>
+  )
+}
+```
+
+## ./src/components/Header/Header.module.css
+```css
+:global(body.mobile-menu-open) section,
+:global(body.mobile-menu-open) footer {
+  filter: blur(8px);
+}
+
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  background: transparent;
+  transition:
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.headerScrolled {
+  position: fixed;
+  background: rgba(248, 247, 244, 0.94);
+  box-shadow: 0 0.25px 0 var(--accent-on-light-secondary);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.nav {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 4rem;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--inline-padding);
+}
+
+.nav a:focus-visible,
+.menuButton:focus-visible {
+  outline: 2px solid var(--primary-gold);
+  outline-offset: 4px;
+}
+
+.name {
+  color: var(--light-text);
+  font-family: 'Aloja Extended', serif;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  transition: color 220ms ease;
+}
+
+.headerScrolled .name {
+  color: var(--primary-blue);
+}
+
+/* DESKTOP NAVIGATION */
+
+.menuContainer {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+}
+
+.menuItems {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
+}
+
+.menuItems > a {
+  color: var(--light-text);
+  font-size: 0.85rem;
+  font-weight: 200;
+  letter-spacing: 0.05em;
+  transition:
+    color 180ms ease,
+    opacity 180ms ease;
+}
+
+.menuItems > a:hover {
+  opacity: 0.65;
+}
+
+.headerScrolled .menuItems > a {
+  color: var(--primary-blue);
+}
+
+.headerScrolled .menuContainer > a,
+.headerMenuOpen .menuContainer > a {
+  border-width: 1px;
+  border-color: var(--accent-on-light-secondary);
+  color: var(--accent-on-light-secondary);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.headerScrolled .menuContainer > a {
+  background: transparent;
+}
+
+.headerMenuOpen .menuContainer > a {
+  background: var(--light-background);
+}
+
+.headerScrolled .menuContainer > a:hover,
+.headerMenuOpen .menuContainer > a:hover {
+  border-color: var(--primary-blue);
+  background: var(--primary-blue);
+  color: var(--light-text);
+  opacity: 1;
+}
+
+/* MOBILE MENU BUTTON */
+
+.menuButton {
+  display: none;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--light-text);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: color 180ms ease;
+}
+
+.headerScrolled .menuButton {
+  color: var(--primary-blue);
+}
+
+.menuButtonOpen {
+  color: var(--primary-blue);
+}
+
+.menuIcon {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  background: currentColor;
+}
+
+.openIcon {
+  mask: url('/icons/menu.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/menu.svg') center / contain no-repeat;
+}
+
+.closeIcon {
+  mask: url('/icons/close.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/close.svg') center / contain no-repeat;
+}
+
+/* BACKDROP */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  padding: 0;
+  border: 0;
+  background: rgba(22, 18, 14, 0.15);
+  cursor: default;
+}
+
+/* MOBILE */
 
 @media (max-width: 950px) {
-  html {
-    scroll-padding-top: 5.25rem;
+  .name {
+    font-size: 1.65rem;
+  }
+
+  .menuButton {
+    display: flex;
+  }
+
+  .menuContainer {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 50%;
+    z-index: 110;
+    display: flex;
+    width: calc(100% - 2rem);
+    max-width: 32rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(40, 51, 76, 0.12);
+    border-radius: 0.75rem;
+    background: rgba(248, 247, 244, 0.97);
+    box-shadow:
+      0 1rem 3rem rgba(22, 18, 14, 0.14),
+      0 0.25rem 0.75rem rgba(22, 18, 14, 0.08);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, -0.5rem);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms ease;
+  }
+
+  .menuContainerOpen {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+  }
+
+  .menuItems {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .menuItems > a {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(40, 51, 76, 0.08);
+    color: var(--primary-blue);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .menuItems > a:last-child {
+    border-bottom: 0;
+  }
+
+  .menuItems > a:hover {
+    background: rgba(40, 51, 76, 0.04);
+    opacity: 1;
+  }
+
+  .menuContainer > a {
+    width: 100%;
+    min-height: 3rem;
+    border-color: var(--primary-blue);
+    color: var(--primary-blue);
   }
 }
 
+@media (max-width: 950px) {
+  .header .nav {
+    min-height: 4.5rem;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.75rem;
+  }
 
+  .header .menuButtonOpen {
+    color: var(--light-text);
+  }
+
+  .headerScrolled .menuButtonOpen {
+    border-radius: 0.25rem;
+    background: var(--primary-blue);
+  }
+}
+
+:global(html[data-theme='convivio']) .headerScrolled {
+  background: var(--light-background-gradient);
+}
 
 ```
 
-## ./src/app/layout.tsx
+## ./src/components/Hero/Hero.tsx
 ```tsx
-import type { Metadata } from 'next'
-import { Fraunces, Hanken_Grotesk } from 'next/font/google'
-import { preload } from 'react-dom'
-import './globals.css'
+import Button from '@/components/Button/Button'
+import styles from './Hero.module.css'
 
-
-const headingFont = Fraunces({
-  subsets: ['latin'],
-  variable: '--heading-font',
-  display: 'swap'
-})
-
-const bodyFont = Hanken_Grotesk({
-  subsets: ['latin'],
-  variable: '--body-font',
-  display: 'swap'
-})
-
-export const metadata: Metadata = {
-  metadataBase: new URL('https://www.convivioperth.com.au'),
-
-  title: 'Convivio Wine Bar | Scarborough',
-
-  description:
-    'Mediterranean soul. Coastal spirit. Convivio is your neighbourhood wine bar, serving European wines, signature cocktails and seasonal plates',
-
-  alternates: {
-    canonical: '/'
-  },
-
-  openGraph: {
-    type: 'website',
-    locale: 'en_AU',
-    url: '/',
-    siteName: 'Convivio Wine Bar',
-    title: 'Convivio Wine Bar | Scarborough',
-    description:
-      'Mediterranean soul. Coastal spirit. Convivio is your neighbourhood wine bar, serving European wines, signature cocktails and seasonal plates'
-  },
-
-  creator: 'Devify'
+type HeroProps = {
+  bookingUrl?: string
 }
 
-export default function Root({
-  children
-}: Readonly<{ children: React.ReactNode }>) {
-  preload('/fonts/aloja-extended.woff2', {
-  as: 'font',
-  type: 'font/woff2',
-  crossOrigin: 'anonymous'
-})
-  preload('/images/hero-background.webp', {
-    as: 'image',
-    fetchPriority: 'high'
-  })
-
+export default function Hero({
+  bookingUrl
+}: HeroProps) {
   return (
-    <html
-      lang='en'
-      data-theme='convivio'
-      className={`${headingFont.variable} ${bodyFont.variable}`}
-    >
-      <body>{children}</body>
-    </html>
+    <section className={styles.hero} id='home'>
+      <div className={styles.content}>
+        <p className={styles.eyebrow}>EST. 2026</p>
+
+        <h1 className={styles.title}>Convivio</h1>
+
+        <p className={styles.subtitle}>Your Neighbourhood Wine Bar</p>
+
+        <p className={styles.address}>16E Calais Road, Scarborough</p>
+
+        {bookingUrl && (
+          <Button
+            label='Book A Table'
+            href={bookingUrl}
+            variant='cta'
+            target='_blank'
+          />
+        )}
+      </div>
+    </section>
   )
+}
+```
+
+## ./src/components/Hero/Hero.module.css
+```css
+:global(html[data-theme='convivio']) .subtitle {
+  margin: 1rem 0 1.5rem;
+  color: var(--secondary-gold);
+  font-family: var(--display-font);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+}
+
+@media (max-width: 700px) {
+  :global(html[data-theme='convivio']) .subtitle {
+    font-size: 1.2rem;
+  }
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--light-background);
+  text-align: center;
+  padding-inline: var(--inline-padding);
+  
+  background-image:
+    linear-gradient(
+      rgba(22, 18, 14, 0.42),
+      rgba(22, 18, 14, 0.62)
+    ),
+    url('/images/hero-background.webp');
+
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+}
+
+.content {
+  width: 100%;
+  max-width: var(--content-width);
+}
+
+.eyebrow {
+  margin-bottom: 1.25rem;
+  color: var(--primary-white);
+  font-size: 0.8rem;
+  font-weight: 200;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: var(--primary-white);
+  font-size: 3rem;
+  font-weight: 200;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.subtitle {
+  margin: 0.4rem 0 1.5rem 0;
+  color: var(--primary-gold);
+  font-size: 2rem;
+  font-family: var(--heading-font);
+  font-weight: 200;
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+
+.address {
+  margin-bottom: 2rem;
+  color: var(--primary-white);
+  font-size: 0.9rem;
+  font-weight: 200;
+}
+
+@media (max-width: 700px) {
+  .title {
+    font-size: 2.75rem;
+  }
+
+  .subtitle {
+    font-size: 1.75rem;
+  }
 }
 ```
