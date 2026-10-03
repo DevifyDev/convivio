@@ -191,3 +191,27 @@
 :global(html[data-theme='convivio']) .about {
   background: var(--light-background-gradient);
 }
+
+:global(html[data-theme='convivio']) .paragraph {
+  color: var(--premium-black);
+}
+
+:global(html[data-theme='convivio']) .eyebrow {
+  color: var(--accent-on-light-primary);
+}
+
+:global(html[data-theme='convivio']) .heading {
+  color: var(--primary-blue);
+}
+
+:global(html[data-theme='convivio']) .paragraph {
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.8;
+}
+
+@media (max-width: 800px) {
+  :global(html[data-theme='convivio']) .paragraph {
+    font-size: 1rem;
+  }
+}

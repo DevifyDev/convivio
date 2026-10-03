@@ -253,3 +253,28 @@
     width: 90%;
   }
 }
+
+:global(html[data-theme='convivio']) .description {
+  color: var(--premium-black);
+}
+
+:global(html[data-theme='convivio']) .name,
+:global(html[data-theme='convivio']) .staff .staffHeadingDescription {
+  color: var(--primary-blue);
+}
+
+:global(html[data-theme='convivio']) .light .description {
+  color: var(--premium-black);
+}
+
+:global(html[data-theme='convivio']) .staff .staffHeadingDescription {
+  font-size: 1.6rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+@media (max-width: 800px) {
+  :global(html[data-theme='convivio']) .staff .staffHeadingDescription {
+    font-size: 1.5rem;
+  }
+}

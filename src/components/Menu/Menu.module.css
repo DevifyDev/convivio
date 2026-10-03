@@ -452,3 +452,8 @@
 :global(html[data-theme='convivio']) .incomingMenu {
   box-shadow: none;
 }
+
+:global(html[data-theme='convivio']) .pricing {
+  --body-copy-font: var(--menu-font);
+  --strong-font: var(--menu-font);
+}

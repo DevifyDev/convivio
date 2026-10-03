@@ -31,7 +31,7 @@ export const sectionHeadingData = {
   staff: {
     eyebrow: '',
     heading: 'The Team Behind Convivio',
-    description: 'Meet the Crew',
+    description: 'MEET THE CREW',
     variant: 'light',
     icon: 'sparkle'
   },

@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
-import { Fraunces, Hanken_Grotesk } from 'next/font/google'
+import { Fraunces, Hanken_Grotesk, Lato } from 'next/font/google'
 import { preload } from 'react-dom'
 import './globals.css'
-
 
 const headingFont = Fraunces({
   subsets: ['latin'],
@@ -13,6 +12,14 @@ const headingFont = Fraunces({
 const bodyFont = Hanken_Grotesk({
   subsets: ['latin'],
   variable: '--body-font',
+  display: 'swap'
+})
+
+const convivioBodyFont = Lato({
+  subsets: ['latin'],
+  weight: ['300', '400', '700', '900'],
+  style: 'normal',
+  variable: '--convivio-body-font',
   display: 'swap'
 })
 
@@ -45,10 +52,11 @@ export default function Root({
   children
 }: Readonly<{ children: React.ReactNode }>) {
   preload('/fonts/aloja-extended.woff2', {
-  as: 'font',
-  type: 'font/woff2',
-  crossOrigin: 'anonymous'
-})
+    as: 'font',
+    type: 'font/woff2',
+    crossOrigin: 'anonymous'
+  })
+
   preload('/images/hero-background.webp', {
     as: 'image',
     fetchPriority: 'high'
@@ -58,7 +66,7 @@ export default function Root({
     <html
       lang='en'
       data-theme='convivio'
-      className={`${headingFont.variable} ${bodyFont.variable}`}
+      className={`${headingFont.variable} ${bodyFont.variable} ${convivioBodyFont.variable}`}
     >
       <body>{children}</body>
     </html>

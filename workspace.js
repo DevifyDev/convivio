@@ -8,8 +8,8 @@ const files = [
   // './sanity.cli.js',
   // './sanity.config.ts',
 
-  // './src/app/globals.css',
-  // './src/app/layout.tsx',
+  './src/app/globals.css',
+  './src/app/layout.tsx',
   // './src/app/page.tsx',
   // './src/app/page.module.css',
 
@@ -46,8 +46,8 @@ const files = [
   // './src/components/SectionHeading/SectionHeading.tsx',
   // './src/components/SectionHeading/SectionHeading.module.css',
 
-  './src/components/Staff/Staff.tsx',
-  './src/components/Staff/Staff.module.css',
+  // './src/components/Staff/Staff.tsx',
+  // './src/components/Staff/Staff.module.css',
 
   // './src/components/StructuredData/StructuredData.tsx',
   // './src/components/StructuredData/StructuredData.module.css',
