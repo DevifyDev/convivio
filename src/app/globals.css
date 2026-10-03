@@ -22,6 +22,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Folkies Vantage';
+  src: url('/fonts/folkies-vantage.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --display-font: var(--heading-font);
   --body-copy-font: var(--body-font);
@@ -55,6 +63,7 @@ html[data-theme='convivio'] {
   --display-font: 'Aloja Extended', serif;
   --body-copy-font: 'Corporate E', serif;
   --strong-font: 'Corporate E', serif;
+  --sub-heading-font: 'Folkies Vantage', serif; 
   
   --primary-blue: #28334c;
 
@@ -66,12 +75,18 @@ html[data-theme='convivio'] {
  
   /* --accent-on-dark: #A6BBC6; */
   --accent-on-dark: #c8b995;
+
+  --cta-btn-accent-dark: #48284c;
  
 
    --accent-line-on-light: #395c70;
 
   --primary-gold: #c8b995;
+   /* --primary-gold: #916b3b; */
+  /* --primary-gold: #c98268; */
   --secondary-gold: #c98268;
+
+  
 
   --primary-black: #28334c;
   --premium-purple: #2f284c;

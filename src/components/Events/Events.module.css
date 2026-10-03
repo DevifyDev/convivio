@@ -68,18 +68,18 @@
 
 .weeklyGrid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: stretch;
   gap: 1.25rem;
 }
 
 .weeklyCard {
   display: grid;
-  grid-template-columns: 6.5rem minmax(0, 1fr);
+  grid-template-columns: 8rem minmax(0, 1fr);
   align-items: start;
   gap: 1.5rem;
   padding: 1.75rem 2rem;
-  border: 1px solid rgba(248, 247, 244, 0.12);
+  border: 0.25px solid rgba(200, 185, 149, 0.5);
   background: rgba(248, 247, 244, 0.035);
   transition:
     border-color 180ms ease,
@@ -102,7 +102,9 @@
   letter-spacing: 0.08em;
   text-align: center;
   text-transform: uppercase;
-  white-space: nowrap;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 :global(html[data-theme='convivio']) .dayName {
@@ -114,7 +116,8 @@
   border-bottom: 0;
 }
 
-:global(html[data-theme='convivio']) .dayName::after {
+:global(html[data-theme='convivio']) .dayName::after,
+:global(html[data-theme='convivio']) .date::after {
   content: '';
   position: absolute;
   right: 0;
@@ -122,8 +125,8 @@
   left: 0;
   height: 8px;
   background: var(--primary-gold);
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='0.75'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='0.75'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
 }
 
 .weeklyContent {
@@ -155,6 +158,15 @@
   font-size: 0.85rem;
   font-weight: 200;
   line-height: 1.6;
+  white-space: pre-line;
+}
+
+.weeklyPrice {
+  margin: 0 0 0.9rem;
+  color: var(--accent-on-dark, var(--primary-gold));
+  font-family: var(--body-copy-font), serif;
+  font-size: 1rem;
+  font-weight: 700;
 }
 
 /* SPECIAL EVENTS */
@@ -170,13 +182,15 @@
   align-items: center;
   gap: 2rem;
   padding: 1rem 2rem 1rem 1.5rem;
-  border: 1px solid rgba(248, 247, 244, 0.1);
+  border: 0.25px solid rgba(200, 185, 149, 0.5);
   background: rgba(248, 247, 244, 0.035);
-  transition: border-color 180ms ease;
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
 }
 
 .specialEvent:hover {
-   border-color: var(--accent-on-dark);
+  transform: translateY(-2px);
 }
 
 .date {
@@ -258,6 +272,8 @@
   white-space: nowrap;
 }
 
+/* CONVIVIO THEME */
+
 :global(html[data-theme='convivio']) .sectionEyebrow,
 :global(html[data-theme='convivio']) .dayName,
 :global(html[data-theme='convivio']) .weeklyTime,
@@ -272,8 +288,45 @@
   font-size: 1.1rem;
 }
 
-:global(html[data-theme='convivio']) .dayName::after {
+:global(html[data-theme='convivio']) .dayName::after,
+:global(html[data-theme='convivio']) .date::after {
   background: var(--accent-on-dark);
+}
+
+:global(html[data-theme='convivio']) .date {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  justify-self: center;
+  padding-bottom: 0.85rem;
+}
+
+/* CONTINUOUS DAY AND DATE RIPPLES */
+
+@keyframes dayWaveRipple {
+  from {
+    -webkit-mask-position: 0 center;
+    mask-position: 0 center;
+  }
+
+  to {
+    -webkit-mask-position: 32px center;
+    mask-position: 32px center;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(html[data-theme='convivio']) .dayName::after,
+  :global(html[data-theme='convivio']) .date::after {
+    animation: dayWaveRipple 4000ms linear infinite;
+  }
+
+  :global(html[data-theme='convivio'])
+    .weeklyCard:nth-child(even) .dayName::after,
+  :global(html[data-theme='convivio'])
+    .specialEvent:nth-child(even) .date::after {
+    animation-delay: -2000ms;
+  }
 }
 
 /* SMALL DESKTOP / TABLET */
@@ -281,10 +334,6 @@
 @media (max-width: 1350px) {
   .events {
     padding-inline: 3rem;
-  }
-
-  .weeklyGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .specialEvent {
@@ -349,13 +398,18 @@
 
 @media (max-width: 550px) {
   .weeklyCard {
-    grid-template-columns: 6rem minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
     gap: 1rem;
     padding: 1.5rem;
   }
 
   .dayName {
     font-size: 0.9rem;
+  }
+
+  .weeklyCard .dayName {
+    justify-self: start;
+    text-align: left;
   }
 
   .specialEvent {
@@ -368,6 +422,10 @@
     flex-direction: row;
     justify-content: flex-start;
     gap: 0.5rem;
+  }
+
+  :global(html[data-theme='convivio']) .date {
+    justify-self: start;
   }
 
   .dateDay {
@@ -392,50 +450,5 @@
 
   .eventImage:empty {
     display: none;
-  }
-}
-
-/* Weekly Events Override **/
-
-.weeklyGrid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.weeklyCard {
-  grid-template-columns: 8rem minmax(0, 1fr);
-}
-
-.dayName {
-  line-height: 1.5;
-  white-space: normal;
-  overflow-wrap: anywhere;
-}
-
-.weeklyPrice {
-  margin: 0 0 0.9rem;
-  color: var(--accent-on-dark, var(--primary-gold));
-  font-family: var(--body-copy-font), serif;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.weeklyDescription {
-  white-space: pre-line;
-}
-
-@media (max-width: 1000px) {
-  .weeklyGrid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 550px) {
-  .weeklyCard {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .weeklyCard .dayName {
-    justify-self: start;
-    text-align: left;
   }
 }

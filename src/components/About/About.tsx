@@ -15,7 +15,7 @@ export type AboutImages = {
 export default function About({ images }: { images?: AboutImages | null }) {
   const imagesRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
+    useEffect(() => {
     const container = imagesRef.current
     if (!container || !('IntersectionObserver' in window)) return
 
@@ -24,42 +24,73 @@ export default function About({ images }: { images?: AboutImages | null }) {
     const slots = Array.from(
       container.querySelectorAll<HTMLElement>('[data-about-image]')
     )
+    const lowerImage = slots[0]
+
+    if (!lowerImage) return
+
     let observer: IntersectionObserver | undefined
+    let hasPlayed = false
 
     const configure = () => {
       observer?.disconnect()
-      slots.forEach((slot) =>
-        slot.classList.remove(styles.animate, styles.visible)
-      )
-      if (!mobile.matches || reducedMotion.matches) return
+
+      if (!mobile.matches || reducedMotion.matches) {
+        slots.forEach((slot) => {
+          slot.classList.remove(styles.animate, styles.visible)
+        })
+        return
+      }
+
+      slots.forEach((slot) => {
+        slot.classList.add(styles.animate)
+
+        if (hasPlayed) {
+          slot.classList.add(styles.visible)
+        }
+      })
+
+      if (hasPlayed) return
+
+      // Pixel units keep the offset tied to viewport height.
+      const bottomInset = Math.round(window.innerHeight * 0.2)
 
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (!entry.isIntersecting) return
-            entry.target.classList.add(styles.visible)
-            observer?.unobserve(entry.target)
+
+            hasPlayed = true
+
+            slots.forEach((slot) => {
+              slot.classList.add(styles.visible)
+            })
+
+            observer?.disconnect()
           })
         },
-        { threshold: 0.05, rootMargin: '0px 0px 40px 0px' }
+        {
+          threshold: 0,
+          rootMargin: `0px 0px -${bottomInset}px 0px`
+        }
       )
 
-      slots.forEach((slot) => {
-        slot.classList.add(styles.animate)
-        observer?.observe(slot)
-      })
+      observer.observe(lowerImage)
     }
 
     configure()
     mobile.addEventListener('change', configure)
     reducedMotion.addEventListener('change', configure)
+    window.addEventListener('resize', configure)
+
     return () => {
       observer?.disconnect()
       mobile.removeEventListener('change', configure)
       reducedMotion.removeEventListener('change', configure)
-      slots.forEach((slot) =>
+      window.removeEventListener('resize', configure)
+
+      slots.forEach((slot) => {
         slot.classList.remove(styles.animate, styles.visible)
-      )
+      })
     }
   }, [])
 
@@ -93,7 +124,14 @@ export default function About({ images }: { images?: AboutImages | null }) {
             something new to discover.
           </p>
 
-          <Button label='Explore the Menu' href='#menu' variant='ctaLight' />
+        <div className={styles.aboutCta}>
+            <Button
+              label='Explore the Menu'
+              href='#menu'
+              variant='ctaLarge'
+            />
+          </div>
+          
         </div>
 
         <div className={styles.images} ref={imagesRef}>

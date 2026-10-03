@@ -29,41 +29,76 @@ export default function Staff({
   const staffRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    const list = staffRef.current
+    const section = staffRef.current
+    if (!section || !('IntersectionObserver' in window)) return
 
-    if (
-      !list ||
-      !('IntersectionObserver' in window) ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const slots = Array.from(
+      section.querySelectorAll<HTMLElement>(
+        '[data-staff-slot], [data-group-photo]'
+      )
     )
-      return
+    const revealed = new WeakSet<HTMLElement>()
+    let observer: IntersectionObserver | undefined
 
-    const slots = list.querySelectorAll<HTMLElement>(
-      '[data-staff-slot], [data-group-photo]'
-    )
+    const configure = () => {
+      observer?.disconnect()
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
+      slots.forEach((slot) => {
+        slot.classList.remove(styles.animate, styles.visible)
+      })
 
-          entry.target.classList.add(styles.visible)
-          observer.unobserve(entry.target)
-        })
-      },
-      {
-        threshold: 0,
-        rootMargin: '0px 0px 240px 0px'
-      }
-    )
+      if (reducedMotion.matches) return
 
-    slots.forEach((slot) => {
-      slot.classList.add(styles.animate)
-      observer.observe(slot)
-    })
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            // Tall biographies use a viewport-based fallback.
+            const visibility = entry.target.hasAttribute('data-group-photo')
+              ? 0.75
+              : 0.15
+
+            const requiredHeight = Math.min(
+              entry.boundingClientRect.height * visibility,
+              (entry.rootBounds?.height ?? window.innerHeight) * 0.75
+            )
+
+            if (
+              !entry.isIntersecting ||
+              entry.intersectionRect.height < requiredHeight
+            ) {
+              return
+            }
+
+            const slot = entry.target as HTMLElement
+            revealed.add(slot)
+            slot.classList.add(styles.visible)
+            observer?.unobserve(slot)
+          })
+        },
+        {
+          rootMargin: '0px',
+          threshold: Array.from({ length: 101 }, (_, index) => index / 100)
+        }
+      )
+
+      slots.forEach((slot) => {
+        slot.classList.add(styles.animate)
+
+        if (revealed.has(slot)) {
+          slot.classList.add(styles.visible)
+        } else {
+          observer?.observe(slot)
+        }
+      })
+    }
+
+    configure()
+    reducedMotion.addEventListener('change', configure)
 
     return () => {
-      observer.disconnect()
+      observer?.disconnect()
+      reducedMotion.removeEventListener('change', configure)
 
       slots.forEach((slot) => {
         slot.classList.remove(styles.animate, styles.visible)
@@ -100,7 +135,11 @@ export default function Staff({
 
         <div className={styles.staffList}>
           {members.map((member) => (
-            <div className={styles.staffSlot} key={member._key} data-staff-slot>
+            <div
+              className={styles.staffSlot}
+              key={member._key}
+              data-staff-slot
+            >
               <article className={styles.staffMember}>
                 <h3 className={styles.name}>{member.name}</h3>
 

@@ -1,1389 +1,1461 @@
 # Workspace Export
-Generated: 2026-10-02T05:18:37.132Z
+Generated: 2026-10-03T07:04:12.269Z
 
-## ./sanity.config.ts
-```ts
+## ./src/components/Events/Events.tsx
+```tsx
+import Image from 'next/image'
+import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
+import styles from './Events.module.css'
+
+export type WeeklyEvent = {
+  _key: string
+  schedule: string
+  title: string
+  time?: string
+  price?: string
+  description: string
+}
+
+export type WeeklyEvents = WeeklyEvent[]
+
+export type SpecialEvent = {
+  _key: string
+  date: string
+  time?: string
+  title: string
+  description: string
+  image?: string
+  imageAlt?: string
+  price?: string
+}
+
+type EventsProps = {
+  weeklyEvents?: WeeklyEvents | null
+  specialEvents?: SpecialEvent[] | null
+}
+
+function getEventDate(dateString: string) {
+  const date = new Date(`${dateString}T00:00:00Z`)
+
+  return {
+    day: new Intl.DateTimeFormat('en-AU', {
+      day: '2-digit',
+      timeZone: 'UTC'
+    }).format(date),
+
+    month: new Intl.DateTimeFormat('en-AU', {
+      month: 'short',
+      timeZone: 'UTC'
+    }).format(date)
+  }
+}
+
+export default function Events({
+  weeklyEvents,
+  specialEvents
+}: EventsProps) {
+  const weeklyEventList = weeklyEvents ?? []
+  const specialEventList = specialEvents ?? []
+
+  if (
+    weeklyEventList.length === 0 &&
+    specialEventList.length === 0
+  ) {
+    return null
+  }
+
+  return (
+    <section className={styles.events} id='events'>
+      <div className={styles.container}>
+        <SectionHeading {...sectionHeadingData.events} />
+
+        {weeklyEventList.length > 0 && (
+          <div className={styles.weeklySection}>
+            <div className={styles.subheadingRow}>
+              <p className={styles.sectionEyebrow}>What's On</p>
+
+              <h3 className={styles.subheading}>Weekly Offers</h3>
+            </div>
+
+            <div className={styles.weeklyGrid}>
+              {weeklyEventList.map((event) => (
+                <article
+                  className={styles.weeklyCard}
+                  key={event._key}
+                >
+                  <p className={styles.dayName}>
+                    {event.schedule}
+                  </p>
+
+                  <div className={styles.weeklyContent}>
+                    <h4 className={styles.weeklyTitle}>
+                      {event.title}
+                    </h4>
+
+                    {event.time && (
+                      <p className={styles.weeklyTime}>
+                        {event.time}
+                      </p>
+                    )}
+
+                    <p className={styles.weeklyPrice}>
+                      {event.price || '\u00A0'}
+                    </p>
+
+                    <p className={styles.weeklyDescription}>
+                      {event.description}
+                    </p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {specialEventList.length > 0 && (
+          <div className={styles.specialSection}>
+            <div className={styles.subheadingRow}>
+              <p className={styles.sectionEyebrow}>Coming Up</p>
+
+              <h3 className={styles.subheading}>
+                Special Events
+              </h3>
+            </div>
+
+            <div className={styles.specialEvents}>
+              {specialEventList.map((event) => {
+                const { day, month } = getEventDate(event.date)
+
+                return (
+                  <article
+                    className={styles.specialEvent}
+                    key={event._key}
+                  >
+                    <time
+                      className={styles.date}
+                      dateTime={event.date}
+                    >
+                      <span className={styles.dateDay}>
+                        {day}
+                      </span>
+
+                      <span className={styles.dateMonth}>
+                        {month}
+                      </span>
+                    </time>
+
+                    <div className={styles.eventImage}>
+                      {event.image && (
+                        <Image
+                          src={event.image}
+                          alt={event.imageAlt ?? ''}
+                          fill
+                          sizes='(max-width: 550px) 100vw, 220px'
+                          className={styles.image}
+                        />
+                      )}
+                    </div>
+
+                    <div className={styles.eventContent}>
+                      <h4 className={styles.eventTitle}>
+                        {event.title}
+                      </h4>
+
+                      {event.time && (
+                        <p className={styles.weeklyTime}>
+                          {event.time}
+                        </p>
+                      )}
+
+                      <p className={styles.eventDescription}>
+                        {event.description}
+                      </p>
+                    </div>
+
+                    {event.price && (
+                      <p className={styles.price}>
+                        {event.price}
+                      </p>
+                    )}
+                  </article>
+                )
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+```
+
+## ./src/components/Events/Events.module.css
+```css
+.events {
+  position: relative;
+  z-index: 1;
+  padding-block: 6rem;
+  padding-inline: 6rem;
+  background: var(--dark-background);
+  color: var(--light-text);
+}
+
+.events::before,
+.events::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background: var(--dark-background);
+  filter: url('#roughen');
+  pointer-events: none;
+}
+
+.events::before {
+  top: -12px;
+}
+
+.events::after {
+  bottom: -12px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
+
+/* SECTION HEADINGS */
+
+.weeklySection {
+  margin-top: 5rem;
+}
+
+.specialSection {
+  margin-top: 6rem;
+}
+
+.subheadingRow {
+  margin-bottom: 2rem;
+}
+
+.sectionEyebrow {
+  margin: 0 0 0.6rem;
+  color: var(--primary-gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.subheading {
+  margin: 0;
+  color: var(--light-text);
+  font-size: 1.75rem;
+  font-weight: 300;
+  letter-spacing: -1px;
+}
+
+/* WEEKLY EVENTS */
+
+.weeklyGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.weeklyCard {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  align-items: start;
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  border: 0.25px solid rgba(200, 185, 149, 0.5);
+  background: rgba(248, 247, 244, 0.035);
+  transition:
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.weeklyCard:hover {
+  border-color: var(--accent-on-dark);
+  transform: translateY(-2px);
+}
+
+.dayName {
+  margin: 0;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--primary-gold);
+  color: var(--primary-gold);
+  font-family: var(--display-font), serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+:global(html[data-theme='convivio']) .dayName {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  justify-self: center;
+  padding-bottom: 0.85rem;
+  border-bottom: 0;
+}
+
+:global(html[data-theme='convivio']) .dayName::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 8px;
+  background: var(--primary-gold);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='0.75'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='8' viewBox='0 0 32 8'%3E%3Cpath d='M0 4 Q8 0 16 4 T32 4' fill='none' stroke='black' stroke-width='0.75'/%3E%3C/svg%3E") left center / 32px 8px repeat-x;
+}
+
+.weeklyContent {
+  min-width: 0;
+}
+
+.weeklyTitle {
+  margin: 0 0 0.4rem;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.weeklyTime {
+  margin: 0 0 0.9rem;
+  color: var(--primary-gold);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.weeklyDescription {
+  margin: 0;
+  color: var(--light-text);
+  opacity: 0.9;
+  font-size: 0.85rem;
+  font-weight: 200;
+  line-height: 1.6;
+}
+
+/* SPECIAL EVENTS */
+
+.specialEvents {
+  display: grid;
+  gap: 1rem;
+}
+
+.specialEvent {
+  display: grid;
+  grid-template-columns: 5rem 13rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 2rem 1rem 1.5rem;
+  border: 0.25px solid rgba(200, 185, 149, 0.5);
+  background: rgba(248, 247, 244, 0.035);
+  transition: border-color 180ms ease;
+}
+
+.specialEvent:hover {
+  transform: translateY(-2px);
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateDay {
+  color: var(--primary-gold);
+  font-family: var(--display-font), serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.dateMonth {
+  margin-top: 0.4rem;
+  color: rgba(242, 242, 242, 0.65);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.eventImage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.eventImage:empty {
+  visibility: hidden;
+}
+
+.image {
+  object-fit: cover;
+}
+
+.eventContent {
+  min-width: 0;
+}
+
+.eventMeta {
+  margin: 0 0 0.5rem;
+  color: var(--primary-gold);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.eventTitle {
+  margin: 0 0 0.6rem;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.eventDescription {
+  max-width: 38rem;
+  margin: 0;
+  color: var(--light-text);
+  opacity: 0.9;
+  font-size: 0.85rem;
+  font-weight: 200;
+  line-height: 1.6;
+}
+
+.price {
+  margin: 0;
+  color: var(--light-text);
+  font-family: var(--display-font), serif;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+:global(html[data-theme='convivio']) .sectionEyebrow,
+:global(html[data-theme='convivio']) .dayName,
+:global(html[data-theme='convivio']) .weeklyTime,
+:global(html[data-theme='convivio']) .dateDay,
+:global(html[data-theme='convivio']) .eventMeta {
+  color: var(--accent-on-dark);
+}
+
+:global(html[data-theme='convivio']) .dateMonth {
+  color: var(--accent-on-dark);
+  font-family: var(--display-font);
+  font-size: 1.1rem;
+}
+
+:global(html[data-theme='convivio']) .dayName::after {
+  background: var(--accent-on-dark);
+}
+
+/* CONTINUOUS DAY-NAME RIPPLE */
+
+@keyframes dayWaveRipple {
+  from {
+    -webkit-mask-position: 0 center;
+    mask-position: 0 center;
+  }
+
+  to {
+    -webkit-mask-position: 32px center;
+    mask-position: 32px center;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :global(html[data-theme='convivio']) .dayName::after {
+    animation: dayWaveRipple 4000ms linear infinite;
+  }
+
+  :global(html[data-theme='convivio'])
+    .weeklyCard:nth-child(even) .dayName::after {
+    animation-delay: -2000ms;
+  }
+}
+
+/* SMALL DESKTOP / TABLET */
+
+@media (max-width: 1350px) {
+  .events {
+    padding-inline: 3rem;
+  }
+
+  .weeklyGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .specialEvent {
+    grid-template-columns: 5rem 11rem minmax(0, 1fr);
+  }
+
+  .price {
+    grid-column: 3;
+  }
+}
+
+/* MOBILE / NARROW TABLET */
+
+@media (max-width: 1000px) {
+  .events {
+    padding-block: 4rem;
+    padding-inline: var(--inline-padding);
+  }
+
+  .weeklySection {
+    margin-top: 4rem;
+  }
+
+  .specialSection {
+    margin-top: 4rem;
+  }
+
+  .weeklyGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .specialEvent {
+    grid-template-columns: 4.5rem 9rem minmax(0, 1fr);
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+  }
+
+  .eventImage {
+    grid-column: 2;
+  }
+
+  .eventContent {
+    grid-column: 3;
+  }
+
+  .price {
+    grid-column: 3;
+  }
+
+  .date {
+    grid-row: auto;
+    padding-top: 0;
+  }
+
+  .eventTitle {
+    font-size: 1.3rem;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 550px) {
+  .weeklyCard {
+    grid-template-columns: 6rem minmax(0, 1fr);
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+
+  .dayName {
+    font-size: 0.9rem;
+  }
+
+  .specialEvent {
+    grid-template-columns: 1fr;
+    padding: 1.25rem;
+  }
+
+  .date {
+    grid-row: auto;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .dateDay {
+    font-size: 2rem;
+  }
+
+  .dateMonth {
+    margin-top: 0;
+  }
+
+  .eventImage,
+  .eventContent,
+  .price {
+    grid-column: 1;
+  }
+
+  .eventImage {
+    width: 100%;
+    height: 11rem;
+    aspect-ratio: auto;
+  }
+
+  .eventImage:empty {
+    display: none;
+  }
+}
+
+/* WEEKLY EVENTS OVERRIDES */
+
+.weeklyGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.weeklyCard {
+  grid-template-columns: 8rem minmax(0, 1fr);
+}
+
+.dayName {
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.weeklyPrice {
+  margin: 0 0 0.9rem;
+  color: var(--accent-on-dark, var(--primary-gold));
+  font-family: var(--body-copy-font), serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.weeklyDescription {
+  white-space: pre-line;
+}
+
+@media (max-width: 1000px) {
+  .weeklyGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 550px) {
+  .weeklyCard {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .weeklyCard .dayName {
+    justify-self: start;
+    text-align: left;
+  }
+}
+```
+
+## ./src/components/Menu/Menu.tsx
+```tsx
 'use client'
 
-import { visionTool } from '@sanity/vision'
-import { defineConfig } from 'sanity'
-import { structureTool } from 'sanity/structure'
+import { Fragment, useEffect, useState } from 'react'
+import SectionHeading from '../SectionHeading/SectionHeading'
+import { sectionHeadingData } from '@/data/sectionHeadingData'
+import styles from './Menu.module.css'
 
-import { apiVersion, dataset, projectId } from './src/sanity/env'
-import { schema } from './src/sanity/schemaTypes'
-import { structure } from './src/sanity/structure'
-import {
-  singletonActions,
-  singletonTypes
-} from './src/sanity/singletons'
-
-export default defineConfig({
-  name: 'default',
-  title: 'Convivio',
-  basePath: '/studio',
-  projectId,
-  dataset,
-
-  schema: {
-    ...schema,
-
-    templates: (templates) =>
-      templates.filter(
-        ({ schemaType }) => !singletonTypes.has(schemaType)
-      )
-  },
-
-  document: {
-    newDocumentOptions: (prev) =>
-      prev.filter(
-        ({ templateId }) => !singletonTypes.has(templateId)
-      ),
-
-    actions: (prev, context) =>
-      singletonTypes.has(context.schemaType)
-        ? prev.filter(
-            ({ action }) => action && singletonActions.has(action)
-          )
-        : prev
-  },
-
-  plugins: [
-    structureTool({ structure }),
-    visionTool({ defaultApiVersion: apiVersion })
-  ]
-})
-```
-
-## ./src/sanity/env.ts
-```ts
-export const apiVersion =
-  process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2026-09-23'
-
-export const dataset = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_DATASET,
-  'Missing environment variable: NEXT_PUBLIC_SANITY_DATASET'
-)
-
-export const projectId = assertValue(
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  'Missing environment variable: NEXT_PUBLIC_SANITY_PROJECT_ID'
-)
-
-function assertValue<T>(v: T | undefined, errorMessage: string): T {
-  if (v === undefined) {
-    throw new Error(errorMessage)
-  }
-
-  return v
+type FoodLine1Span = {
+  _key: string
+  _type: 'span'
+  text: string
+  marks?: string[]
 }
 
-```
-
-## ./src/sanity/structure.ts
-```ts
-import type { StructureResolver } from 'sanity/structure'
-import { singletonDocuments, singletonTypes } from './singletons'
-
-export const structure: StructureResolver = (S) =>
-  S.list()
-    .title('Content')
-    .items([
-      ...singletonDocuments.map(({ type, title }) =>
-        S.listItem()
-          .title(title)
-          .id(type)
-          .schemaType(type)
-          .child(
-            S.document()
-              .schemaType(type)
-              .documentId(type)
-          )
-      ),
-
-      ...S.documentTypeListItems().filter(
-        (item) => !singletonTypes.has(item.getId() ?? '')
-      )
-    ])
-```
-
-## ./src/sanity/singletons.ts
-```ts
-export const singletonDocuments = [
-  { type: 'menu', title: 'Food Menu' },
-  { type: 'drinksMenu', title: 'Drinks Menu' },
-  { type: 'gallery', title: 'Image Gallery' },
-  { type: 'events', title: 'Events' },
-  { type: 'testimonials', title: 'Reviews' },
-  { type: 'staff', title: 'Staff' },
-  { type: 'faq', title: 'FAQs' },
-  { type: 'businessDetails', title: 'Business Details' },
-  { type: 'about', title: 'About Section Images' }
-]
-
-export const singletonTypes = new Set(
-  singletonDocuments.map(({ type }) => type)
-)
-
-export const singletonActions = new Set([
-  'publish',
-  'discardChanges',
-  'restore'
-])
-```
-
-## ./src/sanity/lib/client.ts
-```ts
-import { createClient } from 'next-sanity'
-
-import { apiVersion, dataset, projectId } from '../env'
-
-export const client = createClient({
-  projectId,
-  dataset,
-  apiVersion,
-  useCdn: false, // Set to false if statically generating pages, using ISR or tag-based revalidation
-})
-
-```
-
-## ./src/sanity/lib/image.ts
-```ts
-import { createImageUrlBuilder, type SanityImageSource } from '@sanity/image-url'
-
-import { dataset, projectId } from '../env'
-
-// https://www.sanity.io/docs/image-url
-const builder = createImageUrlBuilder({ projectId, dataset })
-
-export const urlFor = (source: SanityImageSource) => {
-  return builder.image(source)
+type FoodLine1Block = {
+  _key: string
+  _type: 'block'
+  children: FoodLine1Span[]
 }
 
-```
-
-## ./src/sanity/lib/live.ts
-```ts
-// Querying with "sanityFetch" will keep content automatically updated
-// Before using it, import and render "<SanityLive />" in your layout, see
-// https://github.com/sanity-io/next-sanity#live-content-api for more information.
-import { defineLive } from "next-sanity/live";
-import { client } from './client'
-
-export const { sanityFetch, SanityLive } = defineLive({
-  client,
-});
-
-```
-
-## ./src/sanity/lib/queries.ts
-```ts
-export const menuQuery = `
-  {
-    'food': *[_type == 'menu' && _id == 'menu'][0] {
-      categories[] {
-        _key,
-        title,
-        items[] {
-          _key,
-          name,
-          foodLine1,
-          description,
-          price
-        }
-      }
-    },
-
-    'drinks': *[_type == 'drinksMenu' && _id == 'drinksMenu'][0] {
-      categories[] {
-        _key,
-        title,
-        items[] {
-          _key,
-          name,
-          description,
-          price
-        },
-        subcategories[] {
-          _key,
-          title,
-          items[] {
-            _key,
-            name,
-            description,
-            price
-          }
-        }
-      }
-    }
-  }
-`
-
-export const galleryQuery = `
-  *[_id == 'gallery'][0] {
-    images[] {
-      _key,
-      alt,
-      'src': image.asset->url
-    }
-  }
-`
-
-export const eventsQuery = `
-  *[_id == 'events'][0] {
-  
-    'weeklyEvents': coalesce(weeklyOffers[] {
-      _key,
-      schedule,
-      title,
-      time,
-      price,
-      description
-    }, []),
-
-    specialEvents[] {
-      _key,
-      date,
-      time,
-      title,
-      description,
-      price,
-      imageAlt,
-      'image': image.asset->url
-    }
-  }
-`
-
-export const testimonialsQuery = `
-  *[_id == 'testimonials'][0] {
-    reviews[] {
-      _key,
-      quote,
-      name,
-      rating,
-      source
-    }
-  }
-`
-
-export const businessDetailsQuery = `
-  *[_id == 'businessDetails'][0] {
-    phone,
-    email,
-    openingHours {
-      monday,
-      tuesday,
-      wednesday,
-      thursday,
-      friday,
-      saturday,
-      sunday
-    },
-    bookingUrl,
-    giftCardUrl,
-    instagramUrl,
-    facebookUrl
-  }
-`
-
-export const staffQuery = `
-  *[_type == 'staff' && _id == 'staff'][0] {
-    'groupImage': groupImage.asset->url,
-    groupImageAlt,
-    'members': coalesce(members[] {
-      _key,
-      name,
-      description
-    }, [])
-  }
-`
-
-export const faqQuery = `
-  *[_type == 'faq' && _id == 'faq'][0] {
-    'items': coalesce(items[] {
-      _key,
-      question,
-      answer
-    }, [])
-  }
-`
-
-export const aboutQuery = `
-  *[_id == 'about'][0] {
-    'imageOne': imageOne.asset->url,
-    imageOneAlt,
-    'imageTwo': imageTwo.asset->url,
-    imageTwoAlt
-  }
-`
-```
-
-## ./src/sanity/schemaTypes/index.ts
-```ts
-import { menuType } from './documents/menuType'
-import { galleryType } from './documents/galleryType'
-import { eventsType } from './documents/eventsType'
-import { testimonialsType } from './documents/testimonialsType'
-import { businessDetailsType } from './documents/businessDetailsType'
-import { staffType } from './documents/staffType'
-import { faqType } from './documents/faqType'
-import { aboutType } from './documents/aboutType'
-import { drinksMenuType } from './documents/drinksMenuType'
-
-
-import { menuCategoryType } from './objects/menuCategoryType'
-import { menuItemType } from './objects/menuItemType'
-import { galleryImageType } from './objects/galleryImageType'
-import { weeklyEventType } from './objects/weeklyEventType'
-import { specialEventType } from './objects/specialEventType'
-import { testimonialType } from './objects/testimonialType'
-import { openingHoursType } from './objects/openingHoursType'
-import { staffMemberType } from './objects/staffMemberType'
-import { faqItemType } from './objects/faqItemType'
-import { drinksCategoryType } from './objects/drinksCategoryType'
-import { menuSubcategoryType } from './objects/menuSubcategoryType'
-
-
-export const schema = {
-  types: [
-    menuType,
-    drinksMenuType,
-    galleryType,
-    eventsType,
-    testimonialsType,
-    businessDetailsType,
-    staffType,
-    faqType,
-    aboutType,
-
-    menuCategoryType,
-    drinksCategoryType,
-    menuSubcategoryType,
-    menuItemType,
-    galleryImageType,
-    weeklyEventType,
-    specialEventType,
-    testimonialType,
-    openingHoursType,
-    staffMemberType,
-    faqItemType
-  ]
+export type MenuItem = {
+  _key: string
+  name: string
+  foodLine1?: FoodLine1Block[]
+  description?: string
+  price: string
 }
-```
 
-## ./src/sanity/schemaTypes/documents/aboutType.ts
-```ts
-import { defineField, defineType } from 'sanity'
-
-export const aboutType = defineType({
-  name: 'about',
-  title: 'About Section Images',
-  type: 'document',
-
-  fields: [
-    defineField({
-      name: 'imageOne',
-      title: 'First Image',
-      type: 'image',
-      options: { hotspot: true },
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'imageOneAlt',
-      title: 'First Image Description',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'imageTwo',
-      title: 'Second Image',
-      type: 'image',
-      options: { hotspot: true },
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'imageTwoAlt',
-      title: 'Second Image Description',
-      type: 'string',
-      validation: (rule) => rule.required()
-    })
-  ],
-
-  preview: {
-    prepare() {
-      return { title: 'About Section Images' }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/documents/businessDetailsType.ts
-```ts
-import { defineField, defineType } from 'sanity'
-
-export const businessDetailsType = defineType({
-  name: 'businessDetails',
-  title: 'Business Details',
-  type: 'document',
-
-  fields: [
-    defineField({
-      name: 'phone',
-      title: 'Phone Number',
-      type: 'string',
-    }),
-
-    defineField({
-      name: 'email',
-      title: 'Email Address',
-      type: 'string',
-    }),
-
-    defineField({
-      name: 'openingHours',
-      title: 'Opening Hours',
-      type: 'openingHours',
-    }),
-
-    defineField({
-      name: 'bookingUrl',
-      title: 'Booking Link',
-      type: 'url',
-    }),
-
-    defineField({
-      name: 'giftCardUrl',
-      title: 'Gift Card Link',
-      type: 'url',
-    }),
-
-    defineField({
-      name: 'instagramUrl',
-      title: 'Instagram Link',
-      type: 'url'
-    }),
-
-    defineField({
-      name: 'facebookUrl',
-      title: 'Facebook Link',
-      type: 'url'
-    }),
-  ],
-
-  preview: {
-    prepare() {
-      return {
-        title: 'Business Details'
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/documents/drinksMenuType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const drinksMenuType = defineType({
-  name: 'drinksMenu',
-  title: 'Drinks Menu Categories',
-  type: 'document',
-
-  fields: [
-    defineField({
-      name: 'categories',
-      title: 'Drinks Menu Categories',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'drinksCategory'
-        })
-      ],
-      initialValue: []
-    })
-  ],
-
-  preview: {
-    prepare() {
-      return {
-        title: 'Drinks Menu'
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/documents/eventsType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const eventsType = defineType({
-  name: 'events',
-  title: 'Events',
-  type: 'document',
-
-  fields: [
-    defineField({
-      name: 'weeklyOffers',
-      title: 'Weekly Offers',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'weeklyEvent'
-        })
-      ],
-      initialValue: []
-    }),
-
-    defineField({
-      name: 'specialEvents',
-      title: 'Special Events',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'specialEvent'
-        })
-      ]
-    })
-  ],
-
-  preview: {
-    prepare() {
-      return {
-        title: 'Events'
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/documents/faqType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const faqType = defineType({
-  name: 'faq',
-  title: 'FAQs',
-  type: 'document',
-
-  fields: [
-    defineField({
-      name: 'items',
-      title: 'Questions and Answers',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'faqItem'
-        })
-      ],
-      initialValue: []
-    })
-  ],
-
-  preview: {
-    prepare() {
-      return {
-        title: 'FAQs'
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/documents/galleryType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const galleryType = defineType({
-  name: 'gallery',
-  title: 'Gallery',
-  type: 'document',
-
-  fields: [
-    defineField({
-      name: 'images',
-      title: 'Image Gallery',
-      type: 'array',
-      description:
-        'Add up to 12 images',
-      of: [
-        defineArrayMember({
-          type: 'galleryImage'
-        })
-      ],
-      validation: (rule) => rule.required().min(1).max(12)
-    })
-  ],
-
-  preview: {
-    prepare() {
-      return {
-        title: 'Image Gallery'
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/documents/menuType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const menuType = defineType({
-  name: 'menu',
-  title: 'Food Menu',
-  type: 'document',
-
-  fields: [
-    defineField({
-      name: 'categories',
-      title: 'Food Menu Categories',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'menuCategory'
-        })
-      ],
-      initialValue: []
-    })
-  ],
-
-  preview: {
-    prepare() {
-      return {
-        title: 'Food Menu'
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/documents/staffType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const staffType = defineType({
-  name: 'staff',
-  title: 'Staff',
-  type: 'document',
-
-  fields: [
-    defineField({
-      name: 'groupImage',
-      title: 'Staff Photo',
-      type: 'image',
-      description:
-        'Optional',
-      options: {
-        hotspot: true
-      }
-    }),
-
-    defineField({
-      name: 'groupImageAlt',
-      title: 'Image Description',
-      type: 'string',
-      description:
-        'Required when an image is included',
-      validation: (rule) =>
-        rule.custom((value, context) => {
-          const document = context.document as {
-            groupImage?: {
-              asset?: {
-                _ref?: string
-              }
-            }
-          } | undefined
-
-          if (
-            document?.groupImage?.asset?._ref &&
-            !value?.trim()
-          ) {
-            return 'Add a description for the photo'
-          }
-
-          return true
-        })
-    }),
-
-    defineField({
-      name: 'members',
-      title: 'Staff Members',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'staffMember'
-        })
-      ],
-      initialValue: []
-    })
-  ],
-
-  preview: {
-    select: {
-      media: 'groupImage'
-    },
-
-    prepare({ media }) {
-      return {
-        title: 'Staff',
-        media
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/documents/testimonialsType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const testimonialsType = defineType({
-  name: 'testimonials',
-  title: 'Testimonials',
-  type: 'document',
-
-  fields: [
-    defineField({
-      name: 'reviews',
-      title: 'Reviews',
-      type: 'array',
-      description:
-        'Add, remove or reorder the customer reviews displayed on the website',
-      of: [
-        defineArrayMember({
-          type: 'testimonial'
-        })
-      ]
-    })
-  ],
-
-  preview: {
-    prepare() {
-      return {
-        title: 'Testimonials'
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/objects/drinksCategoryType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const drinksCategoryType = defineType({
-  name: 'drinksCategory',
-  title: 'Drinks Category',
-  type: 'object',
-
-  fields: [
-    defineField({
-      name: 'title',
-      title: 'Category Name',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'items',
-      title: 'Items Without a Subcategory',
-      type: 'array',
-      description:
-        'These items appear first, above any subcategories',
-      of: [
-        defineArrayMember({
-          type: 'menuItem'
-        })
-      ],
-      initialValue: []
-    }),
-
-    defineField({
-      name: 'subcategories',
-      title: 'Subcategories',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'menuSubcategory'
-        })
-      ],
-      initialValue: []
-    })
-  ],
-
-  preview: {
-    select: {
-      title: 'title',
-      items: 'items',
-      subcategories: 'subcategories'
-    },
-
-    prepare({ title, items, subcategories }) {
-      return {
-        title,
-        subtitle:
-          `${items?.length ?? 0} direct items · ` +
-          `${subcategories?.length ?? 0} subcategories`
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/objects/faqItemType.ts
-```ts
-import { defineField, defineType } from 'sanity'
-
-export const faqItemType = defineType({
-  name: 'faqItem',
-  title: 'Question and Answer',
-  type: 'object',
-
-  fields: [
-    defineField({
-      name: 'question',
-      title: 'Question',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'answer',
-      title: 'Answer',
-      type: 'text',
-      rows: 4,
-      validation: (rule) => rule.required()
-    })
-  ],
-
-  preview: {
-    select: {
-      title: 'question',
-      subtitle: 'answer'
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/objects/galleryImageType.ts
-```ts
-import { defineField, defineType } from 'sanity'
-
-export const galleryImageType = defineType({
-  name: 'galleryImage',
-  title: 'Gallery Image',
-  type: 'object',
-
-  fields: [
-    defineField({
-      name: 'image',
-      title: 'Photo',
-      type: 'image',
-      options: {
-        hotspot: true
-      },
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'alt',
-      title: 'Image Description',
-      type: 'string',
-      validation: (rule) => rule.required()
-    })
-  ],
-
-  preview: {
-    select: {
-      title: 'alt',
-      media: 'image'
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/objects/menuCategoryType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const menuCategoryType = defineType({
-  name: 'menuCategory',
-  title: 'Menu Category',
-  type: 'object',
-
-  fields: [
-    defineField({
-      name: 'title',
-      title: 'Category Name',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'items',
-      title: 'Menu Items',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'menuItem'
-        })
-      ]
-    })
-  ],
-
-  preview: {
-    select: {
-      title: 'title',
-      items: 'items'
-    },
-
-    prepare({ title, items }) {
-      return {
-        title,
-        subtitle: `${items?.length ?? 0} items`
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/objects/menuSubCategoryType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const menuSubcategoryType = defineType({
-  name: 'menuSubcategory',
-  title: 'Menu Subcategory',
-  type: 'object',
-
-  fields: [
-    defineField({
-      name: 'title',
-      title: 'Subcategory Heading',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'items',
-      title: 'Menu Items',
-      type: 'array',
-      description:
-        'Add items and drag them to change their order.',
-      of: [
-        defineArrayMember({
-          type: 'menuItem'
-        })
-      ],
-      initialValue: []
-    })
-  ],
-
-  preview: {
-    select: {
-      title: 'title',
-      items: 'items'
-    },
-
-    prepare({ title, items }) {
-      return {
-        title,
-        subtitle: `${items?.length ?? 0} items`
-      }
-    }
-  }
-})
-```
-
-## ./src/sanity/schemaTypes/objects/menuItemType.ts
-```ts
-import { defineArrayMember, defineField, defineType } from 'sanity'
-
-export const menuItemType = defineType({
-  name: 'menuItem',
-  title: 'Menu Item',
-  type: 'object',
-
-  fields: [
-    defineField({
-      name: 'foodLine1',
-      title: 'Line 1',
-      type: 'array',
-      hidden: ({ document }) => document?._type !== 'menu',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          styles: [],
-          lists: [],
-          marks: {
-            decorators: [
-              { title: 'Bold', value: 'strong' },
-              { title: 'Italic', value: 'em' }
-            ],
-            annotations: []
-          }
-        })
-      ],
-      validation: (rule) => rule.max(1).custom((value, context) => {
-        if (context.document?._type !== 'menu') return true
-        const blocks = value as { children?: { text?: string }[] }[] | undefined
-        const text = blocks?.map((block) =>
-          block.children?.map((span) => span.text ?? '').join('') ?? ''
-        ).join('').trim()
-        const parent = context.parent as { name?: string } | undefined
-        return text || parent?.name?.trim()
-          ? true
-          : 'Enter Line 1 text.'
-      })
-    }),
-    defineField({
-      name: 'name',
-      title: 'Line 1',
-      type: 'string',
-      hidden: ({ document, parent }) =>
-        document?._type === 'menu' && !!parent?.foodLine1?.length,
-      validation: (rule) => rule.custom((value, context) =>
-      context.document?._type === 'menu' || value?.trim()
-        ? true
-        : 'Enter Line 1 text.'
+export type MenuSubcategory = {
+  _key: string
+  title: string
+  items?: MenuItem[]
+}
+
+export type MenuCategory = {
+  _key: string
+  title: string
+  items?: MenuItem[]
+  subcategories?: MenuSubcategory[]
+}
+
+type MenuProps = {
+  foodCategories: MenuCategory[]
+  drinksCategories: MenuCategory[]
+}
+
+type MenuId = 'food' | 'drinks'
+
+type MenuDefinition = {
+  id: MenuId
+  label: string
+  categories: MenuCategory[]
+}
+
+type MenuSelection = {
+  menuId: MenuId
+  categoryKey: string | null
+  previousCategory: MenuCategory | null
+  previousMenu: MenuDefinition | null
+  version: number
+}
+
+function getDefaultCategory(menuId: MenuId, categories: MenuCategory[]) {
+  if (menuId === 'food') {
+    return (
+      categories.find(
+        (category) => category.title.trim().toLowerCase() === 'small'
+      ) ??
+      categories[0] ??
+      null
     )
-    }),
-
-    defineField({
-      name: 'description',
-      title: 'Line 2',
-      type: 'text',
-      rows: 2,
-    }),
-
-    defineField({
-      name: 'price',
-      title: 'Price',
-      type: 'string',
-      validation: (rule) => rule.required()
-    })
-  ],
-
-  preview: {
-    select: {
-      title: 'name',
-      foodLine1: 'foodLine1',
-      subtitle: 'price'
-    },
-    prepare({ title, foodLine1, subtitle }) {
-      const formattedTitle = foodLine1?.map((block: { children?: { text?: string }[] }) =>
-        block.children?.map((span) => span.text ?? '').join('') ?? ''
-      ).join(' ')
-      return { title: formattedTitle || title || 'Menu Item', subtitle }
-    }
   }
-})
 
-```
+  return categories[0] ?? null
+}
 
-## ./src/sanity/schemaTypes/objects/openingHoursType.ts
-```ts
-import { defineField, defineType } from 'sanity'
+function FoodLine1({ blocks }: { blocks: FoodLine1Block[] }) {
+  return (
+    <>
+      {blocks.map((block, index) => (
+        <Fragment key={block._key}>
+          {index > 0 && <br />}
+          {block.children.map((span) => {
+            const text = span.text.split('\n').map((line, lineIndex) => (
+              <Fragment key={lineIndex}>
+                {lineIndex > 0 && <br />}
+                {line}
+              </Fragment>
+            ))
+            const emphasis = span.marks?.includes('em') ? <em>{text}</em> : text
 
-export const openingHoursType = defineType({
-  name: 'openingHours',
-  title: 'Opening Hours',
-  type: 'object',
+            return (
+              <Fragment key={span._key}>
+                {span.marks?.includes('strong') ? (
+                  <strong>{emphasis}</strong>
+                ) : (
+                  emphasis
+                )}
+              </Fragment>
+            )
+          })}
+        </Fragment>
+      ))}
+    </>
+  )
+}
 
-  fields: [
-    defineField({
-      name: 'monday',
-      title: 'Monday',
-      type: 'string'
-    }),
+function MenuItems({ items, menuId }: { items?: MenuItem[]; menuId: MenuId }) {
+  return (
+    <div className={styles.menuGrid}>
+      {items?.map((item) => (
+        <article className={styles.menuItem} key={item._key}>
+          <div className={styles.itemContent}>
+            <div className={styles.itemTop}>
+              <div className={styles.itemLabel}>
+                <h4
+                  className={`${styles.itemName} ${
+                    menuId === 'food' && item.foodLine1?.length
+                      ? styles.foodLine1
+                      : ''
+                  }`}
+                >
+                  {menuId === 'food' && item.foodLine1?.length ? (
+                    <FoodLine1 blocks={item.foodLine1} />
+                  ) : (
+                    item.name
+                  )}
+                </h4>
 
-    defineField({
-      name: 'tuesday',
-      title: 'Tuesday',
-      type: 'string'
-    }),
+                <span className={styles.dots} aria-hidden='true' />
+              </div>
 
-    defineField({
-      name: 'wednesday',
-      title: 'Wednesday',
-      type: 'string'
-    }),
+              <span className={styles.price}>{item.price}</span>
+            </div>
 
-    defineField({
-      name: 'thursday',
-      title: 'Thursday',
-      type: 'string'
-    }),
+            {item.description && (
+              <p className={styles.description}>{item.description}</p>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  )
+}
 
-    defineField({
-      name: 'friday',
-      title: 'Friday',
-      type: 'string'
-    }),
+function CategoryContent({
+  category,
+  menuId
+}: {
+  category: MenuCategory | null
+  menuId: MenuId
+}) {
+  if (!category) {
+    return <p className={styles.emptyMessage}>This menu is being updated.</p>
+  }
 
-    defineField({
-      name: 'saturday',
-      title: 'Saturday',
-      type: 'string'
-    }),
+  return (
+    <div className={styles.categoryContent}>
+      {!!category.items?.length && (
+        <MenuItems items={category.items} menuId={menuId} />
+      )}
 
-    defineField({
-      name: 'sunday',
-      title: 'Sunday',
-      type: 'string'
-    })
+      {category.subcategories?.map((subcategory) => (
+        <section className={styles.subcategory} key={subcategory._key}>
+          <h3 className={styles.subcategoryHeading}>{subcategory.title}</h3>
+
+          <MenuItems items={subcategory.items} menuId={menuId} />
+        </section>
+      ))}
+    </div>
+  )
+}
+
+export default function Menu({ foodCategories, drinksCategories }: MenuProps) {
+  const menus: MenuDefinition[] = [
+    {
+      id: 'food',
+      label: 'Chefs Selection',
+      categories: foodCategories
+    },
+    {
+      id: 'drinks',
+      label: 'Wine List & Drinks',
+      categories: drinksCategories
+    }
   ]
-})
-```
 
-## ./src/sanity/schemaTypes/objects/specialEventType.ts
-```ts
-import { defineField, defineType } from 'sanity'
+  const [selection, setSelection] = useState<MenuSelection>(() => ({
+    menuId: 'food',
+    categoryKey: getDefaultCategory('food', foodCategories)?._key ?? null,
+    previousCategory: null,
+    previousMenu: null,
+    version: 0
+  }))
 
-export const specialEventType = defineType({
-  name: 'specialEvent',
-  title: 'Special Event',
-  type: 'object',
+  const activeMenu =
+    menus.find((menu) => menu.id === selection.menuId) ?? menus[0]
 
-  fields: [
-    defineField({
-      name: 'title',
-      title: 'Event Name',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
+  const activeCategory =
+    activeMenu.categories.find(
+      (category) => category._key === selection.categoryKey
+    ) ?? getDefaultCategory(activeMenu.id, activeMenu.categories)
 
-    defineField({
-      name: 'date',
-      title: 'Event Date',
-      type: 'date',
-      validation: (rule) => rule.required()
-    }),
+  useEffect(() => {
+    if (selection.version === 0) return
 
-    defineField({
-      name: 'time',
-      title: 'Time',
-      type: 'string',
-    }),
+    const version = selection.version
 
-    defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-      rows: 3,
-      description: 'Maximum 250 characters',
-      validation: (rule) =>
-        rule.required().max(250)
-          }),
-
-    defineField({
-        name: 'image',
-        title: 'Event Photo',
-        type: 'image',
-        description: 'Optional',
-        options: {
-          hotspot: true
-        }
-      }),
-
-      defineField({
-        name: 'imageAlt',
-        title: 'Image Description',
-        type: 'string',
-        description:
-          'Required when an image is included',
-
-        validation: (rule) =>
-          rule.custom((value, context) => {
-            const parent = context.parent as {
-              image?: unknown
+    const timeout = window.setTimeout(() => {
+      setSelection((current) =>
+        current.version === version
+          ? {
+              ...current,
+              previousCategory: null,
+              previousMenu: null
             }
+          : current
+      )
+    }, 600)
 
-            if (parent?.image && !value) {
-              return 'Image description is required'
-            }
+    return () => window.clearTimeout(timeout)
+  }, [selection.version])
 
-            return true
-          })
-      }),
+  function changeMenu(menu: MenuDefinition) {
+    if (menu.id === activeMenu.id) return
 
-    defineField({
-      name: 'price',
-      title: 'Price',
-      type: 'string',
-      description:
-        'Optional'
+    setSelection({
+      menuId: menu.id,
+      categoryKey: getDefaultCategory(menu.id, menu.categories)?._key ?? null,
+      previousCategory: activeCategory,
+      previousMenu: activeMenu,
+      version: selection.version + 1
     })
-  ],
-
-  preview: {
-    select: {
-      title: 'title',
-      date: 'date',
-      media: 'image'
-    },
-
-    prepare({ title, date, media }) {
-      return {
-        title,
-        subtitle: date || 'Date not set',
-        media
-      }
-    }
   }
-})
+
+  function changeCategory(category: MenuCategory) {
+    if (category._key === activeCategory?._key) return
+
+    setSelection({
+      menuId: activeMenu.id,
+      categoryKey: category._key,
+      previousCategory: activeCategory,
+      previousMenu: null,
+      version: selection.version + 1
+    })
+  }
+
+  if (foodCategories.length === 0 && drinksCategories.length === 0) {
+    return null
+  }
+
+  return (
+    <section className={styles.pricing} id='menu'>
+      <div className={styles.container}>
+        <SectionHeading {...sectionHeadingData.menu} />
+
+        <nav className={styles.menuButtons} aria-label='Choose a menu'>
+          {menus.map((menu, index) => (
+            <Fragment key={menu.id}>
+              <button
+                className={`${styles.menuButton} ${
+                  activeMenu.id === menu.id ? styles.active : ''
+                }`}
+                type='button'
+                aria-pressed={activeMenu.id === menu.id}
+                onClick={() => changeMenu(menu)}
+              >
+                {menu.label}
+              </button>
+
+              {index < menus.length - 1 && (
+                <span className={styles.separator} aria-hidden='true'>
+                  |
+                </span>
+              )}
+            </Fragment>
+          ))}
+        </nav>
+
+        <div className={styles.categoryWindow}>
+          {selection.previousMenu && (
+            <div
+              className={`${styles.categories} ${styles.outgoingCategories}`}
+              aria-hidden='true'
+              key={`previous-${selection.version}`}
+            >
+              {selection.previousMenu.categories.map(
+                (category, index, categories) => (
+                  <Fragment key={category._key}>
+                    <span className={styles.categoryButton}>
+                      {category.title}
+                    </span>
+
+                    {index < categories.length - 1 && (
+                      <span className={styles.separator}>|</span>
+                    )}
+                  </Fragment>
+                )
+              )}
+            </div>
+          )}
+
+          <nav
+            className={`${styles.categories} ${
+              selection.previousMenu ? styles.incomingCategories : ''
+            }`}
+            aria-label={`${activeMenu.label} categories`}
+            key={activeMenu.id}
+          >
+            {activeMenu.categories.map((category, index) => (
+              <Fragment key={category._key}>
+                <button
+                  className={`${styles.categoryButton} ${
+                    activeCategory?._key === category._key ? styles.active : ''
+                  }`}
+                  type='button'
+                  aria-pressed={activeCategory?._key === category._key}
+                  onClick={() => changeCategory(category)}
+                >
+                  {category.title}
+                </button>
+
+                {index < activeMenu.categories.length - 1 && (
+                  <span className={styles.separator} aria-hidden='true'>
+                    |
+                  </span>
+                )}
+              </Fragment>
+            ))}
+          </nav>
+        </div>
+
+        <div className={styles.menuWindow}>
+          {selection.previousCategory && (
+            <div className={styles.previousMenu} aria-hidden='true'>
+              <CategoryContent
+                category={selection.previousCategory}
+                menuId={selection.previousMenu?.id ?? activeMenu.id}
+              />
+            </div>
+          )}
+
+          <div
+            className={`${styles.menuPanel} ${
+              selection.version > 0 ? styles.incomingMenu : ''
+            }`}
+            key={`${activeMenu.id}-${activeCategory?._key ?? 'empty'}-${selection.version}`}
+          >
+            <CategoryContent category={activeCategory} menuId={activeMenu.id} />
+          </div>
+        </div>
+
+        {activeMenu.id === 'food' && (
+          <p className={styles.dietaryKey}>
+            V = Vegetarian, VG = Vegan, GF = Gluten Free, DF = Dairy Free, NF =
+            Nut Free
+          </p>
+        )}
+      </div>
+    </section>
+  )
+}
+
 ```
 
-## ./src/sanity/schemaTypes/objects/testimonialType.ts
-```ts
-import { defineField, defineType } from 'sanity'
+## ./src/components/Menu/Menu.module.css
+```css
+.pricing {
+  position: relative;
+  z-index: 1;
+  padding: 6rem;
+  background: var(--primary-black);
+  color: var(--light-text);
+}
 
-export const testimonialType = defineType({
-  name: 'testimonial',
-  title: 'Review',
-  type: 'object',
+.pricing::before,
+.pricing::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 24px;
+  background: var(--primary-black);
+  filter: url('#roughen');
+  pointer-events: none;
+}
 
-  fields: [
-    defineField({
-      name: 'quote',
-      title: 'Review',
-      type: 'text',
-      rows: 4,
-      description: 'Maximum 250 characters',
-      validation: (rule) => rule.required().max(250)
-    }),
+.pricing::before {
+  top: -12px;
+}
 
-    defineField({
-      name: 'name',
-      title: 'Customer Name',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
+.pricing::after {
+  bottom: -12px;
+}
 
-    defineField({
-      name: 'rating',
-      title: 'Rating',
-      type: 'number',
-      initialValue: 5,
-      options: {
-        list: [
-          { title: '1 star', value: 1 },
-          { title: '2 stars', value: 2 },
-          { title: '3 stars', value: 3 },
-          { title: '4 stars', value: 4 },
-          { title: '5 stars', value: 5 }
-        ]
-      },
-      validation: (rule) => rule.integer().min(1).max(5)
-    }),
+.container {
+  width: 100%;
+  max-width: var(--page-width);
+  margin-inline: auto;
+}
 
-    defineField({
-      name: 'source',
-      title: 'Review Source',
-      type: 'string'
-    })
-  ],
+.menuButtons,
+.categories {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
 
-  preview: {
-    select: {
-      title: 'name',
-      subtitle: 'source'
-    }
+.menuButtons {
+  margin: 3rem 0 2rem;
+}
+
+.menuButton,
+.categoryButton {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--light-text);
+  cursor: pointer;
+}
+
+.menuButton {
+  font-family: var(--display-font), serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.categoryButton {
+  font-family: var(--body-copy-font), serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.menuButton:hover,
+.categoryButton:hover {
+  opacity: 0.65;
+}
+
+.active {
+  color: var(--primary-gold);
+}
+
+.active:hover {
+  opacity: 1;
+}
+
+.menuButton:focus-visible,
+.categoryButton:focus-visible {
+  outline: 2px solid var(--accent-on-dark);
+  outline-offset: 4px;
+}
+
+.separator {
+  color: var(--light-text);
+  opacity: 0.2;
+}
+
+.categoryWindow {
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 4rem;
+  padding: 0.5rem;
+}
+
+.categories {
+  position: relative;
+  margin: 0;
+}
+
+.outgoingCategories {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  left: 0.5rem;
+  pointer-events: none;
+  animation: categoriesOut 0.6s ease both;
+}
+
+.incomingCategories {
+  animation: categoriesIn 0.6s ease both;
+}
+
+@keyframes categoriesOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
   }
-})
-```
 
-## ./src/sanity/schemaTypes/objects/weeklyEventType.ts
-```ts
-import { defineField, defineType } from 'sanity'
-
-export const weeklyEventType = defineType({
-  name: 'weeklyEvent',
-  title: 'Weekly Offer',
-  type: 'object',
-
-  fields: [
-    defineField({
-      name: 'schedule',
-      title: 'Days / Schedule',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'title',
-      title: 'Event',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'time',
-      title: 'Time',
-      type: 'string',
-      description: 'Optional'
-    }),
-
-    defineField({
-      name: 'price',
-      title: 'Price',
-      type: 'string',
-      description: 'Optional'
-    }),
-
-    defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-      rows: 5,
-      description: 'Maximum 500 characters.',
-      validation: (rule) => rule.required().max(500)
-    })
-  ],
-
-  preview: {
-    select: {
-      title: 'title',
-      subtitle: 'schedule'
-    }
+  to {
+    transform: translateX(110%);
+    opacity: 0;
   }
-})
-```
+}
 
-## ./src/sanity/schemaTypes/objects/staffMemberType.ts
-```ts
-import { defineField, defineType } from 'sanity'
-
-export const staffMemberType = defineType({
-  name: 'staffMember',
-  title: 'Staff Member',
-  type: 'object',
-
-  fields: [
-    defineField({
-      name: 'name',
-      title: 'Name',
-      type: 'string',
-      validation: (rule) => rule.required()
-    }),
-
-    defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-      rows: 5,
-      validation: (rule) => rule.required()
-    })
-  ],
-
-  preview: {
-    select: {
-      title: 'name',
-      subtitle: 'description'
-    }
+@keyframes categoriesIn {
+  from {
+    transform: translateX(-110%);
+    opacity: 0;
   }
-})
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.menuWindow {
+  position: relative;
+  overflow: hidden;
+}
+
+.menuPanel {
+  position: relative;
+  background: var(--primary-black);
+}
+
+.previousMenu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+}
+
+.incomingMenu {
+  z-index: 1;
+  box-shadow: 0 -1rem 2rem rgba(0, 0, 0, 0.2);
+  animation: turnPage 0.6s ease;
+}
+
+@keyframes turnPage {
+  from {
+    transform: translateY(100%);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+.categoryContent {
+  display: grid;
+  gap: 3.5rem;
+}
+
+.menuGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem 4rem;
+}
+
+.subcategory {
+  min-width: 0;
+}
+
+.subcategoryHeading {
+  margin: 0 0 1.75rem;
+  color: var(--primary-gold);
+  font-family: var(--strong-font), serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.menuItem {
+  min-width: 0;
+}
+
+.itemContent {
+  min-width: 0;
+}
+
+.itemTop {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  column-gap: 1.125rem;
+}
+
+.itemLabel {
+  font-family: var(--body-copy-font), serif;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 1.15rem;
+  line-height: 1.45;
+}
+
+.itemName {
+  display: inline;
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  color: var(--light-text);
+  font-family: var(--strong-font), serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.dots {
+  display: inline-block;
+  width: 100%;
+  height: 1px;
+  margin-left: 1.125rem;
+  margin-right: calc(-100% - 1.125rem);
+  vertical-align: 0.12em;
+  opacity: 0.3;
+  background: repeating-linear-gradient(
+    to right,
+    var(--light-text) 0,
+    var(--light-text) 0.75px,
+    transparent 0.75px,
+    transparent 5px
+  );
+}
+
+.price {
+  flex-shrink: 0;
+  color: var(--primary-gold);
+  font-family: var(--body-copy-font), serif;
+  font-size: 1.15rem;
+  font-weight: 400;
+  line-height: 1.45;
+  white-space: nowrap;
+}
+
+.description {
+  margin: 0.35rem 0 0;
+  color: var(--light-text);
+  font-family: var(--body-copy-font), serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.6;
+  opacity: 0.5;
+  white-space: pre-line;
+}
+
+.emptyMessage {
+  margin: 0;
+  text-align: center;
+  opacity: 0.65;
+}
+
+.dietaryKey {
+  margin: 2.5rem 0 0;
+  color: var(--light-text);
+  font-family: var(--body-copy-font), serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 1200px) {
+  .pricing {
+    padding-block: 4rem;
+    padding-inline: var(--inline-padding);
+  }
+
+  .menuButtons,
+  .categories {
+    gap: 0.75rem;
+  }
+
+  .menuButtons {
+    margin-top: 2.5rem;
+  }
+
+  .categoryWindow {
+    margin-bottom: 3rem;
+  }
+
+  .categoryButton {
+    font-size: 1.1rem;
+  }
+
+  .menuGrid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+
+  .itemLabel,
+  .itemName,
+  .price {
+    font-size: 1rem;
+  }
+
+  .itemTop {
+    column-gap: 0.75rem;
+  }
+
+  .dots {
+    margin-left: 0.75rem;
+    margin-right: calc(-100% - 0.75rem);
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+
+  .subcategoryHeading {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .menuButtons {
+    flex-direction: column;
+  }
+
+  .menuButtons > .separator {
+    display: none;
+  }
+
+  .menuButton {
+    font-size: 1.1rem;
+  }
+
+  .categoryContent {
+    gap: 3rem;
+  }
+
+  .subcategoryHeading {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .incomingMenu,
+  .incomingCategories {
+    animation: none;
+  }
+
+  .outgoingCategories {
+    display: none;
+  }
+}
+
+/* Formatted food text uses regular weight unless the editor applies bold. */
+.foodLine1 {
+  font-family: var(--body-copy-font), serif;
+  font-weight: 400;
+  overflow-wrap: break-word;
+}
+
+.foodLine1 strong {
+  color: var(--primary-gold);
+  font-family: var(--strong-font), serif;
+  font-weight: 700;
+}
+
+.foodLine1 em {
+  font-style: italic;
+}
+
+/* Reserve space before food prices while keeping the dotted leader. */
+
+.itemLabel {
+  --leader-reserve: 0rem;
+  --leader-text-gap: 1.125rem;
+  padding-right: var(--leader-reserve);
+}
+
+.itemLabel:has(.foodLine1) {
+  --leader-reserve: 6rem;
+}
+
+.dots {
+  width: calc(100% + var(--leader-reserve));
+  margin-left: var(--leader-text-gap);
+  margin-right: calc(
+    -100% - var(--leader-reserve) - var(--leader-text-gap)
+  );
+  vertical-align: 0;
+  opacity: 1;
+  background: repeating-linear-gradient(
+    to right,
+    var(--light-text) 0,
+    var(--light-text) 0.75px,
+    transparent 0.75px,
+    transparent 5px
+  );
+}
+
+@media (max-width: 1200px) {
+  .itemLabel {
+    --leader-text-gap: 0.75rem;
+  }
+}
+
 ```

@@ -154,3 +154,34 @@
     transform: none;
   }
 }
+
+:global(html[data-theme='convivio']) .aboutCta a {
+  border-color: var(--cta-btn-accent-dark);
+  color: var(--cta-btn-accent-dark);
+}
+
+:global(html[data-theme='convivio']) .aboutCta a:hover {
+  border-color: var(--primary-blue);
+  background: var(--primary-blue);
+  color: var(--light-text);
+}
+
+:global(html[data-theme='convivio']) .aboutCta a:focus-visible {
+  outline-color: var(--cta-btn-accent-dark);
+}
+
+@media (max-width: 800px) {
+  .content > .paragraph:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .aboutCta {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  .container {
+    gap: 3rem;
+  }
+}

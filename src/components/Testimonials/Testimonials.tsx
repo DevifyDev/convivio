@@ -85,6 +85,83 @@ function ReviewQuote({ quote }: { quote: string }) {
 }
 
 export default function Testimonials({ testimonials }: TestimonialsProps) {
+  const reviewsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const container = reviewsRef.current
+    if (!container || !('IntersectionObserver' in window)) return
+
+    const stacked = window.matchMedia('(max-width: 1300px)')
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const slots = Array.from(
+      container.querySelectorAll<HTMLElement>('[data-review-slot]')
+    )
+    const revealed = new WeakSet<HTMLElement>()
+    let observer: IntersectionObserver | undefined
+
+    const configure = () => {
+      observer?.disconnect()
+
+      slots.forEach((slot) => {
+        slot.classList.remove(styles.animate, styles.visible)
+      })
+
+      if (!stacked.matches || reducedMotion.matches) return
+
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            // Tall reviews use a viewport-based fallback.
+            const requiredHeight = Math.min(
+              entry.boundingClientRect.height * 0.15,
+              (entry.rootBounds?.height ?? window.innerHeight) * 0.75
+            )
+
+            if (
+              !entry.isIntersecting ||
+              entry.intersectionRect.height < requiredHeight
+            ) {
+              return
+            }
+
+            const slot = entry.target as HTMLElement
+            revealed.add(slot)
+            slot.classList.add(styles.visible)
+            observer?.unobserve(slot)
+          })
+        },
+        {
+          rootMargin: '0px',
+          threshold: Array.from({ length: 101 }, (_, index) => index / 100)
+        }
+      )
+
+      slots.forEach((slot) => {
+        slot.classList.add(styles.animate)
+
+        if (revealed.has(slot)) {
+          slot.classList.add(styles.visible)
+        } else {
+          observer?.observe(slot)
+        }
+      })
+    }
+
+    configure()
+    stacked.addEventListener('change', configure)
+    reducedMotion.addEventListener('change', configure)
+
+    return () => {
+      observer?.disconnect()
+      stacked.removeEventListener('change', configure)
+      reducedMotion.removeEventListener('change', configure)
+
+      slots.forEach((slot) => {
+        slot.classList.remove(styles.animate, styles.visible)
+      })
+    }
+  }, [testimonials])
+
   if (testimonials.length === 0) {
     return null
   }
@@ -94,7 +171,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
       <div className={styles.container}>
         <SectionHeading {...sectionHeadingData.testimonials} />
 
-        <div className={styles.reviews}>
+        <div className={styles.reviews} ref={reviewsRef}>
           {testimonials.map((testimonial) => {
             const rating = Math.min(
               5,
@@ -102,35 +179,41 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
             )
 
             return (
-              <article className={styles.review} key={testimonial._key}>
-                <ReviewQuote quote={testimonial.quote} />
+              <div
+                className={styles.reviewSlot}
+                key={testimonial._key}
+                data-review-slot
+              >
+                <article className={styles.review}>
+                  <ReviewQuote quote={testimonial.quote} />
 
-                <footer className={styles.reviewer}>
-                  <p className={styles.name}>{testimonial.name}</p>
+                  <footer className={styles.reviewer}>
+                    <p className={styles.name}>{testimonial.name}</p>
 
-                  <div
-                    className={styles.rating}
-                    role='img'
-                    aria-label={`${rating} out of 5 stars`}
-                  >
-                    {Array.from({ length: 5 }, (_, index) => (
-                      <span
-                        className={
-                          index < rating ? styles.star : styles.starMuted
-                        }
-                        key={index}
-                        aria-hidden='true'
-                      >
-                        ★
-                      </span>
-                    ))}
-                  </div>
+                    <div
+                      className={styles.rating}
+                      role='img'
+                      aria-label={`${rating} out of 5 stars`}
+                    >
+                      {Array.from({ length: 5 }, (_, index) => (
+                        <span
+                          className={
+                            index < rating ? styles.star : styles.starMuted
+                          }
+                          key={index}
+                          aria-hidden='true'
+                        >
+                          ★
+                        </span>
+                      ))}
+                    </div>
 
-                  {testimonial.source && (
-                    <p className={styles.source}>{testimonial.source}</p>
-                  )}
-                </footer>
-              </article>
+                    {testimonial.source && (
+                      <p className={styles.source}>{testimonial.source}</p>
+                    )}
+                  </footer>
+                </article>
+              </div>
             )
           })}
         </div>

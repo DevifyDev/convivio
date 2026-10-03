@@ -131,11 +131,11 @@ function MenuItems({ items, menuId }: { items?: MenuItem[]; menuId: MenuId }) {
               </div>
 
               <span className={styles.price}>{item.price}</span>
-            </div>
 
-            {item.description && (
-              <p className={styles.description}>{item.description}</p>
-            )}
+              {item.description && (
+                <p className={styles.description}>{item.description}</p>
+              )}
+            </div>
           </div>
         </article>
       ))}
