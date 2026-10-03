@@ -14,7 +14,7 @@ const files = [
   // './src/app/page.module.css',
 
   // './src/components/About/About.tsx',
-  './src/components/About/About.module.css',
+  // './src/components/About/About.module.css',
 
   // './src/components/Button/Button.tsx',
   // './src/components/Button/Button.module.css',
@@ -37,8 +37,8 @@ const files = [
   // './src/components/Hero/Hero.tsx',
   // './src/components/Hero/Hero.module.css',
 
-  './src/components/Location/Location.tsx',
-  './src/components/Location/Location.module.css',
+  // './src/components/Location/Location.tsx',
+  // './src/components/Location/Location.module.css',
 
   // './src/components/Menu/Menu.tsx',
   // './src/components/Menu/Menu.module.css',
@@ -46,7 +46,7 @@ const files = [
   // './src/components/SectionHeading/SectionHeading.tsx',
   // './src/components/SectionHeading/SectionHeading.module.css',
 
-  // './src/components/Staff/Staff.tsx',
+  './src/components/Staff/Staff.tsx',
   './src/components/Staff/Staff.module.css',
 
   // './src/components/StructuredData/StructuredData.tsx',
@@ -54,8 +54,8 @@ const files = [
 
 //  './src/components/SvgFilter.tsx',
 
-  './src/components/Testimonials/Testimonials.tsx',
-  './src/components/Testimonials/Testimonials.module.css',
+  // './src/components/Testimonials/Testimonials.tsx',
+  // './src/components/Testimonials/Testimonials.module.css',
 
   // './src/components/ThemeSwitcher/ThemeSwitcher.tsx',
   // './src/components/ThemeSwitcher/ThemeSwitcher.module.css',

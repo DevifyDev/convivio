@@ -177,5 +177,16 @@ h3 {
   font-family: var(--display-font), serif;
 }
 
+/* Allow for the fixed navbar when scrolling to anchors. */
+
+html {
+  scroll-padding-top: 4.75rem;
+}
+
+@media (max-width: 950px) {
+  html {
+    scroll-padding-top: 5.25rem;
+  }
+}
 
 
