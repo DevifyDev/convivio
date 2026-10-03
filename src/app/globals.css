@@ -177,3 +177,9 @@ html[data-theme='convivio'],
 html[data-theme='convivio'] body {
   overflow-x: clip;
 }
+
+body.assistant-open > header,
+body.assistant-open > main,
+body.assistant-open > footer {
+  filter: blur(8px);
+}

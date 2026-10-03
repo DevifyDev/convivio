@@ -27,7 +27,11 @@ const baseMenuItems = [
   {
     href: '#location',
     label: 'VISIT'
-  }
+  },
+  {
+  href: '#assistant',
+  label: 'ASK CONVIVIO'
+}
 ]
 
 type HeaderProps = {
@@ -63,7 +67,7 @@ export default function Header({
     }
 
     function handleResize() {
-      if (window.innerWidth > 950) {
+      if (window.innerWidth > 1200) {
         setIsMenuOpen(false)
       }
     }
@@ -122,6 +126,33 @@ export default function Header({
           >
             {name}
           </a>
+
+          <button
+            type='button'
+            className={styles.assistantButton}
+            aria-label='Open Convivio AI assistant'
+            aria-haspopup='dialog'
+            aria-controls='convivio-assistant'
+            onClick={() => {
+              closeMenu()
+              window.dispatchEvent(new Event('open-website-assistant'))
+            }}
+          >
+            <svg
+              width='22'
+              height='22'
+              viewBox='0 0 24 24'
+              fill='none'
+              stroke='currentColor'
+              strokeWidth='1.5'
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              aria-hidden='true'
+            >
+              <path d='m12 3 2.3 6.7L21 12l-6.7 2.3L12 21l-2.3-6.7L3 12l6.7-2.3L12 3Z' />
+              <path d='M20 2v4M18 4h4' />
+            </svg>
+          </button>
 
           <button
             type='button'

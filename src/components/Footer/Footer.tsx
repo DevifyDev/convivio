@@ -2,7 +2,7 @@ import styles from './Footer.module.css'
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} data-site-footer>
       <p className={styles.copyright}>
         &copy; {new Date().getFullYear()} Convivio Wine Bar
 

@@ -10,7 +10,7 @@ const files = [
 
   // './src/app/globals.css',
   // './src/app/layout.tsx',
-  // './src/app/page.tsx',
+  './src/app/page.tsx',
   // './src/app/page.module.css',
 
   // './src/components/About/About.tsx',
@@ -25,14 +25,14 @@ const files = [
   // './src/components/Faq/Faq.tsx',
   // './src/components/Faq/Faq.module.css',
 
-  // './src/components/Footer/Footer.tsx',
-  // './src/components/Footer/Footer.module.css',
+  './src/components/Footer/Footer.tsx',
+  './src/components/Footer/Footer.module.css',
 
   // './src/components/Gallery/Gallery.tsx',
   // './src/components/Gallery/Gallery.module.css',
 
-  // './src/components/Header/Header.tsx',
-  // './src/components/Header/Header.module.css',
+  './src/components/Header/Header.tsx',
+  './src/components/Header/Header.module.css',
 
   // './src/components/Hero/Hero.tsx',
   // './src/components/Hero/Hero.module.css',
@@ -46,8 +46,8 @@ const files = [
   // './src/components/SectionHeading/SectionHeading.tsx',
   // './src/components/SectionHeading/SectionHeading.module.css',
 
-  './src/components/Staff/Staff.tsx',
-  './src/components/Staff/Staff.module.css',
+  // './src/components/Staff/Staff.tsx',
+  // './src/components/Staff/Staff.module.css',
 
   // './src/components/StructuredData/StructuredData.tsx',
   // './src/components/StructuredData/StructuredData.module.css',

@@ -14,6 +14,7 @@ import Testimonials, {
 import Faq, { type FaqItem } from '@/components/Faq/Faq'
 import Location from '@/components/Location/Location'
 import Footer from '@/components/Footer/Footer'
+import Chat from '@/components/Chat/Chat'
 
 import StructuredData from '@/components/StructuredData/StructuredData'
 // import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
@@ -144,6 +145,11 @@ export default async function Homepage() {
       </main>
 
       <Footer />
+
+      <Chat
+        bookingUrl={businessDetails?.bookingUrl}
+        giftCardUrl={businessDetails?.giftCardUrl}
+      />
 
       {/* <ThemeSwitcher /> */}
     </>

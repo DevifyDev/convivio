@@ -1,471 +1,766 @@
 # Workspace Export
-Generated: 2026-10-03T13:15:10.937Z
+Generated: 2026-10-03T15:26:28.682Z
 
-## ./src/components/Staff/Staff.tsx
+## ./src/app/page.tsx
 ```tsx
-'use client'
+import Header from '@/components/Header/Header'
+import Hero from '@/components/Hero/Hero'
+import About, { type AboutImages } from '@/components/About/About'
+import Staff, { type StaffMember } from '@/components/Staff/Staff'
+import Menu, { type MenuCategory } from '@/components/Menu/Menu'
+import Gallery, { type GalleryImage } from '@/components/Gallery/Gallery'
+import Events, {
+  type WeeklyEvents,
+  type SpecialEvent
+} from '@/components/Events/Events'
+import Testimonials, {
+  type Testimonial
+} from '@/components/Testimonials/Testimonials'
+import Faq, { type FaqItem } from '@/components/Faq/Faq'
+import Location from '@/components/Location/Location'
+import Footer from '@/components/Footer/Footer'
 
-import Image from 'next/image'
-import { useEffect, useRef } from 'react'
-import SectionHeading from '../SectionHeading/SectionHeading'
-import { sectionHeadingData } from '@/data/sectionHeadingData'
-import styles from './Staff.module.css'
+import StructuredData from '@/components/StructuredData/StructuredData'
+// import ThemeSwitcher from '@/components/ThemeSwitcher/ThemeSwitcher'
+import SvgFilter from '@/components/SvgFilter'
 
-export type StaffMember = {
-  _key: string
-  name: string
-  description: string
+import { client } from '@/sanity/lib/client'
+import {
+  aboutQuery,
+  menuQuery,
+  galleryQuery,
+  eventsQuery,
+  testimonialsQuery,
+  businessDetailsQuery,
+  staffQuery,
+  faqQuery
+} from '@/sanity/lib/queries'
+
+import type { BusinessDetails } from '@/types/businessDetails'
+
+type MenuData = {
+  food?: {
+    categories?: MenuCategory[]
+  } | null
+
+  drinks?: {
+    categories?: MenuCategory[]
+  } | null
 }
 
-type StaffProps = {
-  staff?: StaffMember[] | null
+type GalleryData = {
+  images?: GalleryImage[]
+}
+
+type EventsData = {
+  weeklyEvents?: WeeklyEvents
+  specialEvents?: SpecialEvent[]
+}
+
+type TestimonialsData = {
+  reviews?: Testimonial[]
+}
+
+type StaffData = {
   groupImage?: string | null
   groupImageAlt?: string | null
+  members?: StaffMember[]
 }
 
-const emptyStaff: StaffMember[] = []
+type FaqData = {
+  items?: FaqItem[]
+}
 
-export default function Staff({
-  staff,
-  groupImage,
-  groupImageAlt
-}: StaffProps) {
-  const members = staff ?? emptyStaff
-  const staffRef = useRef<HTMLElement>(null)
+export default async function Homepage() {
+    const fetchOptions = {
+    perspective: 'published',
+    next: { revalidate: 60 }
+  } as const
 
-  useEffect(() => {
-    const section = staffRef.current
-    if (!section || !('IntersectionObserver' in window)) return
+  const [
+    menu,
+    gallery,
+    events,
+    testimonials,
+    businessDetails,
+    staff,
+    faq,
+    about
+  ] = await Promise.all([
+    client.fetch<MenuData | null>(menuQuery, {}, fetchOptions),
+    client.fetch<GalleryData | null>(galleryQuery, {}, fetchOptions),
+    client.fetch<EventsData | null>(eventsQuery, {}, fetchOptions),
+    client.fetch<TestimonialsData | null>(
+      testimonialsQuery,
+      {},
+      fetchOptions
+    ),
+    client.fetch<BusinessDetails | null>(
+      businessDetailsQuery,
+      {},
+      fetchOptions
+    ),
+    client.fetch<StaffData | null>(staffQuery, {}, fetchOptions),
+    client.fetch<FaqData | null>(faqQuery, {}, fetchOptions),
+    client.fetch<AboutImages | null>(aboutQuery, {}, fetchOptions)
+  ])
 
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const slots = Array.from(
-      section.querySelectorAll<HTMLElement>(
-        '[data-staff-slot], [data-group-photo]'
-      )
-    )
+  return (
+    <>
+      <StructuredData businessDetails={businessDetails} />
 
-    const revealed = new WeakSet<HTMLElement>()
-    let bioObserver: IntersectionObserver | undefined
-    let photoObserver: IntersectionObserver | undefined
+      <SvgFilter />
 
-    const configure = () => {
-      bioObserver?.disconnect()
-      photoObserver?.disconnect()
+      <Header businessDetails={businessDetails} />
 
-      slots.forEach((slot) => {
-        slot.classList.remove(styles.animate, styles.visible)
-      })
+      <main>
+        <Hero bookingUrl={businessDetails?.bookingUrl} />
 
-      if (reducedMotion.matches) return
+        <About images={about} />
 
-      const reveal = (slot: HTMLElement) => {
-        revealed.add(slot)
-        slot.classList.add(styles.visible)
-      }
+        <Staff
+          staff={staff?.members ?? []}
+          groupImage={staff?.groupImage}
+          groupImageAlt={staff?.groupImageAlt}
+        />
 
-      // Bios start 15% of the viewport height before entering the screen.
-      const bioLead = Math.round(window.innerHeight * 0.15)
+        <Menu
+          foodCategories={menu?.food?.categories ?? []}
+          drinksCategories={menu?.drinks?.categories ?? []}
+        />
+        
+        <Gallery
+          images={gallery?.images ?? []}
+          instagramUrl={businessDetails?.instagramUrl}
+        />
 
-      bioObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return
+        <Events
+          weeklyEvents={events?.weeklyEvents}
+          specialEvents={events?.specialEvents}
+        />
 
-            const slot = entry.target as HTMLElement
-            reveal(slot)
-            bioObserver?.unobserve(slot)
-          })
-        },
-        {
-          threshold: 0,
-          rootMargin: `0px 0px ${bioLead}px 0px`
-        }
-      )
+        <Testimonials
+          testimonials={testimonials?.reviews ?? []}
+        />
 
-      // Preserve the team photo's 75% visibility trigger.
-      photoObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const requiredHeight = Math.min(
-              entry.boundingClientRect.height * 0.75,
-              (entry.rootBounds?.height ?? window.innerHeight) * 0.75
-            )
+        <Faq items={faq?.items ?? []} />
 
-            if (
-              !entry.isIntersecting ||
-              entry.intersectionRect.height < requiredHeight
-            ) {
-              return
-            }
+        <Location businessDetails={businessDetails} />
+      </main>
 
-            const slot = entry.target as HTMLElement
-            reveal(slot)
-            photoObserver?.unobserve(slot)
-          })
-        },
-        {
-          rootMargin: '0px',
-          threshold: Array.from({ length: 101 }, (_, index) => index / 100)
-        }
-      )
+      <Footer />
 
-      slots.forEach((slot) => {
-        slot.classList.add(styles.animate)
-
-        if (revealed.has(slot)) {
-          slot.classList.add(styles.visible)
-        } else if (slot.hasAttribute('data-group-photo')) {
-          photoObserver?.observe(slot)
-        } else {
-          bioObserver?.observe(slot)
-        }
-      })
-    }
-
-    configure()
-    reducedMotion.addEventListener('change', configure)
-    window.addEventListener('resize', configure)
-
-    return () => {
-      bioObserver?.disconnect()
-      photoObserver?.disconnect()
-      reducedMotion.removeEventListener('change', configure)
-      window.removeEventListener('resize', configure)
-
-      slots.forEach((slot) => {
-        slot.classList.remove(styles.animate, styles.visible)
-      })
-    }
-  }, [members, groupImage])
-
-  if (members.length === 0 && !groupImage) return null
-
-    return (
-    <section className={styles.staff} id='staff' ref={staffRef}>
-      <div className={styles.container}>
-        <SectionHeading
-          {...sectionHeadingData.staff}
-          descriptionClassName={styles.staffHeadingDescription}
-          childrenBeforeDescription
-        >
-          {groupImage && (
-            <div className={styles.groupPhotoSlot} data-group-photo>
-              <div className={styles.groupPhoto}>
-                <div className={styles.groupPhotoInner}>
-                  <Image
-                    src={groupImage}
-                    alt={groupImageAlt || 'The Convivio team'}
-                    fill
-                    sizes='(max-width: 800px) 100vw, 480px'
-                    className={styles.image}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-        </SectionHeading>
-
-        <div className={styles.staffList}>
-          {members.map((member) => (
-            <div
-              className={styles.staffSlot}
-              key={member._key}
-              data-staff-slot
-            >
-              <article className={styles.staffMember}>
-                <h3 className={styles.name}>{member.name}</h3>
-
-                <p className={styles.description}>{member.description}</p>
-              </article>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
+      {/* <ThemeSwitcher /> */}
+    </>
   )
 }
 ```
 
-## ./src/components/Staff/Staff.module.css
+## ./src/components/Footer/Footer.tsx
+```tsx
+import styles from './Footer.module.css'
+
+export default function Footer() {
+  return (
+    <footer className={styles.footer}>
+      <p className={styles.copyright}>
+        &copy; {new Date().getFullYear()} Convivio Wine Bar
+
+        <span className={styles.separator}>·</span>
+
+        <span className={styles.credit}>
+          Website by{' '}
+          <a
+            href='https://devify.dev'
+            target='_blank'
+            rel='noopener noreferrer'
+          >
+            Devify
+          </a>
+        </span>
+      </p>
+
+      <a className={styles.studioLink} href='/studio'>
+        Studio
+      </a>
+    </footer>
+  )
+}
+```
+
+## ./src/components/Footer/Footer.module.css
 ```css
-.staff {
+.footer {
   position: relative;
-  padding: 6rem;
-  overflow-x: clip;
-  background: var(--light-background);
-  color: var(--dark-text);
-}
-
-.staff::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    color-mix(in srgb, var(--accent-on-light-primary) 20%, transparent) 8%,
-    color-mix(in srgb, var(--accent-on-light-primary) 20%, transparent) 92%,
-    transparent 100%
-  );
-  opacity: 0.65;
-
-  mask: linear-gradient(
-    to right,
-    #000 0%,
-    #000 19.1%,
-    transparent 19.4%,
-    transparent 20%,
-    #000 20.7%,
-    #000 32.8%,
-    transparent 33.6%,
-    #000 35.2%,
-    #000 71.3%,
-    transparent 71.5%,
-    transparent 73.1%,
-    #000 73.5%,
-    #000 90.6%,
-    transparent 91.2%,
-    #000 91.7%,
-    #000 100%
-  );
-
-  -webkit-mask: linear-gradient(
-    to right,
-    #000 0%,
-    #000 19.1%,
-    transparent 19.4%,
-    transparent 20%,
-    #000 20.7%,
-    #000 32.8%,
-    transparent 33.6%,
-    #000 35.2%,
-    #000 71.3%,
-    transparent 71.5%,
-    transparent 73.1%,
-    #000 73.5%,
-    #000 90.6%,
-    transparent 91.2%,
-    #000 91.7%,
-    #000 100%
-  );
-  pointer-events: none;
-}
-
-.staff,
-.staff * {
-  box-sizing: border-box;
-}
-
-.container {
-  width: 100%;
-  max-width: var(--page-width);
-  margin-inline: auto;
-}
-
-/* Shared team photo */
-
-.groupPhotoSlot {
-  perspective: 1200px;
-}
-
-.groupPhoto {
-  position: relative;
-  width: 100%;
-  max-width: 30rem;
-  margin: 1.5rem auto 0.75rem;
-  padding: 1rem;
-  background: var(--primary-blue);
-}
-
-.groupPhoto::after {
-  content: '';
-  position: absolute;
-  inset: 0.5rem;
-  border: 1px solid rgb(255 255 255 / 0.45);
-  pointer-events: none;
-}
-
-.groupPhotoInner {
-  position: relative;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  background: var(--primary-white);
-}
-
-.image {
-  object-fit: cover;
-}
-
-/* Centred biographies */
-
-.staffList {
-  display: grid;
-  gap: 4rem;
-  width: 60%;
-  margin: 4rem auto 0;
-}
-
-.staffSlot {
   display: flex;
+  align-items: center;
   justify-content: center;
-  min-width: 0;
-}
-
-.staffMember {
-  width: 100%;
-  min-width: 0;
-}
-
-.name {
-  margin: 0 0 1.25rem;
-  color: var(--primary-blue);
-  font-family: var(--display-font, var(--heading-font, serif));
-  font-size: clamp(1.6rem, 2.7vw, 2.2rem);
+  padding: 1.5rem var(--inline-padding, 1.5rem) 2.75rem;
+  background: var(--primary-black);
+  color: var(--primary-white);
+  font-size: 0.75rem;
   font-weight: 400;
-  line-height: 1.2;
-  text-align: center;
-  overflow-wrap: anywhere;
+  letter-spacing: 0.04em;
 }
 
-.description {
-  padding-inline: 1rem;
+.copyright {
   margin: 0;
-  color: var(--dark-text);
-  font-family: var(--body-copy-font), serif;
-  font-size: 1.05rem;
-  font-weight: 400;
-  line-height: 1.8;
-  text-align: left;
-  white-space: pre-line;
-  overflow-wrap: anywhere;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  text-align: center;
+  opacity: 0.65;
 }
 
-/* Alternating biography entrances */
-
-@media (prefers-reduced-motion: no-preference) {
-  .staffSlot.animate .staffMember {
-    opacity: 0;
-    transform: translateX(-100vw);
-    transition:
-      transform 4500ms ease-in-out,
-      opacity 2200ms ease;
-  }
-
-  .staffSlot:nth-child(even).animate .staffMember {
-    transform: translateX(100vw);
-  }
-
-  .staffSlot.animate.visible .staffMember,
-  .staffSlot:nth-child(even).animate.visible .staffMember {
-    opacity: 1;
-    transform: none;
-  }
-
-  .groupPhotoSlot.animate .groupPhoto {
-    opacity: 0;
-    transform: translateX(-100vw) rotateX(360deg) scale(0.9);
-    transform-origin: center;
-    transition:
-      transform 1800ms cubic-bezier(0.2, 0.65, 0.25, 1),
-      opacity 1200ms ease;
-  }
-
-  .groupPhotoSlot.animate.visible .groupPhoto {
-    opacity: 1;
-    transform: none;
-  }
+.separator {
+  margin-inline: 0.6rem;
+  opacity: 0.5;
 }
 
-/* Mobile */
+.credit a,
+.studioLink {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 180ms ease;
+}
 
-@media (max-width: 800px) {
-  .staff {
-    padding: 4rem var(--inline-padding, 1.5rem);
+.credit a:hover {
+  opacity: 0.65;
+}
+
+.studioLink {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 0.75rem;
+  font: inherit;
+  letter-spacing: inherit;
+  line-height: 1.4;
+  opacity: 0.65;
+}
+
+.studioLink:hover {
+  opacity: 1;
+}
+
+.credit a:focus-visible,
+.studioLink:focus-visible {
+  outline: 1px solid var(--primary-gold);
+  outline-offset: 3px;
+}
+
+@media (max-width: 500px) {
+  .footer {
+    font-size: 0.7rem;
   }
 
-  .groupPhoto {
-    padding: 0.75rem;
-  }
-
-  .groupPhoto::after {
-    inset: 0.375rem;
-  }
-
-  .staffList {
-    width: 100%;
-    gap: 3rem;
-    margin-top: 3rem;
-  }
-
-  .name {
-    font-size: clamp(1.5rem, 4vw, 1.7rem);
-  }
-
-  .description {
-    font-size: 1rem;
+  .separator {
+    margin-inline: 0.4rem;
   }
 }
 
-:global(html[data-theme='convivio']) .staff .staffHeadingDescription {
-  margin-top: 1.25rem;
-  margin-bottom: 1.25rem;
-  color: var(--primary-blue);
-  font-family: var(--strong-font), serif;
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-}
-
-@media (max-width: 800px) {
-  :global(html[data-theme='convivio']) .staff .staffHeadingDescription {
-    font-size: 1.65rem;
+@media (prefers-reduced-motion: reduce) {
+  .credit a,
+  .studioLink {
+    transition: none;
   }
 }
 
 /* Convivio gradient background */
 
-:global(html[data-theme='convivio']) .staff {
-  background: var(--light-background-gradient);
+:global(html[data-theme='convivio']) .footer {
+  background: var(--dark-background-gradient);
+}
+```
+
+## ./src/components/Header/Header.tsx
+```tsx
+'use client'
+
+import { useEffect, useState } from 'react'
+import Button from '@/components/Button/Button'
+import type { BusinessDetails } from '@/types/businessDetails'
+import styles from './Header.module.css'
+
+const name = 'Convivio'
+
+const baseMenuItems = [
+  {
+    href: '#about',
+    label: 'ABOUT'
+  },
+  {
+    href: '#menu',
+    label: 'MENU'
+  },
+  {
+    href: '#gallery',
+    label: 'GALLERY'
+  },
+  {
+    href: '#events',
+    label: 'EVENTS'
+  },
+  {
+    href: '#location',
+    label: 'VISIT'
+  }
+]
+
+type HeaderProps = {
+  businessDetails?: BusinessDetails | null
 }
 
-/* Wider biographies on tablets and smaller desktops */
+export default function Header({
+  businessDetails
+}: HeaderProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
 
-@media (min-width: 801px) and (max-width: 1200px) {
-  .staff {
-    padding-inline: 3rem;
+  const menuItems = [
+    ...baseMenuItems,
+    ...(businessDetails?.giftCardUrl
+      ? [
+          {
+            href: businessDetails.giftCardUrl,
+            label: 'GIFT CARDS'
+          }
+        ]
+      : [])
+  ]
+
+  function closeMenu() {
+    setIsMenuOpen(false)
   }
 
-  .staffList {
-    width: 90%;
-  }
+  useEffect(() => {
+    function handleScroll() {
+      setIsScrolled(window.scrollY > 20)
+      setIsMenuOpen(false)
+    }
+
+    function handleResize() {
+      if (window.innerWidth > 950) {
+        setIsMenuOpen(false)
+      }
+    }
+
+    handleScroll()
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isMenuOpen) return
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        closeMenu()
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isMenuOpen])
+
+  useEffect(() => {
+    document.body.classList.toggle(
+      'mobile-menu-open',
+      isMenuOpen
+    )
+
+    return () => {
+      document.body.classList.remove('mobile-menu-open')
+    }
+  }, [isMenuOpen])
+
+  return (
+    <>
+      <header
+        className={`${styles.header} ${
+          isScrolled ? styles.headerScrolled : ''
+        } ${isMenuOpen ? styles.headerMenuOpen : ''}`}
+      >
+        <nav className={styles.nav} aria-label='Main navigation'>
+          <a
+            className={styles.name}
+            href='#home'
+            aria-label={`${name} home`}
+            onClick={closeMenu}
+          >
+            {name}
+          </a>
+
+          <button
+            type='button'
+            className={`${styles.menuButton} ${
+              isMenuOpen ? styles.menuButtonOpen : ''
+            }`}
+            aria-label={
+              isMenuOpen
+                ? 'Close navigation menu'
+                : 'Open navigation menu'
+            }
+            aria-expanded={isMenuOpen}
+            aria-controls='nav-menu'
+            onClick={() =>
+              setIsMenuOpen((current) => !current)
+            }
+          >
+            <span
+              className={`${styles.menuIcon} ${
+                isMenuOpen
+                  ? styles.closeIcon
+                  : styles.openIcon
+              }`}
+              aria-hidden='true'
+            ></span>
+          </button>
+
+          <div
+            id='nav-menu'
+            className={`${styles.menuContainer} ${
+              isMenuOpen ? styles.menuContainerOpen : ''
+            }`}
+          >
+            <div className={styles.menuItems}>
+              {menuItems.map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeMenu}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
+            {businessDetails?.bookingUrl && (
+              <Button
+                label='BOOK A TABLE'
+                href={businessDetails.bookingUrl}
+                target='_blank'
+              />
+            )}
+          </div>
+        </nav>
+        
+      </header>
+
+      {isMenuOpen && (
+        <button
+          type='button'
+          className={styles.backdrop}
+          aria-label='Close navigation menu'
+          onClick={closeMenu}
+        ></button>
+      )}
+    </>
+  )
+}
+```
+
+## ./src/components/Header/Header.module.css
+```css
+:global(body.mobile-menu-open) section,
+:global(body.mobile-menu-open) footer {
+  filter: blur(8px);
 }
 
-:global(html[data-theme='convivio']) .description {
-  color: var(--premium-black);
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  width: 100%;
+  background: transparent;
+  transition:
+    background 220ms ease,
+    box-shadow 220ms ease;
 }
 
-:global(html[data-theme='convivio']) .name,
-:global(html[data-theme='convivio']) .staff .staffHeadingDescription {
+.headerScrolled {
+  position: fixed;
+  background: rgba(248, 247, 244, 0.94);
+  box-shadow: 0 0.25px 0 var(--accent-on-light-secondary);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.nav {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 4rem;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--inline-padding);
+}
+
+.nav a:focus-visible,
+.menuButton:focus-visible {
+  outline: 2px solid var(--primary-gold);
+  outline-offset: 4px;
+}
+
+.name {
+  color: var(--light-text);
+  font-family: 'Aloja Extended', serif;
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  transition: color 220ms ease;
+}
+
+.headerScrolled .name {
   color: var(--primary-blue);
 }
 
-:global(html[data-theme='convivio']) .light .description {
-  color: var(--premium-black);
+/* DESKTOP NAVIGATION */
+
+.menuContainer {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
 }
 
-:global(html[data-theme='convivio']) .staff .staffHeadingDescription {
-  font-size: 1.6rem;
-  font-weight: 900;
-  line-height: 1.2;
+.menuItems {
+  display: flex;
+  align-items: center;
+  gap: 2.25rem;
 }
 
-@media (max-width: 800px) {
-  :global(html[data-theme='convivio']) .staff .staffHeadingDescription {
-    font-size: 1.5rem;
+.menuItems > a {
+  color: var(--light-text);
+  font-size: 0.85rem;
+  font-weight: 200;
+  letter-spacing: 0.05em;
+  transition:
+    color 180ms ease,
+    opacity 180ms ease;
+}
+
+.menuItems > a:hover {
+  opacity: 0.65;
+}
+
+.headerScrolled .menuItems > a {
+  color: var(--primary-blue);
+}
+
+.headerScrolled .menuContainer > a,
+.headerMenuOpen .menuContainer > a {
+  border-width: 1px;
+  border-color: var(--accent-on-light-secondary);
+  color: var(--accent-on-light-secondary);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.headerScrolled .menuContainer > a {
+  background: transparent;
+}
+
+.headerMenuOpen .menuContainer > a {
+  background: var(--light-background);
+}
+
+.headerScrolled .menuContainer > a:hover,
+.headerMenuOpen .menuContainer > a:hover {
+  border-color: var(--primary-blue);
+  background: var(--primary-blue);
+  color: var(--light-text);
+  opacity: 1;
+}
+
+/* MOBILE MENU BUTTON */
+
+.menuButton {
+  display: none;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--light-text);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: color 180ms ease;
+}
+
+.headerScrolled .menuButton {
+  color: var(--primary-blue);
+}
+
+.menuButtonOpen {
+  color: var(--primary-blue);
+}
+
+.menuIcon {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  background: currentColor;
+}
+
+.openIcon {
+  mask: url('/icons/menu.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/menu.svg') center / contain no-repeat;
+}
+
+.closeIcon {
+  mask: url('/icons/close.svg') center / contain no-repeat;
+  -webkit-mask: url('/icons/close.svg') center / contain no-repeat;
+}
+
+/* BACKDROP */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  padding: 0;
+  border: 0;
+  background: rgba(22, 18, 14, 0.15);
+  cursor: default;
+}
+
+/* MOBILE */
+
+@media (max-width: 950px) {
+  .name {
+    font-size: 1.65rem;
+  }
+
+  .menuButton {
+    display: flex;
+  }
+
+  .menuContainer {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 50%;
+    z-index: 110;
+    display: flex;
+    width: calc(100% - 2rem);
+    max-width: 32rem;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid rgba(40, 51, 76, 0.12);
+    border-radius: 0.75rem;
+    background: rgba(248, 247, 244, 0.97);
+    box-shadow:
+      0 1rem 3rem rgba(22, 18, 14, 0.14),
+      0 0.25rem 0.75rem rgba(22, 18, 14, 0.08);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, -0.5rem);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      visibility 180ms ease;
+  }
+
+  .menuContainerOpen {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+  }
+
+  .menuItems {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .menuItems > a {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid rgba(40, 51, 76, 0.08);
+    color: var(--primary-blue);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+  }
+
+  .menuItems > a:last-child {
+    border-bottom: 0;
+  }
+
+  .menuItems > a:hover {
+    background: rgba(40, 51, 76, 0.04);
+    opacity: 1;
+  }
+
+  .menuContainer > a {
+    width: 100%;
+    min-height: 3rem;
+    border-color: var(--primary-blue);
+    color: var(--primary-blue);
   }
 }
+
+@media (max-width: 950px) {
+  .header .nav {
+    min-height: 4.5rem;
+    height: auto;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.75rem;
+  }
+
+  .header .menuButtonOpen {
+    color: var(--light-text);
+  }
+
+  .headerScrolled .menuButtonOpen {
+    border-radius: 0.25rem;
+    background: var(--primary-blue);
+  }
+}
+
+:global(html[data-theme='convivio']) .headerScrolled {
+  background: var(--light-background-gradient);
+}
+
+@media (max-width: 950px) {
+  :global(html[data-theme='convivio']) .menuContainer {
+    background: var(--light-background-gradient);
+  }
+
+  :global(html[data-theme='convivio']) .header .menuContainer > a {
+    border-color: var(--premium-purple);
+    background: transparent;
+    color: var(--premium-purple);
+  }
+
+  :global(html[data-theme='convivio']) .header .menuContainer > a:hover {
+    border-color: var(--premium-purple);
+    background: var(--premium-purple);
+    color: var(--light-text);
+    opacity: 1;
+  }
+
+  :global(html[data-theme='convivio']) .header .menuContainer > a:focus-visible {
+    outline-color: var(--premium-purple);
+  }
+}
+
 ```
