@@ -76,7 +76,7 @@ html[data-theme='convivio'] {
   /* --accent-on-dark: #A6BBC6; */
   --accent-on-dark: #c8b995;
 
-  --cta-btn-accent-dark: #48284c;
+  --cta-btn-accent-dark: #2f284c;
  
 
    --accent-line-on-light: #395c70;
@@ -98,6 +98,21 @@ html[data-theme='convivio'] {
 
   --dark-text: #28334c;
   --shadow-color: #d8dde3;
+
+  --light-background-gradient: linear-gradient(
+    135deg,
+    #fdfcf9 0%,
+    #f8f7f4 55%,
+    #f3f2ef 100%
+  );
+
+  --dark-background-gradient: linear-gradient(
+      135deg,
+      #35425e 0%,
+      #28334c 55%,
+      #202a40 100%
+  );
+
 }
 
 [data-torn] {
@@ -154,4 +169,6 @@ h2,
 h3 {
   font-family: var(--display-font), serif;
 }
+
+
 

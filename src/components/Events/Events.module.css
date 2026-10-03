@@ -328,6 +328,30 @@
   }
 }
 
+/* Convivio gradient background */
+
+:global(html[data-theme='convivio']) .events {
+  isolation: isolate;
+  background: transparent;
+}
+
+:global(html[data-theme='convivio']) .events::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0 -12px;
+  width: auto;
+  height: auto;
+  background: var(--dark-background-gradient);
+  filter: url('#roughen');
+  clip-path: inset(-12px 12px);
+  pointer-events: none;
+}
+
+:global(html[data-theme='convivio']) .events::after {
+  content: none;
+}
+
 /* SMALL DESKTOP / TABLET */
 
 @media (max-width: 1350px) {
