@@ -73,3 +73,9 @@
     transition: none;
   }
 }
+
+/* Convivio gradient background */
+
+:global(html[data-theme='convivio']) .footer {
+  background: var(--dark-background-gradient);
+}
