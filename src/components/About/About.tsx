@@ -24,9 +24,10 @@ export default function About({ images }: { images?: AboutImages | null }) {
     const slots = Array.from(
       container.querySelectorAll<HTMLElement>('[data-about-image]')
     )
-    const lowerImage = slots[0]
+    
+    const triggerImage = slots[1]
 
-    if (!lowerImage) return
+    if (!triggerImage) return
 
     let observer: IntersectionObserver | undefined
     let hasPlayed = false
@@ -51,9 +52,6 @@ export default function About({ images }: { images?: AboutImages | null }) {
 
       if (hasPlayed) return
 
-      // Pixel units keep the offset tied to viewport height.
-      const bottomInset = Math.round(window.innerHeight * 0.2)
-
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -70,11 +68,11 @@ export default function About({ images }: { images?: AboutImages | null }) {
         },
         {
           threshold: 0,
-          rootMargin: `0px 0px -${bottomInset}px 0px`
+          rootMargin: `0px`
         }
       )
 
-      observer.observe(lowerImage)
+      observer.observe(triggerImage)
     }
 
     configure()

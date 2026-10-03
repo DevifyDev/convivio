@@ -13,14 +13,14 @@ const files = [
   // './src/app/page.tsx',
   // './src/app/page.module.css',
 
-  // './src/components/About/About.tsx',
-  // './src/components/About/About.module.css',
+  './src/components/About/About.tsx',
+  './src/components/About/About.module.css',
 
   // './src/components/Button/Button.tsx',
   // './src/components/Button/Button.module.css',
 
-  './src/components/Events/Events.tsx',
-  './src/components/Events/Events.module.css',
+  // './src/components/Events/Events.tsx',
+  // './src/components/Events/Events.module.css',
 
   // './src/components/Faq/Faq.tsx',
   // './src/components/Faq/Faq.module.css',
@@ -40,14 +40,14 @@ const files = [
   // './src/components/Location/Location.tsx',
   // './src/components/Location/Location.module.css',
 
-  './src/components/Menu/Menu.tsx',
-  './src/components/Menu/Menu.module.css',
+  // './src/components/Menu/Menu.tsx',
+  // './src/components/Menu/Menu.module.css',
 
   // './src/components/SectionHeading/SectionHeading.tsx',
   // './src/components/SectionHeading/SectionHeading.module.css',
 
-  // './src/components/Staff/Staff.tsx',
-  // './src/components/Staff/Staff.module.css',
+  './src/components/Staff/Staff.tsx',
+  './src/components/Staff/Staff.module.css',
 
   // './src/components/StructuredData/StructuredData.tsx',
   // './src/components/StructuredData/StructuredData.module.css',

@@ -79,7 +79,7 @@
   align-items: start;
   gap: 1.5rem;
   padding: 1.75rem 2rem;
-  border: 0.25px solid rgba(200, 185, 149, 0.5);
+  border: 0.25px solid rgba(200, 185, 149, 0.7);
   background: rgba(248, 247, 244, 0.035);
   transition:
     border-color 180ms ease,
@@ -87,7 +87,6 @@
 }
 
 .weeklyCard:hover {
-  border-color: var(--accent-on-dark);
   transform: translateY(-2px);
 }
 
@@ -182,7 +181,7 @@
   align-items: center;
   gap: 2rem;
   padding: 1rem 2rem 1rem 1.5rem;
-  border: 0.25px solid rgba(200, 185, 149, 0.5);
+  border: 0.25px solid rgba(200, 185, 149, 0.7);
   background: rgba(248, 247, 244, 0.035);
   transition:
     border-color 180ms ease,
